@@ -4,20 +4,17 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import { createPinia } from 'pinia'
 import { createRouter, createWebHistory } from "vue-router";
+import Home from "./components/views/Home.vue";
+import Actividades from "./components/views/Actividades.vue";
+import Planes from "./components/views/Planes.vue";
 
-//import Index from "./components/Index.vue";
-//import Personajes from "./components/Personajes.vue"; 
-////import Personaje from "./components/Personaje.vue";
-//import Dos from "./components/Dos.vue";
-///import Usuarios from "./components/Usuarios.vue";
 
-//const routes = [
-  //{ path: "/", component: Index },
- // { path: "/personajes", component: Personajes },
- // { path: "/personaje/:id", component: Personaje },
- // { path: "/dos/:uno/:dos", component: Dos },
- // { path: "/Usuarios", component: Usuarios},
-//];
+
+const routes = [
+  { path: "/", component: Home },
+  { path: "/actividades", component: Actividades },
+  { path: "/planes", component: Planes },
+];
 
 
 
@@ -28,5 +25,5 @@ const router = createRouter({
   
 const pinia = createPinia();
   
-  createApp(App).use(pinia).use(router).mount("#app");
+createApp(App).use(pinia).use(router).mount("#app");
   
