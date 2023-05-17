@@ -23,12 +23,13 @@ export const useelementstore = defineStore('element', {
       try {
         const response = await axios.get(url)
         this.elements = response.data
+        //console.log(response)
       } catch (error) {
         console.error('Error fetching elements:', error)
       }
     },
 
-    async fetchElementById(id,url) {
+    async fetchElementById(url, id) {
       try {
         const response = await axios.get(`${url}/${id}`)
         this.currentElement = response.data

@@ -28,9 +28,9 @@ export default {
     //const users = userStore.getUsers
     const sedes = computed(() => sedeStore.getSedes)
 
-    return {
-      sedes,
-    }
+      return {
+        sedes,
+      }
   },
 }
 </script>
