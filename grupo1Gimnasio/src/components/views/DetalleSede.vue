@@ -13,8 +13,8 @@
   <script>
   import { useSedeStore } from '../../stores/Sedes';  
   import { useRouter } from 'vue-router'
-  import {useRoute} from 'vue-router'
-  import {onMounted, computed} from 'vue'
+  import { useRoute } from 'vue-router'
+  import { computed } from 'vue'
   
   
   export default {
