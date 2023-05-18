@@ -17,6 +17,8 @@ import CrearUsuario from "./components/views/CrearUsuario.vue";
 import Profesor from "./components/views/Profesores.vue"
 import DetalleProfesor from "./components/views/DetalleProfesor.vue"
 import CrearProfesor from "./components/views/CrearProfesor.vue";
+import DetalleAvtividad from "./components/views/DetalleActividad.vue"
+import CrearActividad from "./components/views/CrearActividad.vue";
 
 
 
@@ -43,7 +45,9 @@ const routes = [
   { path: '/crearUsuario', component: CrearUsuario }, 
   { path: '/profesores', component: Profesor},
   { path: '/profesores/:id', component: DetalleProfesor },
-  { path: '/crearProfesor', component: CrearProfesor }
+  { path: '/crearProfesor', component: CrearProfesor },
+  { path: '/actividades/:id', component: DetalleAvtividad },
+  { path: '/CrearActividad', component: CrearActividad }
 ];
 
 const router = createRouter({

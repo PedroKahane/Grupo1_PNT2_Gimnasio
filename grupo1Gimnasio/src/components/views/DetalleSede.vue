@@ -31,7 +31,7 @@
 
       const updateSede = async () => {
         await sedeStore.updateSede(sedeStore.currentSede)
-        // router.push('/sedes')
+        router.push('/sedes')
       }
 
     const deleteSede = async () => {

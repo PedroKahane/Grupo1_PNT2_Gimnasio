@@ -59,6 +59,7 @@ export default {
 
           const updateUsuario = async () => {
                await elementStore.updateElement(url, elementStore.currentElement);
+               router.push("/usuarios");
           };
 
           const deleteUsuario = async () => {
