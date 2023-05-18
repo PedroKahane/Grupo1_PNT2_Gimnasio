@@ -11,6 +11,7 @@
             <router-link to="/planes" class="nav-item nav-link" href="#">Ver Planes</router-link>
             <router-link to="/sedes" class="nav-item nav-link" href="#">Ver Sedes</router-link>
             <router-link to="/usuarios" class="nav-item nav-link" href="#">Usuarios</router-link>
+            <router-link to="/profesores" class="nav-item nav-link" href="#">Profesores</router-link>
         </div>
       </nav>
   </header>

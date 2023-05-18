@@ -14,11 +14,16 @@ import CrearSede from "./components/views/CrearSede.vue";
 import Usuarios from "./components/views/Usuarios.vue"
 import DetalleUsuario from "./components/views/DetalleUsuario.vue"
 import CrearUsuario from "./components/views/CrearUsuario.vue";
+import Profesor from "./components/views/Profesores.vue"
+import DetalleProfesor from "./components/views/DetalleProfesor.vue"
+import CrearProfesor from "./components/views/CrearProfesor.vue";
+
+
 
 // Activad y actividades // Pedro
-// Profesor y Profesores // Gino
+// Profesor y Profesores // Gino // LISTO
 // Paquete y Paquetes // Tomi
-// Usuario y Usuarios // Juanpi
+// Usuario y Usuarios // Juanpi  // LISTO
 
 /* Comentarios Juampi:
 - en el edit usuario me faltaria un boton para mostrar la contraseña y sorprendentemente pude hacer el resto pero no un BOTONCITOO
@@ -36,6 +41,9 @@ const routes = [
   { path: '/usuarios', component: Usuarios},
   { path: '/usuarios/:id', component: DetalleUsuario },
   { path: '/crearUsuario', component: CrearUsuario }, 
+  { path: '/profesores', component: Profesor},
+  { path: '/profesores/:id', component: DetalleProfesor },
+  { path: '/crearProfesor', component: CrearProfesor }
 ];
 
 const router = createRouter({
