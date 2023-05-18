@@ -11,7 +11,7 @@
   </template>
   
   <script>
-  import { useSedeStore } from '../../stores/Sedes';  
+  import { useSedeStore } from '../../../stores/Sedes';  
   import { useRouter } from 'vue-router'
   import { useRoute } from 'vue-router'
   import { computed } from 'vue'

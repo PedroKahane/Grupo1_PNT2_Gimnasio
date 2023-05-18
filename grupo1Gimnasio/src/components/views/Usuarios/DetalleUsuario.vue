@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { useelementstore } from "../../stores/Common";
+import { useelementstore } from "../../../stores/Common";
 import { useRouter } from "vue-router";
 import { useRoute } from "vue-router";
 import { computed } from "vue";

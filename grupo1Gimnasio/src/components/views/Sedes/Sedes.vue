@@ -11,7 +11,7 @@
 </template>
   
   <script>
-import { useSedeStore } from '../../stores/Sedes';  
+import { useSedeStore } from '../../../stores/Sedes';  
 import { onMounted, computed } from 'vue'
 
 export default {

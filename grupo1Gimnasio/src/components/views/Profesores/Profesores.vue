@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { useelementstore } from "../../stores/Common";
+import { useelementstore } from "../../../stores/Common";
 import { onMounted } from "vue";
 
 export default {

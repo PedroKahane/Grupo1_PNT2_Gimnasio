@@ -6,19 +6,24 @@ import { createRouter, createWebHistory } from "vue-router";
 
 import App from './App.vue'
 import Home from "./components/views/Home.vue";
-import Actividades from "./components/views/Actividades.vue";
 import Planes from "./components/views/Planes.vue";
-import Sedes from "./components/views/Sedes.vue";
-import DetalleSede from "./components/views/DetalleSede.vue";
-import CrearSede from "./components/views/CrearSede.vue";
-import Usuarios from "./components/views/Usuarios.vue"
-import DetalleUsuario from "./components/views/DetalleUsuario.vue"
-import CrearUsuario from "./components/views/CrearUsuario.vue";
-import Profesor from "./components/views/Profesores.vue"
-import DetalleProfesor from "./components/views/DetalleProfesor.vue"
-import CrearProfesor from "./components/views/CrearProfesor.vue";
-import DetalleAvtividad from "./components/views/DetalleActividad.vue"
-import CrearActividad from "./components/views/CrearActividad.vue";
+//Actividades
+import Actividades from "./components/views/Actividades/Actividades.vue";
+import DetalleAvtividad from "./components/views/Actividades/DetalleActividad.vue"
+import CrearActividad from "./components/views/Actividades/CrearActividad.vue";
+// Sedes
+import Sedes from "./components/views/Sedes/Sedes.vue";
+import DetalleSede from "./components/views/Sedes/DetalleSede.vue";
+import CrearSede from "./components/views/Sedes/CrearSede.vue";
+//Usuarios
+import Usuarios from "./components/views/Usuarios/Usuarios.vue"
+import DetalleUsuario from "./components/views/Usuarios/DetalleUsuario.vue"
+import CrearUsuario from "./components/views/Usuarios/CrearUsuario.vue";
+// Profesores
+import Profesor from "./components/views/Profesores/Profesores.vue"
+import DetalleProfesor from "./components/views/Profesores/DetalleProfesor.vue"
+import CrearProfesor from "./components/views/Profesores/CrearProfesor.vue";
+
 
 
 
