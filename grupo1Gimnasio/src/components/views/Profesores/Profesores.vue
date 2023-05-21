@@ -10,12 +10,12 @@
 </template>
 
 <script>
-import { useelementstore } from "../../../stores/Common";
+import { useElementStore } from "../../../stores/Common";
 import { onMounted } from "vue";
 
 export default {
   setup() {
-    const elementStore = useelementstore()
+    const elementStore = useElementStore()
 
     onMounted(() => {
         elementStore.currentElement = null

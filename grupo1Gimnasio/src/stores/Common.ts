@@ -2,10 +2,12 @@ import { defineStore } from 'pinia'
 import axios from 'axios'
 //import { promises } from 'dns'
 
-export const useelementstore = defineStore('element', {
+export const useElementStore = defineStore('element', {
   state: () => ({
+    
     elements: [],
-    currentElement: null,
+    currentElement: {},
+    nombre:""
   }),
 
   getters: {
@@ -27,6 +29,10 @@ export const useelementstore = defineStore('element', {
       } catch (error) {
         console.error('Error fetching elements:', error)
       }
+    },
+    setCurrentElement(value) {
+      console.log(this)
+      this.currentElement = value;
     },
 
     async fetchElementById(url, id) {

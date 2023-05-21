@@ -40,14 +40,14 @@
 </template>
 
 <script>
-import { useelementstore } from "../../../stores/Common";
+import { useElementStore } from "../../../stores/Common";
 import { useRouter } from "vue-router";
 import { useRoute } from "vue-router";
 import { computed } from "vue";
 
 export default {
      setup() {
-          const elementStore = useelementstore();
+          const elementStore = useElementStore();
           const router = useRouter();
           const route = useRoute();
           const userId = route.params.id.toString();

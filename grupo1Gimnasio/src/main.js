@@ -23,6 +23,10 @@ import CrearUsuario from "./components/views/Usuarios/CrearUsuario.vue";
 import Profesor from "./components/views/Profesores/Profesores.vue"
 import DetalleProfesor from "./components/views/Profesores/DetalleProfesor.vue"
 import CrearProfesor from "./components/views/Profesores/CrearProfesor.vue";
+// Paquetes
+import Paquetes from "./components/views/Paquetes/Paquetes.vue";
+import DetallePaquete from "./components/views/Paquetes/DetallePaquete.vue"
+import CrearPaquete from "./components/views/Paquetes/CrearPaquete.vue";
 
 
 
@@ -41,6 +45,7 @@ para que sea un proceso mas "seguro" OBVIO que esto lo dejamos mas para el final
 const routes = [
   { path: "/", component: Home },
   { path: "/actividades", component: Actividades },
+  { path: "/paquetes", component: Paquetes },
   { path: "/planes", component: Planes },
   { path: '/sedes', component: Sedes },
   { path: '/sedes/:id', component: DetalleSede },
@@ -52,7 +57,9 @@ const routes = [
   { path: '/profesores/:id', component: DetalleProfesor },
   { path: '/crearProfesor', component: CrearProfesor },
   { path: '/actividades/:id', component: DetalleAvtividad },
-  { path: '/CrearActividad', component: CrearActividad }
+  { path: '/CrearActividad', component: CrearActividad },
+  { path: '/paquetes/:id', component: DetallePaquete },
+  { path: '/crearPaquete', component: CrearPaquete }
 ];
 
 const router = createRouter({

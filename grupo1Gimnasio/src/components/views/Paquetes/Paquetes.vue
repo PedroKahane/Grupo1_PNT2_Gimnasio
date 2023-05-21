@@ -1,11 +1,12 @@
 <template>
      <div>
-       <h2>Usuarios</h2>
+       <h2>Paquetes</h2>
        <ul>
-           <li v-for="actividades in elementStore.getElements" :key="actividades.id">
-           <router-link :to="`/actividades/${actividades.id}`">{{ actividades.nombre }}</router-link></li>
+           <li v-for="paquetes in elementStore.getElements" :key="paquetes.id">
+           <router-link :to="`/paquetes/${paquetes.id}`">{{ paquetes.nombre }}</router-link>
+          </li>
        </ul>
-       <router-link to="/crearActividad" class="nav-item nav-link" href="#">Crear Actividad</router-link>
+       <router-link to="/crearPaquete" class="nav-item nav-link" href="#">Crear Paquete</router-link>
      </div>
    </template>
    
@@ -19,7 +20,7 @@
    
        onMounted(() => {
            elementStore.currentElement = null
-           elementStore.fetchElements("https://6460fabb491f9402f49bfa55.mockapi.io/Actividades")        
+           elementStore.fetchElements("https://646937ca03bb12ac208876f1.mockapi.io/paquetes")        
        })
        return {
          elementStore,
