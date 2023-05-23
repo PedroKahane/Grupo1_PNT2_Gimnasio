@@ -2,8 +2,12 @@
     <div>
       <h2>Crear Sede</h2>
       <div>
-        <input type="text" v-model="currentNombre">
-        <input type="text" v-model="currentUbicacion">
+    <strong>Nombre </strong>
+         <input class="m-2" type="text" v-model="sedeNueva.nombre">
+         <br />
+         <strong>ubicacion </strong>
+         <input class="m-2" type="text" v-model="sedeNueva.ubicacion">
+         <br />
         <button @click="createSede">Crear Sede</button>
       </div>
     </div>
@@ -20,13 +24,10 @@
     setup() {
       const sedeStore = useSedeStore()
       const router = useRouter()
-      const route = useRoute()
-      const sedeId = sedeStore.sedes.length
     
     const sedeNueva = {
-        idSede : sedeId,
-        nombre : sedeStore.currentNombre,
-        ubicacion : sedeStore.currentUbicacion
+        nombre : "",
+        ubicacion : ""
     }
     const createSede = async () => {
         await sedeStore.createSede(sedeNueva)
@@ -36,7 +37,8 @@
       
   
       return {
-        createSede
+        createSede,
+        sedeNueva
       }
     },
   }
