@@ -1,21 +1,41 @@
 # Grupo 1 PNT2 Gimnasio
 
+TOMAS
+- CRUD turnos
+
+JUAMPI
+- Agregar idPaquete, ticketsUsados, fechaVencimiento, pago (boolean)
+- volver a 0 ticketUsados
+- login 
+
+PEDRO
+- Agregar profe, sede
+- lado usuario
+- lado admin
+
+GINO
+- Diseño
+- 
+
 
 ## Ideas: 
 #### Lado administrador:
-  - Dar de alta a usuarios / miembros
-  - Dar de baja
-  - Consultar usuarios
+  - Dar de alta a usuarios / miembros 
+  - Dar de baja [DONE]
+  - Consultar usuarios [DONE]
   - Consultar por filtro(x vencimiento, x fecha, x tipo de membresía, etc)
-  - Poder modificar precios
-  - Poder planificar actividades
-  - Poder modificar los usuarios
+  - Poder modificar precios [DONE]
+  - Poder planificar actividades [DONE]
+  - Poder modificar los usuarios [DONE]
+  - Poder modificar los paquetes [DONE]
+  - CRUD turnos 
+  - Login
 
 #### Lado usuario:
-  - Poder inscribirse
-  - Darse de baja
-  - Consultar actividades / planes
-  - Anotarse en las actividades
+  - Poder inscribirse [DONE]
+  - Darse de baja [DONE]
+  - Consultar actividades / planes [DONE]
+  - Anotarse en las actividades [DONE]
   - Recordatorios
   - Consultar duración de su membresía
 
@@ -115,3 +135,9 @@ desde ahí puede tocar y acceder a los datos de aquel usuario y modificarlos, da
 
 Vista de todos los planes:
 donde puede planificar actividades(nombre, fecha/s, precio, sede/s, límite de clientes(opcional)), de cada actividad poder consultar los inscriptos
+
+
+
+
+
+
