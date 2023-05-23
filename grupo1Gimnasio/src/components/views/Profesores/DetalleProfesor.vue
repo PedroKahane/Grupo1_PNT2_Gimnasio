@@ -27,7 +27,7 @@ export default {
           const router = useRouter();
           const route = useRoute();
           const profesorId = route.params.id.toString();
-          const url = "https://6460fabb491f9402f49bfa55.mockapi.io/Actividades";
+          const url = "https://64662c65228bd07b355ddc69.mockapi.io/profesores";
 
           elementStore.fetchElementById(url, profesorId);
 
