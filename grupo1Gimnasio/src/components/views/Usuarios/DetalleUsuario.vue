@@ -28,10 +28,22 @@
                     <strong>Contacto: </strong><input type="tel" v-model="user.contacto" />
                </p>
                <p>
-                    <strong>Administrador: </strong><input type="checkbox" v-model="user.administrador" />
+                    <strong>Administrador: </strong><input type="checkbox" v-model="user.administrador" disabled  />
                </p>
                <p>
                     <strong>Dni: </strong><input type="number" v-model="user.dni" />
+               </p>
+               <p>
+                    <strong>Nombre del paquete: </strong><input type="text" v-model="nombrePaquete" disabled  />
+               </p>
+               <p>
+                    <strong>Vencimiento de la membresia: </strong><input type="number" v-model="user.fechaVencimiento" disabled  />
+               </p>
+               <p>
+                    <strong>Pago: </strong><input type="checkbox" v-model="user.pago" disabled  />
+               </p>
+               <p>
+                    <strong>Tickets Usados: </strong><input type="number" v-model="user.ticketUsados" disabled  />
                </p>
                <button @click="deleteUsuario">Borrar usuario</button>
                <button @click="updateUsuario">Actualizar usuario</button>
@@ -53,7 +65,7 @@ export default {
           const userId = route.params.id.toString();
           const url = "https://645ae28c95624ceb210d09ed.mockapi.io/Usuarios";
 
-          elementStore.fetchElementById(url, userId);
+          elementStore.fetchElementById(url, userId)
 
           const user = computed(() => elementStore.currentElement);
 
@@ -66,6 +78,12 @@ export default {
                await elementStore.deleteElement(url, userId);
                router.push("/usuarios");
           };
+
+          //funcion a terminar
+          function reiniciarTicketsFinDeMes(){
+
+               
+          }     
 
           return {
                user,

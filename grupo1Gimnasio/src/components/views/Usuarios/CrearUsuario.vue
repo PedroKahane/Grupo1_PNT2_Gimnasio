@@ -49,7 +49,12 @@ export default {
   edad : "",
   contacto : "",
   administrador : false,
-  dni : "", });
+  dni : "", 
+  idPaquete: "",
+  fechaVencimiento : "",
+  pago : false,
+  ticketUsados : 0,
+});
     const user = computed(() => elementStore.currentElement);
     const router = useRouter();
     const url = "https://645ae28c95624ceb210d09ed.mockapi.io/Usuarios";
