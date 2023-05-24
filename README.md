@@ -10,12 +10,9 @@ JUAMPI
 
 PEDRO
 - Agregar profe, sede
-- lado usuario
-- lado admin
 
 GINO
 - Diseño
-- 
 
 
 ## Ideas: 
