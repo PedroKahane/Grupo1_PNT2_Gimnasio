@@ -28,6 +28,11 @@ import Paquetes from "./components/views/Paquetes/Paquetes.vue";
 import DetallePaquete from "./components/views/Paquetes/DetallePaquete.vue"
 import CrearPaquete from "./components/views/Paquetes/CrearPaquete.vue";
 
+// Paquetes
+import Turnos from "./components/views/Turnos/Turnos.vue";
+import DetalleTurno from "./components/views/Turnos/DetalleTurno.vue"
+import CrearTurno from "./components/views/Turnos/CrearTurno.vue";
+
 
 
 
@@ -48,6 +53,7 @@ const routes = [
   { path: "/paquetes", component: Paquetes },
   { path: "/planes", component: Planes },
   { path: '/sedes', component: Sedes },
+  { path: '/turnos', component: Turnos },
   { path: '/sedes/:id', component: DetalleSede },
   { path: '/crearSede', component: CrearSede },
   { path: '/usuarios', component: Usuarios},
@@ -59,7 +65,9 @@ const routes = [
   { path: '/actividades/:id', component: DetalleAvtividad },
   { path: '/CrearActividad', component: CrearActividad },
   { path: '/paquetes/:id', component: DetallePaquete },
-  { path: '/crearPaquete', component: CrearPaquete }
+  { path: '/crearPaquete', component: CrearPaquete },
+  { path: '/turnos/:id', component: DetalleTurno },
+  { path: '/crearTurno', component: CrearTurno }
 ];
 
 const router = createRouter({
