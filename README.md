@@ -12,7 +12,8 @@ PEDRO
 - Agregar profe, sede
 
 GINO
-- Diseño
+- Diseño (se puede ver al final tmb)
+- Usuario anotandose en turno: vista de turnos con un boton anotar al lado que haria un post en TurnoPersona
 
 
 ## Ideas: 
