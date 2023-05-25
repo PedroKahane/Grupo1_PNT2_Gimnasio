@@ -4,10 +4,12 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import { createRouter, createWebHistory } from "vue-router";
 
+// App
 import App from './App.vue'
 import Home from "./components/views/Home.vue";
 import Planes from "./components/views/Planes.vue";
-//Actividades
+import Login from "./components/views/Login.vue"
+// Actividades
 import Actividades from "./components/views/Actividades/Actividades.vue";
 import DetalleAvtividad from "./components/views/Actividades/DetalleActividad.vue"
 import CrearActividad from "./components/views/Actividades/CrearActividad.vue";
@@ -15,7 +17,7 @@ import CrearActividad from "./components/views/Actividades/CrearActividad.vue";
 import Sedes from "./components/views/Sedes/Sedes.vue";
 import DetalleSede from "./components/views/Sedes/DetalleSede.vue";
 import CrearSede from "./components/views/Sedes/CrearSede.vue";
-//Usuarios
+// Usuarios
 import Usuarios from "./components/views/Usuarios/Usuarios.vue"
 import DetalleUsuario from "./components/views/Usuarios/DetalleUsuario.vue"
 import CrearUsuario from "./components/views/Usuarios/CrearUsuario.vue";
@@ -27,22 +29,13 @@ import CrearProfesor from "./components/views/Profesores/CrearProfesor.vue";
 import Paquetes from "./components/views/Paquetes/Paquetes.vue";
 import DetallePaquete from "./components/views/Paquetes/DetallePaquete.vue"
 import CrearPaquete from "./components/views/Paquetes/CrearPaquete.vue";
-
-// Paquetes
+// Turnos
 import Turnos from "./components/views/Turnos/Turnos.vue";
 import DetalleTurno from "./components/views/Turnos/DetalleTurno.vue"
 import CrearTurno from "./components/views/Turnos/CrearTurno.vue";
 
-
-
-
-// Activad y actividades // Pedro
-// Profesor y Profesores // Gino // LISTO
-// Paquete y Paquetes // Tomi
-// Usuario y Usuarios // Juanpi  // LISTO
-
-/* Comentarios Juampi:
-- en el edit usuario me faltaria un boton para mostrar la contraseña y sorprendentemente pude hacer el resto pero no un BOTONCITOO
+/*
+- en el edit usuario me faltaria un boton para mostrar la contraseña para que quede "mejor"
 - testeando el update y delete vi que apenas tocas el boton se ejecuta la accion y estaria bueno poner algun alert de confirmacion o algo 
 para que sea un proceso mas "seguro" OBVIO que esto lo dejamos mas para el final pero se me ocurrio que le daria un toque mas al proyecto
  */
@@ -67,7 +60,8 @@ const routes = [
   { path: '/paquetes/:id', component: DetallePaquete },
   { path: '/crearPaquete', component: CrearPaquete },
   { path: '/turnos/:id', component: DetalleTurno },
-  { path: '/crearTurno', component: CrearTurno }
+  { path: '/crearTurno', component: CrearTurno },
+  { path: '/login', component: Login },
 ];
 
 const router = createRouter({
