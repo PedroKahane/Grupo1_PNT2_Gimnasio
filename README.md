@@ -1,24 +1,27 @@
 # Grupo 1 PNT2 Gimnasio
 
-TOMAS
-- CRUD turnos
-
-JUAMPI
-- Agregar idPaquete, ticketsUsados, fechaVencimiento, pago (boolean)
-- volver a 0 ticketUsados
-- login 
-
-PEDRO
-- Agregar profe, sede
-
 GINO
 - Diseño (se puede ver al final tmb)
-- Usuario anotandose en turno: vista de turnos con un boton anotar al lado que haria un post en TurnoPersona
+- SELECT ID Sede, ID Profesor, ID Actividad
 
+JUAMPI
+- SELECT en usuarios en NOMBREPAQUETE
+- Consultar por filtro(x vencimiento, x fecha, x tipo de membresía, etc) // x turno
+- Consultar duración de su membresía 
+
+PEDRO:
+- Anotar usuario en turno persona
+
+TOMI:
+- Permisos admin / Usuario
+
+PENDIENTES:
+- Limite de personas x grupo
+- poder ver actividades x sede | Pantalla sedes
 
 ## Ideas: 
 #### Lado administrador:
-  - Dar de alta a usuarios / miembros 
+  - Dar de alta a usuarios / miembros [DONE]
   - Dar de baja [DONE]
   - Consultar usuarios [DONE]
   - Consultar por filtro(x vencimiento, x fecha, x tipo de membresía, etc)
@@ -26,8 +29,8 @@ GINO
   - Poder planificar actividades [DONE]
   - Poder modificar los usuarios [DONE]
   - Poder modificar los paquetes [DONE]
-  - CRUD turnos 
-  - Login
+  - CRUD turnos [DONE]
+  - Login [DONE]
 
 #### Lado usuario:
   - Poder inscribirse [DONE]
@@ -35,13 +38,11 @@ GINO
   - Consultar actividades / planes [DONE]
   - Anotarse en las actividades [DONE]
   - Recordatorios
-  - Consultar duración de su membresía
-
-
+  - Consultar duración de su membresía 
 
 ## Tablas / Objetos
 
-Usuarios:
+Usuarios: [DONE]
   - nombre
   - apellido
   - mail
@@ -54,12 +55,12 @@ Usuarios:
   - contacto
   - administrador: boolean
 
-Sede:
+Sede: [DONE]
   - idSede
   - nombre
   - ubicación
 
-Turno:
+Turno: [DONE]
   - idSede
   - idActividad
   - idProfesor
@@ -67,15 +68,15 @@ Turno:
   - precio
   - cantPersonasLim
 
-TurnoPersona:
+TurnoPersona:[DONE]
   - idPersona
   - idTurno
 
-Profesor:
+Profesor:[DONE]
   - idProfesor
   - nombre
 
-Actividades:
+Actividades:[DONE]
   - idActividad
   - nombre
   - duración
