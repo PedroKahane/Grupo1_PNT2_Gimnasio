@@ -3,14 +3,30 @@
          <h2>Detalle de Turno</h2>
          <div v-if="turno">
           <div>
-               <strong>ID Sede </strong>
-               <input class="m-2" type="text" v-model="turno.idSede">
+               <strong>Nombre Sede </strong>
+                <select v-model="turno.idSede">
+                <option value="0" disabled selected>Selecciona la sede</option>
+                <option v-for="sede in sedes" :value="sede.idSede">
+                {{ sede.nombre }}
+                </option>
+                </select>
                <br />
-               <strong>ID Actividad </strong>
-               <input class="m-2" type="text" v-model="turno.idActividad">
+               <strong>Nombre Actividad </strong>
+               <select v-model="turno.idActividad">
+               <option value="0" disabled selected>Selecciona la actividad</option>
+               <option v-for="actividad in actividades" :value="actividad.idActividad">
+               {{ actividad.nombre }}
+               </option>
+               </select>
+               
                <br />
-               <strong>ID Profesor </strong>
-               <input class="m-2" type="text" v-model="turno.profesor">
+               <strong>Nombre Profesor </strong>
+               <select v-model="turno.profesorId">
+               <option value="0" disabled selected>Selecciona el profesor</option>
+               <option v-for="profesor in profesores" :value="profesor.profesorId">
+               {{ profesor.nombre }}
+               </option>
+               </select>
                <br />
                <strong>fecha </strong>
                <input class="m-2" type="text" v-model="turno.fecha">
@@ -30,22 +46,32 @@
 
 <script>
 import { useElementStore } from "../../../stores/Common";
+import { useTurnoStore } from '../../../stores/turnos';
 import { useRouter } from "vue-router";
 import { useRoute } from "vue-router";
-import { computed } from "vue";
+import { onMounted, computed } from "vue";
 
 export default {
     setup() {
          const elementStore = useElementStore();
+         const turnoStore = useTurnoStore();
          const router = useRouter();
          const route = useRoute();
          const turnoId = route.params.id.toString();
          const url = "https://6460fabb491f9402f49bfa55.mockapi.io/Turno";
 
          elementStore.fetchElementById(url, turnoId);
+          onMounted(()=> {
+               turnoStore.fetchProfesores();
+               turnoStore.fetchSedes();
+               turnoStore.fetchActividades();
+          });
 
          const turno = computed(() => elementStore.currentElement);
 
+          const sedes = computed (() => turnoStore.getSedes);
+          const profesores = computed (() => turnoStore.getProfesores)
+          const actividades = computed (()=> turnoStore.getActividades)
          const updateTurno = async () => {
               await elementStore.updateElement(url, elementStore.currentElement);
               router.push("/turnos");
@@ -59,7 +85,10 @@ export default {
          return {
           turno,
           updateTurno,
-          deleteTurno
+          deleteTurno,
+          sedes,
+          profesores,
+          actividades
          };
     },
 };
