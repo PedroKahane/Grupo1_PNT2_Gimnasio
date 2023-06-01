@@ -4,16 +4,17 @@
 </script>
    
 <script>
- 
-    
+
+
 </script>
 
 
 
 <template>
-     <h1> Home </h1>
+     <div class="container-fluid">
+          <h1> Home </h1>
+     </div>
 </template>
 
 
-<style scoped>
-</style>
+<style scoped></style>

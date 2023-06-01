@@ -12,7 +12,8 @@ export const useTurnoStore = defineStore('turno', {
     turnosPersonas: [],
     contador: 0,
     error1: false,
-    error2:false
+    error2:false,
+    error3: false
   }),
   getters: {
     getSedes() {
@@ -32,6 +33,9 @@ export const useTurnoStore = defineStore('turno', {
     },
     getError2() {
       return this.error2;
+    },
+    getError3() {
+      return this.error3;
     }
   },
   actions: {
@@ -49,6 +53,7 @@ export const useTurnoStore = defineStore('turno', {
       try {
         this.error1 = false;
         this.error2 = false;
+        this.error3 = false;
         const response = await axios.get(
           'https://64662c65228bd07b355ddc69.mockapi.io/profesores'
         );
@@ -125,15 +130,8 @@ export const useTurnoStore = defineStore('turno', {
         console.log(usuario.idPaquete);
         
           try {
-            if (usuario.ticketUsados < paquete.cantTickets) {
-            console.log(usuario.ticketUsados);
-            
-            usuario.ticketUsados++
-            console.log(usuario.ticketUsados);
-            
-            
-          
-            } else {
+            if (usuario.ticketUsados >= paquete.cantTickets) {
+        
               this.error2 = true
             }
           } catch (error) {
@@ -141,10 +139,24 @@ export const useTurnoStore = defineStore('turno', {
           }
           try {
             if(this.contador < turnosMaximos){
-              const response = await axios.post(`https://64662c65228bd07b355ddc69.mockapi.io/turnoPersona`, turnoNuevo)
-              const response2 = await axios.put(`https://645ae28c95624ceb210d09ed.mockapi.io/Usuarios/${idPersona}`, usuario)
-              console.log(response2);
-              console.log(response)
+              const turnoExistente = this.turnosPersonas.find((e) => {
+                return e.idTurno == idTurno && e.idPersona == idPersona
+              })
+              if(turnoExistente == null) {
+                const response = await axios.post(`https://64662c65228bd07b355ddc69.mockapi.io/turnoPersona`, turnoNuevo)
+                console.log(usuario.ticketUsados);
+              
+                usuario.ticketUsados++
+                console.log(usuario.ticketUsados);
+                const response2 = await axios.put(`https://645ae28c95624ceb210d09ed.mockapi.io/Usuarios/${idPersona}`, usuario)
+                console.log(response2);
+                console.log(response)
+                
+              } else {
+                this.error3 = true
+                console.log(turnoExistente);
+              }
+             
             } else{
               this.error1 = true
             }

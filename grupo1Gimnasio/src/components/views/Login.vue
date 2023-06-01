@@ -1,24 +1,36 @@
 <template>
-  <div class="text-center">
-    <h4>Login</h4>
-  </div>
-  <form>
-    <h5>{{ mensaje }}</h5>
+  <div class="container mt-4">
+    <div class="text-center">
+      <h4>Iniciar sesión</h4>
+    </div>
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <div class="card bg-light text-dark">
+          <div class="card-body">
+        <form>
+          <label class="form group" for="inputMail"><strong>Ingresa tu mail:</strong></label>
+          <input type="email" id="inputMail" class="form-control" v-model="usuario" placeholder="tuMail@ejemplo.com"
+            required />
+          <label class="form group" for="inputPassword"><strong>Ingresa tu contraseña:</strong></label>
+          <input type="password" id="inputPassword" class="form-control" v-model="password" placeholder="tuContraseña"
+            required />
 
-    <label for="inputMail">Ingresa tu mail para ingresar</label>
-    <input type="email" id="inputMail" class="form-control" v-model="usuario" placeholder="yourMail@example.com"
-      required />
+          <h6 class="alert alert-danger alert-dismissible alert-sm mb-0 text-center mt-2" v-if="mensaje != ''">
+            <strong>{{ mensaje }}</strong>
+          </h6>
 
-    <label for="inputPassword">Ingresa tu contraseña</label>
-    <input type="password" id="inputPassword" class="form-control" v-model="password" placeholder="tuContraseña"
-      required />
-
-    <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="button" v-on:click="iniciarSession()">Log
-      in</button>
-  </form>
-  <div class="d-flex align-items-center justify-content-center pb-4">
-    <p class="mb-0 me-2">¿No tienes una cuenta?</p>
-    <button type="button" class="btn btn-success" v-on:click="routerRegister()">¡Create una!</button>
+          <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mt-2 mx-auto d-block" type="button"
+            v-on:click="iniciarSession()">Log in
+          </button>
+        </form>
+        <div class="d-flex align-items-center justify-content-center mt-3">
+          <p class="mb-0 me-2">¿No tienes una cuenta?</p>
+          <button type="button" class="btn btn-success" v-on:click="routerRegister()">¡Create una!</button>
+        </div>
+      </div>
+      </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -51,11 +63,11 @@ export default {
           if (user.length > 0) {
             this.storeSession.login(user);
             this.$router.push('/').then(() => { location.reload() });
-          } else { this.mensaje = "Usuario no encontrado"; }
-        })  
+          } else { this.mensaje = "Mail o Contraseña incorrectos."; }
+        })
         this.mensaje = "";
       } else {
-        this.mensaje = "Usuario no encontrado";
+        this.mensaje = "Complete los campos para acceder a su cuenta.";
       }
     },
     routerRegister() {

@@ -5,11 +5,11 @@ export const sessionStore = defineStore('session',
     {
         state: () => ({
             usuario : null,
-            userName: Cookies.get("user_name") || "",
+            userName: Cookies.get("usuario") || "",
         }),
         getters: {
           getUserName: () => {
-            return Cookies.get("user_name") ;
+            return Cookies.get("usuario") ;
           },
         },
         actions:

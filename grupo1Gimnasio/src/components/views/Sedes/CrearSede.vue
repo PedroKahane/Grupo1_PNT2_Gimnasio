@@ -3,34 +3,36 @@
       <h2>Crear Sede</h2>
       <div>
     <strong>Nombre </strong>
-         <input class="m-2" type="text" v-model="sedeNueva.nombre">
+         <input class="m-2" type="text" v-model="sede.nombre">
          <br />
          <strong>ubicacion </strong>
-         <input class="m-2" type="text" v-model="sedeNueva.ubicacion">
+         <input class="m-2" type="text" v-model="sede.ubicacion">
          <br />
-        <button @click="createSede">Crear Sede</button>
+         <button class="m-3" @click="createSede">Crear Sede</button>
       </div>
     </div>
   </template>
   
   <script>
-  import { useSedeStore } from '../../../stores/Sedes';  
+  import { useElementStore } from '../../../stores/Common';
   import { useRouter } from 'vue-router'
   import {useRoute} from 'vue-router'
+  import { computed } from "vue";
+
  
   
   
   export default {
     setup() {
-      const sedeStore = useSedeStore()
+      const elementStore = useElementStore()
+      elementStore.setCurrentElement({ nombre: "", ubicacion: ""})
+      const sede = computed(() => elementStore.currentElement);
       const router = useRouter()
+      const url = "https://645ae28c95624ceb210d09ed.mockapi.io/Sede";
     
-    const sedeNueva = {
-        nombre : "",
-        ubicacion : ""
-    }
+  
     const createSede = async () => {
-        await sedeStore.createSede(sedeNueva)
+        await elementStore.createElement(url, sede.value)
         router.push('/sedes')
       }
 
@@ -38,7 +40,7 @@
   
       return {
         createSede,
-        sedeNueva
+        sede
       }
     },
   }
