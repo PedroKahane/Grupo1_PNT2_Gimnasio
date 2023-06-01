@@ -5,7 +5,14 @@ export const useTurnoStore = defineStore('turno', {
   state: () => ({
     profesores: [],
     sedes: [],
-    actividades: []
+    actividades: [],
+    usuarios: [],
+    paquetes: [],
+    turnosActual: null,
+    turnosPersonas: [],
+    contador: 0,
+    error1: false,
+    error2:false
   }),
   getters: {
     getSedes() {
@@ -16,6 +23,15 @@ export const useTurnoStore = defineStore('turno', {
     },
     getActividades() {
         return this.actividades;
+    },
+    getContador() {
+      return this.contador;
+    },
+    getError1() {
+      return this.error1;
+    },
+    getError2() {
+      return this.error2;
     }
   },
   actions: {
@@ -31,12 +47,14 @@ export const useTurnoStore = defineStore('turno', {
     },
     async fetchProfesores() {
       try {
+        this.error1 = false;
+        this.error2 = false;
         const response = await axios.get(
           'https://64662c65228bd07b355ddc69.mockapi.io/profesores'
         );
         this.profesores = response.data;
       } catch (error) {
-        console.error('Error fetching profesores:', error);
+        console.error('Error fetching paquetes:', error);
       }
     },
     async fetchActividades(){
@@ -48,6 +66,103 @@ export const useTurnoStore = defineStore('turno', {
           } catch (error) {
             console.error('Error fetching actividades:', error);
           }
-    }
+    },
+    async fetchTurnoById(id) {
+      try {
+        this.bandera = null
+        const response = await axios.get(`https://6460fabb491f9402f49bfa55.mockapi.io/Turno/${id}`)
+        this.turnosActual = response.data
+      } catch (error) {
+        console.error(`Error fetching turno with id ${id}:`, error)
+      }
+    },
+    async fetchTurnosPersonas(){
+      try {
+          const response = await axios.get(
+            'https://64662c65228bd07b355ddc69.mockapi.io/turnoPersona'
+          );
+          this.turnosPersonas = response.data;
+          //console.log(this.turnosPersonas);
+          
+        } catch (error) {
+          console.error('Error fetching turnosPersonas:', error);
+        }
+    },
+    async fetchUsuarios(){
+      try {
+          const response = await axios.get(
+            'https://645ae28c95624ceb210d09ed.mockapi.io/Usuarios'
+          );
+          this.usuarios = response.data;
+          //console.log(this.usuarios);
+          
+        } catch (error) {
+          console.error('Error fetching usuarios:', error);
+        }
+    },
+    async fetchPaquetes(){
+      try {
+          const response = await axios.get(
+            'https://646937ca03bb12ac208876f1.mockapi.io/paquetes'
+          );
+          this.paquetes = response.data;
+          console.log(this.usuarios);
+          
+        } catch (error) {
+          console.error('Error fetching paquetes:', error);
+        }
+    },
+    async sacarTurno(idTurno, idPersona) {
+      try {
+        const turnoNuevo = {
+           idTurno,
+           idPersona
+        }
+        const turnosMaximos = this.turnosActual.cantPersonasLim
+        //console.log(this.contador);
+        const usuario = this.usuarios.find((e) => e.id === idPersona)
+        const paquete = this.paquetes.find((e) => e.id == usuario.idPaquete)
+        console.log(usuario.idPaquete);
+        
+          try {
+            if (usuario.ticketUsados < paquete.cantTickets) {
+            console.log(usuario.ticketUsados);
+            
+            usuario.ticketUsados++
+            console.log(usuario.ticketUsados);
+            
+            
+          
+            } else {
+              this.error2 = true
+            }
+          } catch (error) {
+            console.error(`Error updating Element with id ${idPersona}:`, error)
+          }
+          try {
+            if(this.contador < turnosMaximos){
+              const response = await axios.post(`https://64662c65228bd07b355ddc69.mockapi.io/turnoPersona`, turnoNuevo)
+              const response2 = await axios.put(`https://645ae28c95624ceb210d09ed.mockapi.io/Usuarios/${idPersona}`, usuario)
+              console.log(response2);
+              console.log(response)
+            } else{
+              this.error1 = true
+            }
+          } catch (error) {
+            console.error(`Error updating turno`, error)
+          }
+        } catch(error) {
+          console.log(error);
+          
+        }
+    },
+    async contarTurno(id) {
+        this.turnosPersonas.forEach(element => {
+          if(element.idTurno == id){
+            this.contador++
+          }
+        });
+    },
   },
+  
 });

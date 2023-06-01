@@ -20,7 +20,7 @@ export const sessionStore = defineStore('session',
                 //window.sessionStorage.setItem("nombre", "Juan");
             },
             logout(){
-                this.usuaroLogueado = null;
+                this.usuario = null;
             }
         }
     }

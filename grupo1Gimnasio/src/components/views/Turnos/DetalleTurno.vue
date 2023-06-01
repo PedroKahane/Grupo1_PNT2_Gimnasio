@@ -39,6 +39,10 @@
                <br />
                <button @click="deleteTurno">Borrar Turno</button>
               <button @click="updateTurno">Actualizar Turno</button>
+              <button @click="sacarTurno">Sacar Turno</button>
+              <br />
+              <p v-if="error1">El cupo de este turno se encuentra lleno</p>
+              <p v-if="error2">No le quedan tickets por usar</p>
           </div>
          </div>
     </div>
@@ -50,9 +54,11 @@ import { useTurnoStore } from '../../../stores/turnos';
 import { useRouter } from "vue-router";
 import { useRoute } from "vue-router";
 import { onMounted, computed } from "vue";
+import Cookies from "js-cookie";
 
 export default {
     setup() {
+          const usuario = JSON.parse(Cookies.get('usuario'));
          const elementStore = useElementStore();
          const turnoStore = useTurnoStore();
          const router = useRouter();
@@ -65,6 +71,12 @@ export default {
                turnoStore.fetchProfesores();
                turnoStore.fetchSedes();
                turnoStore.fetchActividades();
+               turnoStore.fetchTurnoById(turnoId);
+               turnoStore.fetchTurnosPersonas();
+               turnoStore.fetchUsuarios();
+               turnoStore.fetchPaquetes();
+               turnoStore.contarTurno(turnoId)
+               console.log(usuario[0]);
           });
 
          const turno = computed(() => elementStore.currentElement);
@@ -72,6 +84,10 @@ export default {
           const sedes = computed (() => turnoStore.getSedes);
           const profesores = computed (() => turnoStore.getProfesores)
           const actividades = computed (()=> turnoStore.getActividades)
+          const error1 = computed (()=> turnoStore.getError1)
+          const error2 = computed (()=> turnoStore.getError2)
+          console.log(error1.value);
+          console.log(error2.value);
          const updateTurno = async () => {
               await elementStore.updateElement(url, elementStore.currentElement);
               router.push("/turnos");
@@ -81,6 +97,12 @@ export default {
               await elementStore.deleteElement(url, turnoId);
               router.push("/turnos");
          };
+         const sacarTurno = async () => {
+              await turnoStore.sacarTurno(turnoId, usuario[0].id);
+              if(!error1.value && !error2.value) {
+               router.push("/turnos");
+              }
+          };
 
          return {
           turno,
@@ -88,7 +110,10 @@ export default {
           deleteTurno,
           sedes,
           profesores,
-          actividades
+          actividades,
+          sacarTurno,
+          error1,
+          error2
          };
     },
 };
