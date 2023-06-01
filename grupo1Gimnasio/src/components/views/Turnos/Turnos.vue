@@ -15,6 +15,7 @@
           <th>Profesor:</th>
           <th>Sede:</th>
           <th>Actividad:</th>
+          <th>fecha:</th>
         </tr>
       </thead>
       <tbody>
@@ -26,6 +27,7 @@
           <td v-else></td>
           <td v-if="turno.actividad != undefined">{{ turno.actividad.nombre }}</td>
           <td v-else></td>
+          <td >{{ turno.fecha }}</td>
          
           <td><router-link :to="`/turnos/${turno.id}`"><strong>Ver detalles</strong></router-link></td>
         </tr>
@@ -54,7 +56,7 @@
             await turnoStore.fetchActividades();
             await turnoStore.fetchTurnos()        
        })
-       /*
+       
        function buscar(){
       elementStore.filtrarXString(this.busqueda);
       }
@@ -62,10 +64,13 @@
        function reiniciar(){
       location.reload();
       }
-*/
-const turnos = computed (() => turnoStore.getTurnos);
+
+      const turnos = computed (() => turnoStore.getTurnos);
        return {
-        turnos
+        turnos,
+        buscar,
+        busqueda,
+        reiniciar
        }
      },
    }

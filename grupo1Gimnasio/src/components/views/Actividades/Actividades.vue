@@ -13,16 +13,12 @@
           <tr>
             <th>Nombre:</th>
             <th>Duracion(minutos):</th>
-            <th>Sede:</th>
-            <th>Profesor:</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="actividades in elementStore.getElements" :key="actividades.id">
             <td>{{ actividades.nombre }}</td>
             <td>{{ actividades.duracion }}</td>
-            <td>{{ actividades.idSede }}</td>
-            <td>{{ actividades.idProfesor }}</td>
             <td><router-link :to="`/actividades/${actividades.id}`"><strong>Ver detalles</strong></router-link></td>
           </tr>
         </tbody>

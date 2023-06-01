@@ -16,26 +16,6 @@
                   <strong>Duracion(en minutos): </strong><input type="text" class="form-control" v-model="actividad.duracion" />
                 </p>
 
-                <p>
-                  <strong>Sede: </strong>
-                  <select v-model="actividad.idSede">
-                  <option value="0" disabled selected>Selecciona la sede</option>
-                  <option v-for="sede in sedes" :value="sede.idSede">
-                     {{ sede.nombre }}
-                  </option>
-                  </select>
-                </p>
-
-                <p>
-                  <strong>Profesor: </strong>
-                   <select v-model="actividad.profesorId">
-                  <option value="0" disabled selected>Selecciona el profesor</option>
-                  <option v-for="profesor in profesores" :value="profesor.idProfesor">
-                     {{ profesor.nombre }}
-                  </option>
-                  </select>
-                </p>
-
                 <div class="d-flex justify-content-center">
                   <button class="btn btn-danger" @click="deleteActividad">Borrar actividad</button>
                   <button class="btn btn-success" @click="updateActividad">Actualizar actividad</button>

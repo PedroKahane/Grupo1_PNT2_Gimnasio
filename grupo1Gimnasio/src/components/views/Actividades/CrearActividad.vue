@@ -8,24 +8,6 @@
       <strong>Duracion </strong>
       <input class="m-2" type="text" v-model="actividad.duracion" />
       <br />
-      <p>
-        <strong>Sede: </strong>
-        <select v-model="actividad.idSede">
-          <option value="0" disabled selected>Selecciona la sede</option>
-          <option v-for="sede in sedes" :value="sede.idSede">
-            {{ sede.nombre }}
-          </option>
-        </select>
-      </p>
-      <p>
-        <strong>Profesor: </strong>
-        <select v-model="actividad.idProfesor">
-          <option value="0" disabled selected>Selecciona el profesor</option>
-          <option v-for="profesor in profesores" :value="profesor.id">
-            {{ profesor.nombre }}
-          </option>
-        </select>
-      </p>
 
       <button class="m-3" @click="createActividad">Crear Actividad</button>
     </div>

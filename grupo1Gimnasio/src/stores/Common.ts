@@ -34,7 +34,10 @@ export const useElementStore = defineStore('element', {
       console.log(this)
       this.currentElement = value;
     },
-
+    setElements(value) {
+      console.log(value)
+      this.elements = value;
+    },
     async fetchElementById(url, id) {
       try {
         const response = await axios.get(`${url}/${id}`)
