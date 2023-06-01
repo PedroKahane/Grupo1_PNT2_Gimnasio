@@ -12,14 +12,22 @@
       <thead>
         <tr>
           <th>Turno:</th>
-        
+          <th>Profesor:</th>
+          <th>Sede:</th>
+          <th>Actividad:</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="turnos in elementStore.getElements" :key="turnos.id">
-          <td>Turno {{ turnos.id }}</td>
+        <tr v-for="turno in turnos" :key="turno.id">
+          <td >Turno {{ turno.id }}</td>
+          <td v-if="turno.profesor != undefined">{{ turno.profesor.nombre }} {{ turno.profesor.apellido }}</td>
+          <td v-else></td>
+          <td v-if="turno.sede != undefined"> {{ turno.sede.nombre }}</td>
+          <td v-else></td>
+          <td v-if="turno.actividad != undefined">{{ turno.actividad.nombre }}</td>
+          <td v-else></td>
          
-          <td><router-link :to="`/turnos/${turnos.id}`"><strong>Ver detalles</strong></router-link></td>
+          <td><router-link :to="`/turnos/${turno.id}`"><strong>Ver detalles</strong></router-link></td>
         </tr>
       </tbody>
       </table>
@@ -31,18 +39,22 @@
    
    <script>
    import { useElementStore } from "../../../stores/Common";
-   import { onMounted } from "vue";
+   import { useTurnoStore } from "../../../stores/turnos";
+   import { onMounted, computed } from "vue";
    
    export default {
      setup() {
        const elementStore = useElementStore()
+       const turnoStore = useTurnoStore()
        const busqueda = "";
    
-       onMounted(() => {
-           elementStore.currentElement = null
-           elementStore.fetchElements("https://6460fabb491f9402f49bfa55.mockapi.io/Turno")        
+       onMounted(async () => {
+            await turnoStore.fetchProfesores();
+            await turnoStore.fetchSedes();
+            await turnoStore.fetchActividades();
+            await turnoStore.fetchTurnos()        
        })
-
+       /*
        function buscar(){
       elementStore.filtrarXString(this.busqueda);
       }
@@ -50,12 +62,10 @@
        function reiniciar(){
       location.reload();
       }
-
+*/
+const turnos = computed (() => turnoStore.getTurnos);
        return {
-         elementStore,
-         buscar,
-         reiniciar,
-         busqueda
+        turnos
        }
      },
    }

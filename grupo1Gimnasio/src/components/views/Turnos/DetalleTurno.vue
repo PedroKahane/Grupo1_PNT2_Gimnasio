@@ -23,7 +23,7 @@
                   <strong>Nombre Actividad: </strong>
                   <select v-model="turno.idActividad">
                               <option value="0" disabled selected>Selecciona la actividad</option>
-                              <option v-for="actividad in actividades" :value="actividad.idActividad">
+                              <option v-for="actividad in actividades" :value="actividad.id">
                                    {{ actividad.nombre }}
                               </option>
                   </select>
@@ -31,9 +31,9 @@
 
                 <p>
                   <strong>Nombre Profesor: </strong>
-                  <select v-model="turno.profesorId">
+                  <select v-model="turno.idProfesor">
                               <option value="0" disabled selected>Selecciona el profesor</option>
-                              <option v-for="profesor in profesores" :value="profesor.profesorId">
+                              <option v-for="profesor in profesores" :value="profesor.id">
                                    {{ profesor.nombre }}
                               </option>
                   </select>

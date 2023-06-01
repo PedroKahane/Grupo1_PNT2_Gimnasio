@@ -3,6 +3,7 @@ import axios from 'axios';
 
 export const useTurnoStore = defineStore('turno', {
   state: () => ({
+    turnos: [],
     profesores: [],
     sedes: [],
     actividades: [],
@@ -28,6 +29,9 @@ export const useTurnoStore = defineStore('turno', {
     getContador() {
       return this.contador;
     },
+    getTurnos() {
+      return this.turnos;
+    },
     getError1() {
       return this.error1;
     },
@@ -39,6 +43,39 @@ export const useTurnoStore = defineStore('turno', {
     }
   },
   actions: {
+    async fetchTurnos() {
+      try {
+        //console.log(this.sedes);
+    
+        //console.log(this.actividades);
+        //console.log(this.profesores);
+        const response = await axios.get('https://6460fabb491f9402f49bfa55.mockapi.io/Turno');
+        const turnosExtendido = response.data;
+        turnosExtendido.forEach(element => {
+         //console.log(element.idSede);
+          
+          
+          
+          const sede = this.sedes.find((e) => e.idSede === element.idSede)
+          //console.log(sede);
+          element.sede = sede
+          
+          const actividad = this.actividades.find((e) => e.id == element.idActividad)
+          console.log(element.idActividad);
+          element.actividad = actividad
+          
+          const profesor = this.profesores.find((e) => e.id == element.idProfesor)
+          element.profesor = profesor
+          console.log(element.idProfesor);
+        });
+        console.log(turnosExtendido);
+        this.turnos = turnosExtendido
+        console.log(this.turnos);
+        
+      } catch (error) {
+        console.error('Error fetching sedes:', error);
+      }
+    },
     async fetchSedes() {
       try {
         const response = await axios.get(
