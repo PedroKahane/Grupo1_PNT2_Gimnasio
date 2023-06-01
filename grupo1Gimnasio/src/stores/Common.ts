@@ -71,5 +71,9 @@ export const useElementStore = defineStore('element', {
         console.error(`Error deleting Element with id ${id}:`, error)
       }
     },
+
+    filtrarXString(busqueda){
+      this.elements = this.elements.filter(item => item.nombre.includes(busqueda) || item.apellido.includes(busqueda) || item.mail.includes(busqueda)); 
+    }
   },
 })

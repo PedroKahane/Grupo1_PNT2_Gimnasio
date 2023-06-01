@@ -1,6 +1,6 @@
 <template>
      <div>
-       <h2>Usuarios</h2>
+       <h2>Actividades</h2>
        <ul>
            <li v-for="actividades in elementStore.getElements" :key="actividades.id">
            <router-link :to="`/actividades/${actividades.id}`">{{ actividades.nombre }}</router-link></li>
