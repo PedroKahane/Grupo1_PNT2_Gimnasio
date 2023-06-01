@@ -46,6 +46,7 @@ export const useTurnoStore = defineStore('turno', {
     async fetchTurnos() {
       try {
         //console.log(this.sedes);
+       
     
         //console.log(this.actividades);
         //console.log(this.profesores);
@@ -53,12 +54,17 @@ export const useTurnoStore = defineStore('turno', {
         const turnosExtendido = response.data;
         turnosExtendido.forEach(element => {
          //console.log(element.idSede);
-          
-          
-          
+
           const sede = this.sedes.find((e) => e.idSede === element.idSede)
           //console.log(sede);
           element.sede = sede
+          element.fecha = new Date(element.fecha).toLocaleDateString('es-ES',   {day: '2-digit',
+          month: '2-digit',
+          hour: '2-digit',
+          year: 'numeric',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: false});
           
           const actividad = this.actividades.find((e) => e.id == element.idActividad)
           console.log(element.idActividad);
