@@ -180,42 +180,43 @@ export const useTurnoStore = defineStore('turno', {
         
           try {
             if (usuario.ticketUsados >= paquete.cantTickets) {
-        
-              this.error2 = true
-            }
-          } catch (error) {
-            console.error(`Error updating Element with id ${idPersona}:`, error)
-          }
-          try {
-            if(this.contador < turnosMaximos){
-              const turnoExistente = this.turnosPersonas.find((e) => {
-                return e.idTurno == idTurno && e.idPersona == idPersona
-              })
-              if(turnoExistente == null) {
-                const response = await axios.post(`https://64662c65228bd07b355ddc69.mockapi.io/turnoPersona`, turnoNuevo)
-                console.log(usuario.ticketUsados);
+              console.log("no quedan tickets");
               
-                usuario.ticketUsados++
-                console.log(usuario.ticketUsados);
-                const response2 = await axios.put(`https://645ae28c95624ceb210d09ed.mockapi.io/Usuarios/${idPersona}`, usuario)
-                console.log(response2);
-                console.log(response)
-                
-              } else {
-                this.error3 = true
-                console.log(turnoExistente);
+              this.error2 = true
+            } else {
+              try {
+                if(this.contador < turnosMaximos){
+                  const turnoExistente = this.turnosPersonas.find((e) => {return e.idTurno == idTurno && e.idPersona == idPersona})
+                  if(turnoExistente == null) {
+                    const response = await axios.post(`https://64662c65228bd07b355ddc69.mockapi.io/turnoPersona`, turnoNuevo)
+                    console.log(usuario.ticketUsados);
+                  
+                    usuario.ticketUsados++
+                    console.log(usuario.ticketUsados);
+                    const response2 = await axios.put(`https://645ae28c95624ceb210d09ed.mockapi.io/Usuarios/${idPersona}`, usuario)
+                    console.log(response2);
+                    console.log(response)
+                    
+                  } else {
+                    this.error3 = true
+                    console.log(turnoExistente);
+                  }
+                 
+                } else{
+                  this.error1 = true
+                }
+              } catch (error) {
+                console.error(`Error updating turno`, error)
               }
-             
-            } else{
-              this.error1 = true
+
             }
-          } catch (error) {
-            console.error(`Error updating turno`, error)
+          } catch(error) {
+            console.log(error);
+            
           }
-        } catch(error) {
-          console.log(error);
-          
-        }
+      } catch (error) {
+        console.error(`Error updating Element with id ${idPersona}:`, error)
+      }
     },
     async contarTurno(id) {
         this.turnosPersonas.forEach(element => {
