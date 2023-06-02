@@ -1,5 +1,5 @@
 # Grupo 1 PNT2 Gimnasio
-
+## Tareas:
 GINO
 - Diseño (se puede ver al final tmb)
 - SELECT ID Sede, ID Profesor, ID Actividad
@@ -18,6 +18,37 @@ TOMI:
 PENDIENTES:
 - Limite de personas x grupo
 - poder ver actividades x sede | Pantalla sedes
+
+## Links Mockapis:
+// lo hice con la intención de ordenar los links 
+// y ante la duda saber a quien consultar
+// pueden poner los links en sus nombres para saber de quien es quien cada mockapi
+// no me acuerdo quien hace cada uno
+
+*****JUAMPI*****
+- Usuarios:
+https://645ae28c95624ceb210d09ed.mockapi.io/Usuarios
+- Sedes:
+https://645ae28c95624ceb210d09ed.mockapi.io/Sede
+ 
+*****PEDRO*****
+
+*****TOMI*****
+
+*****GINO*****
+
+----------------------------------------------------------------------------
+- Turnos:
+https://6460fabb491f9402f49bfa55.mockapi.io/Turno
+- Profesores:
+https://64662c65228bd07b355ddc69.mockapi.io/profesores
+- Paquetes: 
+https://646937ca03bb12ac208876f1.mockapi.io/paquetes
+- Actividades:
+https://6460fabb491f9402f49bfa55.mockapi.io/Actividades
+- TurnoPersona:
+https://64662c65228bd07b355ddc69.mockapi.io/turnoPersona
+----------------------------------------------------------------------------
 
 ## Ideas: 
 #### Lado administrador:
