@@ -9,7 +9,6 @@ export const useTurnoStore = defineStore('turno', {
     actividades: [],
     usuarios: [],
     paquetes: [],
-    turnosActual: null,
     turnosPersonas: [],
     contador: 0,
     error1: false,
@@ -31,6 +30,9 @@ export const useTurnoStore = defineStore('turno', {
     },
     getTurnos() {
       return this.turnos;
+    },
+    getTurnosPersonas() {
+      return this.turnosPersonas;
     },
     getError1() {
       return this.error1;
@@ -67,12 +69,12 @@ export const useTurnoStore = defineStore('turno', {
           hour12: false});
           
           const actividad = this.actividades.find((e) => e.id == element.idActividad)
-          console.log(element.idActividad);
+          //console.log(element.idActividad);
           element.actividad = actividad
           
           const profesor = this.profesores.find((e) => e.id == element.idProfesor)
           element.profesor = profesor
-          console.log(element.idProfesor);
+          //console.log(element.idProfesor);
         });
         console.log(turnosExtendido);
         this.turnos = turnosExtendido
@@ -130,7 +132,7 @@ export const useTurnoStore = defineStore('turno', {
             'https://64662c65228bd07b355ddc69.mockapi.io/turnoPersona'
           );
           this.turnosPersonas = response.data;
-          //console.log(this.turnosPersonas);
+          console.log(this.turnosPersonas);
           
         } catch (error) {
           console.error('Error fetching turnosPersonas:', error);
@@ -162,11 +164,15 @@ export const useTurnoStore = defineStore('turno', {
     },
     async sacarTurno(idTurno, idPersona) {
       try {
+        this.error1 = false;
+        this.error2 =false;
+        this.error3 = false;
         const turnoNuevo = {
            idTurno,
            idPersona
         }
-        const turnosMaximos = this.turnosActual.cantPersonasLim
+        const turno = this.turnos.find((e) => e.id === idTurno)
+        const turnosMaximos = turno.cantPersonasLim
         //console.log(this.contador);
         const usuario = this.usuarios.find((e) => e.id === idPersona)
         const paquete = this.paquetes.find((e) => e.id == usuario.idPaquete)
@@ -218,6 +224,15 @@ export const useTurnoStore = defineStore('turno', {
           }
         });
     },
+    async cancelarTurno(idTurno, idPersona) { 
+      const turnoExistente = this.turnosPersonas.find((e) => {
+        return e.idTurno == idTurno && e.idPersona == idPersona
+      })
+      const response = await axios.delete(`https://64662c65228bd07b355ddc69.mockapi.io/turnoPersona/${turnoExistente.id}`)
+      console.log(response);
+      
+    }
   },
+  
   
 });

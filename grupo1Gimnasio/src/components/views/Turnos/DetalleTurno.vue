@@ -58,14 +58,8 @@
                   <button class="btn btn-danger" @click="deleteTurno">Borrar turno</button>
                   
                   <button class="btn btn-success" @click="updateTurno">Actualizar turno</button>
-
-                  <button class="btn btn-primary" @click="sacarTurno">Sacar Turno</button>
                 </div>
-                <div class="d-flex justify-content-center">
-                    <p style="color: red; font-size: 16px; font-weight: bold;font-family: Arial, Helvetica, sans-serif;" v-if="error1">El cupo de este turno se encuentra lleno</p>
-                    <p style="color: red; font-size: 16px; font-weight: bold;font-family: Arial, Helvetica, sans-serif;" v-if="error2">No le quedan tickets por usar</p>
-                    <p style="color: red; font-size: 16px; font-weight: bold;font-family: Arial, Helvetica, sans-serif;" v-if="error3">Ya estas anotado en este turno</p>
-                </div>
+          
             </div>
           </div>
         </div>
@@ -101,12 +95,6 @@ export default {
                turnoStore.fetchProfesores();
                turnoStore.fetchSedes();
                turnoStore.fetchActividades();
-               turnoStore.fetchTurnoById(turnoId);
-               turnoStore.fetchTurnosPersonas();
-               turnoStore.fetchUsuarios();
-               turnoStore.fetchPaquetes();
-               turnoStore.contarTurno(turnoId)
-               console.log(usuario[0]);
           });
 
          const turno = computed(() => elementStore.currentElement);
@@ -114,11 +102,7 @@ export default {
           const sedes = computed (() => turnoStore.getSedes);
           const profesores = computed (() => turnoStore.getProfesores)
           const actividades = computed (()=> turnoStore.getActividades)
-          const error1 = computed (()=> turnoStore.getError1)
-          const error2 = computed (()=> turnoStore.getError2)
-          const error3 = computed (()=> turnoStore.getError3)
-          console.log(error1.value);
-          console.log(error2.value);
+      
          const updateTurno = async () => {
               await elementStore.updateElement(url, elementStore.currentElement);
               router.push("/turnos");
@@ -128,12 +112,7 @@ export default {
               await elementStore.deleteElement(url, turnoId);
               router.push("/turnos");
          };
-         const sacarTurno = async () => {
-              await turnoStore.sacarTurno(turnoId, usuario[0].id);
-              if(!error1.value && !error2.value && !error3.value) {
-               router.push("/turnos");
-              }
-          };
+   
 
          return {
           turno,
@@ -142,10 +121,6 @@ export default {
           sedes,
           profesores,
           actividades,
-          sacarTurno,
-          error1,
-          error2,
-          error3
          };
     },
 };

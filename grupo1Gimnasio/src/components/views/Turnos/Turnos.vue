@@ -8,6 +8,11 @@
       <button class="btn btn-danger" v-on:click="reiniciar">Reiniciar</button>
       </form>
     </div>
+    <div class="d-flex justify-content-center">
+          <p style="color: red; font-size: 16px; font-weight: bold;font-family: Arial, Helvetica, sans-serif;" v-if="error1">El cupo de este turno se encuentra lleno</p>
+          <p style="color: red; font-size: 16px; font-weight: bold;font-family: Arial, Helvetica, sans-serif;" v-if="error2">No le quedan tickets por usar</p>
+          <p style="color: red; font-size: 16px; font-weight: bold;font-family: Arial, Helvetica, sans-serif;" v-if="error3">Ya estas anotado en este turno</p>
+        </div>
     <table class="table table-striped table-bordered">
       <thead>
         <tr>
@@ -29,7 +34,11 @@
           <td v-else></td>
           <td >{{ turno.fecha }}</td>
          
-          <td><router-link :to="`/turnos/${turno.id}`"><strong>Ver detalles</strong></router-link></td>
+          <td v-if="usuario && usuario[0].administrador"><router-link :to="`/turnos/${turno.id}`"><strong>Ver detalles</strong></router-link></td>
+          <td v-if="usuario">  
+            <button v-if="sacasteElTurno(turno.id)" class="btn btn-primary" @click="sacarTurno(turno.id)">Sacar Turno</button>
+            <button v-else class="btn btn-danger" @click="cancelarTurno(turno.id)">Cancelar Turno</button>
+          </td>
         </tr>
       </tbody>
       </table>
@@ -40,22 +49,40 @@
    </template>
    
    <script>
-   import { useElementStore } from "../../../stores/Common";
-   import { useTurnoStore } from "../../../stores/turnos";
-   import { onMounted, computed } from "vue";
+    import { useElementStore } from "../../../stores/Common";
+    import { useTurnoStore } from "../../../stores/turnos";
+    import { useRouter } from "vue-router";
+    import { useRoute } from "vue-router";
+    import { onMounted, computed } from "vue";
+    import Cookies from "js-cookie";
    
    export default {
      setup() {
-       const elementStore = useElementStore()
-       const turnoStore = useTurnoStore()
-       const busqueda = "";
+        var usuario = Cookies.get('usuario');
+        if (usuario) {
+          usuario = JSON.parse(usuario)
+        }
+        const elementStore = useElementStore()
+        const turnoStore = useTurnoStore()
+        const busqueda = "";
+        const router = useRouter();
+        const route = useRoute();
    
        onMounted(async () => {
             await turnoStore.fetchProfesores();
             await turnoStore.fetchSedes();
             await turnoStore.fetchActividades();
-            await turnoStore.fetchTurnos()        
+            await turnoStore.fetchTurnos()
+            await turnoStore.fetchTurnosPersonas();
+            await turnoStore.fetchUsuarios();
+            await turnoStore.fetchPaquetes();
+            //await turnoStore.contarTurno(turnoId)
+               //console.log(usuario[0]);
        })
+          const error1 = computed (()=> turnoStore.getError1)
+          const error2 = computed (()=> turnoStore.getError2)
+          const error3 = computed (()=> turnoStore.getError3)
+          //console.log(turnosPersonas.value);
        
        function buscar(){
       elementStore.filtrarXString(this.busqueda);
@@ -64,13 +91,42 @@
        function reiniciar(){
       location.reload();
       }
+      const sacarTurno = async (idTurno) => {
+              await turnoStore.sacarTurno(idTurno, usuario[0].id);
+              if(!error1.value && !error2.value && !error3.value) {
+                window.alert("Pudiste sacar el turno correctamente")
+                location.reload();
+              }
+      };
+      const sacasteElTurno = computed(() => (idTurno) => {
+        const  turnoExistente = turnoStore.getTurnosPersonas.find((e) => {
+                return e.idTurno == idTurno && e.idPersona == usuario[0].id
+        })
+        if(turnoExistente == null) {
+          return true
+        } else{
+          return false
+        }
+      })
+      const cancelarTurno = async (idTurno) => {
+              await turnoStore.cancelarTurno(idTurno, usuario[0].id);
+              window.alert("Pudiste cancelar el turno correctamente")
+              location.reload();
 
+      }
       const turnos = computed (() => turnoStore.getTurnos);
        return {
         turnos,
         buscar,
         busqueda,
-        reiniciar
+        reiniciar,
+        sacarTurno,
+        sacasteElTurno,
+        cancelarTurno,
+        usuario,
+        error1,
+        error2,
+        error3
        }
      },
    }
