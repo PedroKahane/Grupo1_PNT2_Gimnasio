@@ -23,6 +23,7 @@
           <td><router-link :to="`/sedes/${sede.idSede}`"><strong>Ver detalles</strong></router-link></td>
         </tr>
       </tbody>
+      <br>
       <button class="btn btn-danger"><router-link to="/crearSede" class="nav-item nav-link" href="#">Crear Sede</router-link></button>
     </table>
   </div>

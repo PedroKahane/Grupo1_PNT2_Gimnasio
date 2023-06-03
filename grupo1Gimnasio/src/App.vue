@@ -12,11 +12,19 @@
           <router-link to="/usuarios" class="nav-item nav-link" href="#">Usuarios</router-link>
         </div>
         <div class="navbar-nav ml-auto">
-          <router-link v-if="usuario != null" :to="`/usuarios/${id}`" class="nav-item nav-link" href="#">{{ nombreUsuario }}</router-link>
-          <router-link v-if="usuario == null" to="/login" class="nav-item nav-link">Iniciar Sesión</router-link>
-          <router-link v-if="usuario == null" to="/crearUsuario" class="nav-item nav-link">Registrate</router-link>
-          <router-link v-else to="/" class="nav-item nav-link" v-on:click="cerrarSesion">Log out</router-link>
+          <router-link v-if="usuario != null" :to="`/usuarios/${id}`" class="nav-item nav-link d-flex align-items-center"
+            href="#">
+            <span class="ml-2">{{ nombreUsuario }}</span>
+            <img src="../src/icons/User Icon.svg" style="width: 20px; height: 20px; margin-left: 8px; opacity: 0.8;"
+              alt="Icono de Usuario">
+          </router-link>
+          <div v-else class="d-flex">
+            <router-link to="/login" class="nav-item nav-link mr-2">Iniciar Sesión</router-link>
+            <router-link to="/crearUsuario" class="nav-item nav-link">Registrate</router-link>
+          </div>
+          <router-link v-if="usuario != null" to="/" class="nav-item nav-link" v-on:click="cerrarSesion">Log out</router-link>
         </div>
+
       </div>
     </nav>
 
