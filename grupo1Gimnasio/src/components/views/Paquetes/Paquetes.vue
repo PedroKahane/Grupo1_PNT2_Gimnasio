@@ -73,7 +73,7 @@ export default {
           //CONFIRM-CONFIRM-CONFIRM-CONFIRM-CONFIRM-CONFIRM
           alert("Se actualizaron los tickets en tu cuenta");
           generalStore.agregarTickets(tickets);
-          router.push("/");
+          //router.push("/");
         } else {
           alert('Compra cancelada');
         }
