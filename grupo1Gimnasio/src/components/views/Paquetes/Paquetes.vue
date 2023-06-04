@@ -8,6 +8,9 @@
         <button class="btn btn-danger" v-on:click="reiniciar">Reiniciar</button>
       </form>
     </div>
+    <div class="d-flex flex-column align-items-center">
+      <h4 class="text-center" v-if="usuario">Tickets restantes: {{ user.ticketsRestantes }}</h4>
+    </div>
     <table class="table table-striped table-bordered">
       <thead>
         <tr>
@@ -41,6 +44,7 @@ import { useElementStore } from "../../../stores/Common";
 import { useGeneralStore } from "../../../stores/General";
 import { onMounted } from "vue";
 import Cookies from "js-cookie";
+import { computed } from "vue";
 import { useRouter } from "vue-router";
 
 export default {
@@ -49,6 +53,16 @@ export default {
     const generalStore = useGeneralStore();
     const busqueda = "";
     const router = useRouter();
+
+    var usuario = Cookies.get('usuario');
+    if (usuario) {
+      usuario = JSON.parse(usuario)
+      usuario = usuario[0]
+      elementStore.fetchElementById("https://645ae28c95624ceb210d09ed.mockapi.io/Usuarios", usuario.id);
+      var user = computed(() => elementStore.currentElement);
+      //user = usuario.value;
+      //console.log(user);
+    }
 
     onMounted(() => {
       elementStore.currentElement = null
@@ -73,7 +87,7 @@ export default {
           //CONFIRM-CONFIRM-CONFIRM-CONFIRM-CONFIRM-CONFIRM
           alert("Se actualizaron los tickets en tu cuenta");
           generalStore.agregarTickets(tickets);
-          //router.push("/");
+          router.push("/");
         } else {
           alert('Compra cancelada');
         }
@@ -85,7 +99,9 @@ export default {
       buscar,
       busqueda,
       reiniciar,
-      actualizarTickets
+      actualizarTickets,
+      user,
+      usuario
     }
   },
 }
