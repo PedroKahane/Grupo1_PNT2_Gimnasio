@@ -29,7 +29,7 @@
 </template>
    
    <script>
-   import { useElementStore } from "../../../stores/Common";
+   import { useElementStore } from "../../../stores/Store";
    import { onMounted } from "vue";
    
    export default {

@@ -33,10 +33,12 @@
 </template>
 <script>
 import Cookies from "js-cookie";
+import {removeCookie,getCookie} from './stores/Cookies'
 
 export default {
   setup() {
-    const usuario = Cookies.get('usuario');
+    const usuario =getCookie() ;
+    console.log(usuario)
     var admin = null;
     var nombreUsuario = null;
     var id = null;
@@ -50,8 +52,7 @@ export default {
     }
 
     function cerrarSesion() {
-      document.cookie = 'usuario' + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-      location.reload();
+      removeCookie();
     }
 
     return {

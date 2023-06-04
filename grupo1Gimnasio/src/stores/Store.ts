@@ -4,10 +4,8 @@ import axios from 'axios'
 
 export const useElementStore = defineStore('element', {
   state: () => ({
-    
     elements: [],
-    currentElement: {},
-    nombre:""
+    currentElement: {}
   }),
 
   getters: {
@@ -25,7 +23,6 @@ export const useElementStore = defineStore('element', {
       try {
         const response = await axios.get(url)
         this.elements = response.data
-        //console.log(response)
       } catch (error) {
         console.error('Error fetching elements:', error)
       }

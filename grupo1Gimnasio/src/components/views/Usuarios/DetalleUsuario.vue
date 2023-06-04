@@ -84,37 +84,36 @@
 </template>
 
 <script>
-import { useElementStore } from "../../../stores/Common";
+import { useElementStore } from "../../../stores/Store";
 import { useGeneralStore } from "../../../stores/General";
-import { useRouter } from "vue-router";
-import { useRoute } from "vue-router";
+import { useRouter,useRoute } from "vue-router";
 import { computed } from "vue";
 
 export default {
      setup() {
-          const elementStore = useElementStore();
-          const generalStore = useGeneralStore();
+          const userStore = useElementStore();
+          const actividadesStore = useGeneralStore();
           const router = useRouter();
           const route = useRoute();
           const userId = route.params.id.toString();
           const url = "https://645ae28c95624ceb210d09ed.mockapi.io/Usuarios";
 
-          elementStore.fetchElementById(url, userId).then(() => {
-               generalStore.fetchElementById(
+          userStore.fetchElementById(url, userId).then(() => {
+               actividadesStore.fetchElementById(
                     "https://6460fabb491f9402f49bfa55.mockapi.io/Actividades",
-                    elementStore.currentElement.idPaquete
+                    userStore.currentElement.idPaquete
                );
           });
-          const user = computed(() => elementStore.currentElement);
-          const nombrePaquete = computed(() => generalStore.element);
+          const user = computed(() => userStore.currentElement);
+          const nombrePaquete = computed(() => actividadesStore.element);
 
           const updateUsuario = async () => {
-               await elementStore.updateElement(url, elementStore.currentElement);
+               await userStore.updateElement(url, userStore.currentElement);
                router.push("/usuarios");
           };
 
           const deleteUsuario = async () => {
-               await elementStore.deleteElement(url, userId);
+               await userStore.deleteElement(url, userId);
                router.push("/usuarios");
           };
 
