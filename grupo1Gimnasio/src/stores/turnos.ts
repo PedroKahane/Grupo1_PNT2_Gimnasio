@@ -57,7 +57,7 @@ export const useTurnoStore = defineStore('turno', {
         turnosExtendido.forEach(element => {
          //console.log(element.idSede);
 
-          const sede = this.sedes.find((e) => e.idSede === element.idSede)
+          const sede = this.sedes.find((e) => e.idSede == element.idSede)
           //console.log(sede);
           element.sede = sede
           element.fecha = new Date(element.fecha).toLocaleDateString('es-ES',   {day: '2-digit',
@@ -173,13 +173,12 @@ export const useTurnoStore = defineStore('turno', {
         }
         const turno = this.turnos.find((e) => e.id === idTurno)
         const turnosMaximos = turno.cantPersonasLim
-        //console.log(this.contador);
+        this.contarTurno(idTurno);
+        console.log(this.contador);
         const usuario = this.usuarios.find((e) => e.id === idPersona)
-        const paquete = this.paquetes.find((e) => e.id == usuario.idPaquete)
-        console.log(usuario.idPaquete);
         
           try {
-            if (usuario.ticketUsados >= paquete.cantTickets) {
+            if (usuario.ticketsRestantes == 0) {
               console.log("no quedan tickets");
               
               this.error2 = true
@@ -189,10 +188,9 @@ export const useTurnoStore = defineStore('turno', {
                   const turnoExistente = this.turnosPersonas.find((e) => {return e.idTurno == idTurno && e.idPersona == idPersona})
                   if(turnoExistente == null) {
                     const response = await axios.post(`https://64662c65228bd07b355ddc69.mockapi.io/turnoPersona`, turnoNuevo)
-                    console.log(usuario.ticketUsados);
                   
-                    usuario.ticketUsados++
-                    console.log(usuario.ticketUsados);
+                    usuario.ticketsRestantes--
+                    console.log(usuario.ticketsRestantes);
                     const response2 = await axios.put(`https://645ae28c95624ceb210d09ed.mockapi.io/Usuarios/${idPersona}`, usuario)
                     console.log(response2);
                     console.log(response)
@@ -229,8 +227,15 @@ export const useTurnoStore = defineStore('turno', {
       const turnoExistente = this.turnosPersonas.find((e) => {
         return e.idTurno == idTurno && e.idPersona == idPersona
       })
-      const response = await axios.delete(`https://64662c65228bd07b355ddc69.mockapi.io/turnoPersona/${turnoExistente.id}`)
-      console.log(response);
+      if(turnoExistente){
+        const usuario = this.usuarios.find((e) => e.id === idPersona)
+        usuario.ticketsRestantes++
+        const response2 = await axios.put(`https://645ae28c95624ceb210d09ed.mockapi.io/Usuarios/${idPersona}`, usuario)
+        console.log(response2);
+        const response = await axios.delete(`https://64662c65228bd07b355ddc69.mockapi.io/turnoPersona/${turnoExistente.id}`)
+        console.log(response);
+      }
+    
       
     }
   },

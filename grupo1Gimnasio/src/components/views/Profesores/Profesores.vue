@@ -13,14 +13,12 @@
         <tr>
           <th>Nombre:</th>
           <th>Apellido:</th>
-          <th>id:</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="profesor in elementStore.getElements" :key="profesor.id">
           <td>{{ profesor.nombre }}</td>
           <td>{{ profesor.apellido }}</td>
-          <td>{{ profesor.id }}</td>
         <td><router-link :to="`/profesores/${profesor.id}`"><strong>Ver detalles</strong></router-link></td>
         </tr>
       </tbody>

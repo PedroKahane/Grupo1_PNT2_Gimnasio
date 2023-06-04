@@ -12,13 +12,10 @@
       <input class="m-2" type="text" v-model="turno.profesor">
       <br />
       <strong>fecha </strong>
-      <input class="m-2" type="text" v-model="turno.fecha">
+      <input class="m-2" type="datetime-local" v-model="turno.fecha">
       <br />
       <strong>cantPersonasLim </strong>
       <input class="m-2" type="text" v-model="turno.cantPersonasLim">
-      <br />
-      <strong>Precio </strong>
-      <input class="m-2" type="text" v-model="turno.precio">
       <br />
       <button class="m-3" @click="createTurno">Crear Turno</button>
     </div>

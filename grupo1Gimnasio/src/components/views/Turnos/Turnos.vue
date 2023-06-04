@@ -8,7 +8,8 @@
       <button class="btn btn-danger" v-on:click="reiniciar">Reiniciar</button>
       </form>
     </div>
-    <div class="d-flex justify-content-center">
+    <div class="d-flex flex-column align-items-center">
+          <h5 v-if="usuario">Tickets restantes: {{ user.ticketsRestantes }}</h5>
           <p style="color: red; font-size: 16px; font-weight: bold;font-family: Arial, Helvetica, sans-serif;" v-if="error1">El cupo de este turno se encuentra lleno</p>
           <p style="color: red; font-size: 16px; font-weight: bold;font-family: Arial, Helvetica, sans-serif;" v-if="error2">No le quedan tickets por usar</p>
           <p style="color: red; font-size: 16px; font-weight: bold;font-family: Arial, Helvetica, sans-serif;" v-if="error3">Ya estas anotado en este turno</p>
@@ -16,16 +17,14 @@
     <table class="table table-striped table-bordered">
       <thead>
         <tr>
-          <th>Turno:</th>
           <th>Profesor:</th>
           <th>Sede:</th>
           <th>Actividad:</th>
-          <th>fecha:</th>
+          <th>Fecha:</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="turno in turnos" :key="turno.id">
-          <td >Turno {{ turno.id }}</td>
           <td v-if="turno.profesor != undefined">{{ turno.profesor.nombre }} {{ turno.profesor.apellido }}</td>
           <td v-else></td>
           <td v-if="turno.sede != undefined"> {{ turno.sede.nombre }}</td>
@@ -34,7 +33,7 @@
           <td v-else></td>
           <td >{{ turno.fecha }}</td>
          
-          <td v-if="usuario && usuario[0].administrador"><router-link :to="`/turnos/${turno.id}`"><strong>Ver detalles</strong></router-link></td>
+          <td v-if="usuario && usuario.administrador"><router-link :to="`/turnos/${turno.id}`"><strong>Ver detalles</strong></router-link></td>
           <td v-if="usuario">  
             <button v-if="sacasteElTurno(turno.id)" class="btn btn-primary" @click="sacarTurno(turno.id)">Sacar Turno</button>
             <button v-else class="btn btn-danger" @click="cancelarTurno(turno.id)">Cancelar Turno</button>
@@ -42,7 +41,7 @@
         </tr>
       </tbody>
       </table>
-      <button class="btn btn-danger"><router-link to="/crearTurno" class="nav-item nav-link" href="#">Crear Turno</router-link></button>
+      <button v-if="usuario && usuario.administrador" class="btn btn-danger"><router-link to="/crearTurno" class="nav-item nav-link" href="#">Crear Turno</router-link></button>
       </div>
 
    
@@ -58,15 +57,21 @@
    
    export default {
      setup() {
-        var usuario = Cookies.get('usuario');
-        if (usuario) {
-          usuario = JSON.parse(usuario)
-        }
+    
         const elementStore = useElementStore()
         const turnoStore = useTurnoStore()
         const busqueda = "";
         const router = useRouter();
         const route = useRoute();
+        var usuario = Cookies.get('usuario');
+        if (usuario) {
+          usuario = JSON.parse(usuario)
+          usuario = usuario[0]
+          elementStore.fetchElementById("https://645ae28c95624ceb210d09ed.mockapi.io/Usuarios", usuario.id);
+          var user = computed(() => elementStore.currentElement);
+          //user = usuario.value;
+          console.log(user);
+        }
    
        onMounted(async () => {
             await turnoStore.fetchProfesores();
@@ -77,7 +82,7 @@
             await turnoStore.fetchUsuarios();
             await turnoStore.fetchPaquetes();
             //await turnoStore.contarTurno(turnoId)
-               //console.log(usuario[0]);
+     
        })
           const error1 = computed (()=> turnoStore.getError1)
           const error2 = computed (()=> turnoStore.getError2)
@@ -92,15 +97,16 @@
       location.reload();
       }
       const sacarTurno = async (idTurno) => {
-              await turnoStore.sacarTurno(idTurno, usuario[0].id);
+              await turnoStore.sacarTurno(idTurno, usuario.id);
               if(!error1.value && !error2.value && !error3.value) {
                 window.alert("Pudiste sacar el turno correctamente")
                 location.reload();
               }
       };
+
       const sacasteElTurno = computed(() => (idTurno) => {
         const  turnoExistente = turnoStore.getTurnosPersonas.find((e) => {
-                return e.idTurno == idTurno && e.idPersona == usuario[0].id
+                return e.idTurno == idTurno && e.idPersona == usuario.id
         })
         if(turnoExistente == null) {
           return true
@@ -109,7 +115,7 @@
         }
       })
       const cancelarTurno = async (idTurno) => {
-              await turnoStore.cancelarTurno(idTurno, usuario[0].id);
+              await turnoStore.cancelarTurno(idTurno, usuario.id);
               window.alert("Pudiste cancelar el turno correctamente")
               location.reload();
 
@@ -124,6 +130,7 @@
         sacasteElTurno,
         cancelarTurno,
         usuario,
+        user,
         error1,
         error2,
         error3

@@ -41,17 +41,12 @@
 
               <p>
                 <strong>Fecha: </strong>
-                <input type="text" v-model="turno.fecha">
+                <input type="datetime-local" v-model="turno.fecha">
               </p>
 
               <p>
                 <strong>Límite de Personas: </strong>
                 <input type="text" v-model="turno.cantPersonasLim">
-              </p>
-
-              <p>
-                <strong>Precio: </strong> $
-                <input type="text" v-model="turno.precio">
               </p>
 
               <div class="d-flex justify-content-center">
