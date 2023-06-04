@@ -56,10 +56,7 @@ export default {
       contacto: "",
       administrador: false,
       dni: "",
-      idPaquete: "",
-      fechaVencimiento: "",
-      pago: false,
-      ticketUsados: 0,
+      ticketsRestantes: 0,
     });
     const user = computed(() => elementStore.currentElement);
     const router = useRouter();

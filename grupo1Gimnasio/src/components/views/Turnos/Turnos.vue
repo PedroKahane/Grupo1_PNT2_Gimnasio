@@ -20,7 +20,7 @@
           <th>Profesor:</th>
           <th>Sede:</th>
           <th>Actividad:</th>
-          <th>fecha:</th>
+          <th>Fecha:</th>
         </tr>
       </thead>
       <tbody>
