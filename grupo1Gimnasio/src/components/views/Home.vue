@@ -1,9 +1,9 @@
 <template>
-     <div class="container mt-3">
-          <h4 class="text-start me-auto">¡Gimnasio!</h4>
-          <div class="d-flex justify-content-end">
-               <div class="card bg-secondary text-light m-1">
-                    <div class="card-body">
+     <div class="d-flex align-items-center justify-content-end" style="position: relative;">
+          <img src="../../icons/fondo gym.png" class="w-100">
+          <div style="position: absolute; top: 10%; right: 5%; margin: 5%;">
+               <div class="card card bg-secondary text-light m-1">
+                    <div class="card-body" style="min-width: 200px;">
                          <h5><strong>Horarios</strong></h5>
                          <p>Lunes a Viernes 6h a 23h</p>
                          <p>Sábados 9h a 16h</p>
@@ -18,11 +18,11 @@
                               <li>Crossfit</li>
                          </ul>
                          <hr>
-                         <h5 class="text-center">¡No te lo pierdas!</h5>
+                         <h3 class="text-center"><strong>¡No te lo pierdas!</strong></h3>
                          <hr>
                          <p>Empezá con nuestro plan básico por solo <strong>$3500</strong></p>
                          <div class="text-center">
-                              <button class="btn btn-light align-items-center">
+                              <button class="btn btn-warning align-items-center">
                                    <router-link to="/paquetes" class="nav-item nav-link">¡Click aquí!</router-link>
                               </button>
                          </div>
@@ -30,7 +30,6 @@
                </div>
           </div>
      </div>
-     <br>
      <div class="bg-dark text-light py-4">
           <div class="container">
                <div class="text text-center">
