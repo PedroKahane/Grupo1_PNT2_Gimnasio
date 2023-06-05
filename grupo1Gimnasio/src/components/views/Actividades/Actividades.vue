@@ -34,7 +34,7 @@
    
    export default {
      setup() {
-       const elementStore = useElementStore()
+       const elementStore = useElementStore("actividades")();
        const busqueda = "";
    
        onMounted(() => {

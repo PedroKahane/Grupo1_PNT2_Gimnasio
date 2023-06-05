@@ -41,7 +41,7 @@
   
   export default {
     setup() {
-      const elementStore = useElementStore();
+      const elementStore = useElementStore("sedes")();
       const router = useRouter()
       const route = useRoute()
       const sedeId = route.params.id.toString()

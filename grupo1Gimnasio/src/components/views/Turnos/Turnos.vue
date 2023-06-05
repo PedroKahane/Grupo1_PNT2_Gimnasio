@@ -62,7 +62,7 @@
         if (usuario) {
           usuario = JSON.parse(usuario)
         }
-        const elementStore = useElementStore()
+        const elementStore = useElementStore("turnos")();
         const turnoStore = useTurnoStore()
         const busqueda = "";
         const router = useRouter();

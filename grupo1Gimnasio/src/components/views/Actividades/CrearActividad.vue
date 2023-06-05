@@ -22,7 +22,7 @@ import { onMounted, computed } from 'vue';
 
 export default {
   setup() {
-    const elementStore = useElementStore();
+    const elementStore = useElementStore("actividades")();
     const actividadStore = useActividadStore();
     elementStore.setCurrentElement({
       nombre: '',

@@ -13,7 +13,12 @@ export function getCookie(name="usuario") {
       return  cookieValue;
     }
   }
-  return null;
+  return "";
+}
+
+export function getCookieJSON(name="usuario"){
+  const cookie:string = getCookie(name)
+  return JSON.parse(cookie)
 }
 
 export function removeCookie( name ="usuario") {

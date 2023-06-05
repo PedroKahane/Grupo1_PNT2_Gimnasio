@@ -21,7 +21,7 @@ import { computed } from "vue";
 
 export default {
   setup() {
-    const elementStore = useElementStore()
+    const elementStore = useElementStore("profesores")()
     elementStore.setCurrentElement({ nombre: "", apellido: ""})
     const profesor = computed(() => elementStore.currentElement);
     const router = useRouter()

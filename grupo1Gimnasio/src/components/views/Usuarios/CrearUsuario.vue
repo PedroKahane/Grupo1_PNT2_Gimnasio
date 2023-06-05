@@ -44,7 +44,7 @@ import { computed } from "vue";
 
 export default {
   setup() {
-    const elementStore = useElementStore("Usuarios");
+    const elementStore = useElementStore("usuarios")();
     elementStore.setCurrentElement({
       nombre: "",
       apellido: "",

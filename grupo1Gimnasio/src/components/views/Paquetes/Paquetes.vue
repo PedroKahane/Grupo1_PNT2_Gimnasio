@@ -37,7 +37,7 @@
    
    export default {
      setup() {
-       const elementStore = useElementStore()
+       const elementStore = useElementStore("paquetes")();
        const busqueda = "";
    
        onMounted(() => {

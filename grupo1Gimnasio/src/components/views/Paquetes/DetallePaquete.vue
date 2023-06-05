@@ -49,7 +49,7 @@ import { computed } from "vue";
 
 export default {
     setup() {
-         const elementStore = useElementStore();
+         const elementStore = useElementStore("paquetes")();
          const router = useRouter();
          const route = useRoute();
          const paqueteId = route.params.id.toString();

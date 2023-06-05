@@ -37,7 +37,7 @@ import { onMounted } from "vue";
 
 export default {
   setup() {
-    const elementStore = useElementStore()
+    const elementStore = useElementStore("profesores")()
     const busqueda = "";
 
     onMounted(() => {

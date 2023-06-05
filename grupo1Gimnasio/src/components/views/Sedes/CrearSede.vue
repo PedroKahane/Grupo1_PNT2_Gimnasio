@@ -24,7 +24,7 @@
   
   export default {
     setup() {
-      const elementStore = useElementStore()
+      const elementStore = useElementStore("sedes")()
       elementStore.setCurrentElement({ nombre: "", ubicacion: ""})
       const sede = computed(() => elementStore.currentElement);
       const router = useRouter()

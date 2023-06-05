@@ -83,7 +83,7 @@ import Cookies from "js-cookie";
 export default {
   setup() {
     const usuario = JSON.parse(Cookies.get('usuario'));
-    const elementStore = useElementStore();
+    const elementStore = useElementStore("turnos")();
     const turnoStore = useTurnoStore();
     const router = useRouter();
     const route = useRoute();

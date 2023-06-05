@@ -85,20 +85,19 @@
 
 <script>
 import { useElementStore } from "../../../stores/Store";
-import { useGeneralStore } from "../../../stores/General";
 import { useRouter,useRoute } from "vue-router";
 import { computed } from "vue";
 
 export default {
      setup() {
-          const userStore = useElementStore();
-          const actividadesStore = useGeneralStore();
+          const userStore = useElementStore("usuarios")()
+          const actividadesStore = useElementStore("actividades")();
           const router = useRouter();
           const route = useRoute();
           const userId = route.params.id.toString();
           const url = "https://645ae28c95624ceb210d09ed.mockapi.io/Usuarios";
 
-          userStore.fetchElementById(url, userId).then(() => {
+          userStore.fetchElementById(url, userId).then((e) => {
                actividadesStore.fetchElementById(
                     "https://6460fabb491f9402f49bfa55.mockapi.io/Actividades",
                     userStore.currentElement.idPaquete

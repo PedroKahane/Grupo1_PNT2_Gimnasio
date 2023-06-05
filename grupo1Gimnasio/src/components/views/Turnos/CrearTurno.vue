@@ -33,7 +33,7 @@ import { computed } from "vue";
 
 export default {
   setup() {
-    const elementStore = useElementStore()
+    const elementStore = useElementStore("turnos")()
     elementStore.setCurrentElement({idSede:"",
     idActividad:"",
     idProfesor:"",

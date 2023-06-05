@@ -37,7 +37,7 @@ import { onMounted, computed } from 'vue'
 
 export default {
   setup() {
-    const elementStore = useElementStore()
+    const elementStore = useElementStore("sedes")()
     const busqueda = "";
 
     // Llamar al método fetchUsers al iniciar la vista

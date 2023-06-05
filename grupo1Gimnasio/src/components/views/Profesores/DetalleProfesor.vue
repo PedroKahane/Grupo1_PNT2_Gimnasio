@@ -41,7 +41,7 @@ import { computed } from "vue";
 
 export default {
      setup() {
-          const elementStore = useElementStore();
+          const elementStore = useElementStore("profesores")();
           const router = useRouter();
           const route = useRoute();
           const profesorId = route.params.id.toString();
