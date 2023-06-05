@@ -1,6 +1,6 @@
 <template>
   <header>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar shadow-sm">
       <div class="container-fluid">
         <div class="navbar-nav mr-auto">
           <router-link to="/" class="nav-item nav-link">Home</router-link>

@@ -61,26 +61,7 @@ export default {
     function reiniciar(){
       location.reload();
     }
-
-    // // funcion para actualizar tickets a final de mes
-    // var fechaActual = new Date();
-    // var ultimoDiaDelMes = new Date(fechaActual.getFullYear(), fechaActual.getMonth() + 1, 0);
-
-    // if (fechaActual.getDate() === ultimoDiaDelMes.getDate()) {
-    //   console.log("reiniciando tickets de todos los usuarios...")
-
-    //   setTimeout(() => {
-    //     const modifiedElements = elementStore.getElements.map(element => {
-    //       element.ticketUsados = 0;
-    //       return element;
-    //     });
-    //     modifiedElements.forEach(element => {
-    //       elementStore.updateElement(url, element);
-    //     });
-    //   }, 500);
-
-    // }
-    // 
+    
     return {
       elementStore,
       buscar,

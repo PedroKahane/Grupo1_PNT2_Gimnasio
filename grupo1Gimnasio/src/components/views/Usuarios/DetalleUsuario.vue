@@ -42,28 +42,16 @@
                                              v-model="user.contacto" />
                                    </p>
                                    <p>
-                                        <strong>Administrador: </strong><input type="checkbox"
-                                             v-model="user.administrador" disabled />
+                                        <strong>Administrador: </strong><input type="checkbox" v-model="user.administrador"
+                                             disabled />
                                    </p>
                                    <p>
                                         <strong>Dni: </strong><input type="number" class="form-control" v-model="user.dni"
                                              min="0" />
                                    </p>
                                    <p>
-                                        <strong>Paquete: </strong><input type="text" class="form-control"
-                                             v-model="nombrePaquete" disabled />
-                                   </p>
-                                   <p>
-                                        <strong>Vencimiento de la membresia: </strong><input type="text"
-                                             class="form-control" v-model="user.fechaVencimiento" disabled />
-                                   </p>
-                                   <p>
-                                        <strong>Pago: </strong><input type="checkbox"
-                                             v-model="user.pago" disabled />
-                                   </p>
-                                   <p>
-                                        <strong>Tickets Usados: </strong><input type="number" class="form-control"
-                                             v-model="user.ticketUsados" disabled />
+                                        <strong>Tickets restantes: </strong><input type="number" class="form-control"
+                                             v-model="user.ticketsRestantes" disabled />
                                    </p>
                                    <div class="d-flex justify-content-center">
                                         <button class="btn btn-success" @click="updateUsuario">
@@ -86,25 +74,22 @@
 <script>
 import { useElementStore } from "../../../stores/Store";
 import { useRouter,useRoute } from "vue-router";
+
 import { computed } from "vue";
 
 export default {
      setup() {
+
           const userStore = useElementStore("usuarios")()
           const actividadesStore = useElementStore("actividades")();
+
           const router = useRouter();
           const route = useRoute();
           const userId = route.params.id.toString();
           const url = "https://645ae28c95624ceb210d09ed.mockapi.io/Usuarios";
 
-          userStore.fetchElementById(url, userId).then((e) => {
-               actividadesStore.fetchElementById(
-                    "https://6460fabb491f9402f49bfa55.mockapi.io/Actividades",
-                    userStore.currentElement.idPaquete
-               );
-          });
-          const user = computed(() => userStore.currentElement);
-          const nombrePaquete = computed(() => actividadesStore.element);
+          elementStore.fetchElementById(url, userId);
+          const user = computed(() => elementStore.currentElement);
 
           const updateUsuario = async () => {
                await userStore.updateElement(url, userStore.currentElement);
@@ -120,7 +105,6 @@ export default {
                user,
                deleteUsuario,
                updateUsuario,
-               nombrePaquete,
           };
      },
 };
