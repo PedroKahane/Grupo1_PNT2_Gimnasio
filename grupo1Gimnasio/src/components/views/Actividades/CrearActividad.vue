@@ -15,14 +15,14 @@
 </template>
 
 <script>
-import { useElementStore } from '../../../stores/Common';
+import { useElementStore } from '../../../stores/Store';
 import { useActividadStore } from '../../../stores/actividades';
 import { useRouter } from 'vue-router';
 import { onMounted, computed } from 'vue';
 
 export default {
   setup() {
-    const elementStore = useElementStore();
+    const elementStore = useElementStore("actividades")();
     const actividadStore = useActividadStore();
     elementStore.setCurrentElement({
       nombre: '',

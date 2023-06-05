@@ -36,8 +36,23 @@
       <button class="btn btn-danger"><router-link to="/crearPaquete" class="nav-item nav-link" href="#">Crear
           Paquete</router-link></button>
     </table>
+<<<<<<< HEAD
+    </div>
+     
+   </template>
+   
+   <script>
+   import { useElementStore } from "../../../stores/Store";
+   import { onMounted } from "vue";
+   
+   export default {
+     setup() {
+       const elementStore = useElementStore("paquetes")();
+       const busqueda = "";
+=======
   </div>
 </template>
+>>>>>>> master
    
 <script>
 import { useElementStore } from "../../../stores/Common";
@@ -49,7 +64,7 @@ import { useRouter } from "vue-router";
 
 export default {
   setup() {
-    const elementStore = useElementStore();
+    const elementStore = useElementStore("paquetes")();
     const generalStore = useGeneralStore();
     const busqueda = "";
     const router = useRouter();

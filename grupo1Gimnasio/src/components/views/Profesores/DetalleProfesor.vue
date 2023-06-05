@@ -34,14 +34,14 @@
 </template>
 
 <script>
-import { useElementStore } from "../../../stores/Common";
+import { useElementStore } from "../../../stores/Store";
 import { useRouter } from "vue-router";
 import { useRoute } from "vue-router";
 import { computed } from "vue";
 
 export default {
      setup() {
-          const elementStore = useElementStore();
+          const elementStore = useElementStore("profesores")();
           const router = useRouter();
           const route = useRoute();
           const profesorId = route.params.id.toString();

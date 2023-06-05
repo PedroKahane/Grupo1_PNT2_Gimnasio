@@ -35,7 +35,8 @@
 </template>
 
 <script>
-import { sessionStore } from "../../stores/session";
+// import { sessionStore } from "../../stores/session";
+import { getCookie,setCookie } from "../../stores/Cookies";
 import { useRouter } from "vue-router";
 import axios from 'axios'
 
@@ -45,7 +46,6 @@ export default {
       usuario: "",
       password: "",
       mensaje: "",
-      storeSession: sessionStore(),
       router: useRouter(),
     };
   },
@@ -61,7 +61,7 @@ export default {
         axios.get(url).then(response => {
           const user = response.data.filter(user => user.mail === json.usuario && user.password === json.password);
           if (user.length > 0) {
-            this.storeSession.login(user);
+            setCookie(user);
             this.$router.push('/').then(() => { location.reload() });
           } else { this.mensaje = "Mail o Contraseña incorrectos."; }
         })

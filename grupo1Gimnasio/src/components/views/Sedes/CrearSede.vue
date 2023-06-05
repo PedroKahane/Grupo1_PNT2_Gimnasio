@@ -14,7 +14,7 @@
   </template>
   
   <script>
-  import { useElementStore } from '../../../stores/Common';
+  import { useElementStore } from '../../../stores/Store';
   import { useRouter } from 'vue-router'
   import {useRoute} from 'vue-router'
   import { computed } from "vue";
@@ -24,7 +24,7 @@
   
   export default {
     setup() {
-      const elementStore = useElementStore()
+      const elementStore = useElementStore("sedes")()
       elementStore.setCurrentElement({ nombre: "", ubicacion: ""})
       const sede = computed(() => elementStore.currentElement);
       const router = useRouter()

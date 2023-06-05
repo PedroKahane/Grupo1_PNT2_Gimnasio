@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import Cookies from "js-cookie";
 import axios from 'axios'
-import { useElementStore } from "../stores/Common";
+import { useElementStore } from "../stores/Store";
 
 export const useGeneralStore = defineStore('general', {
   state: () => ({
@@ -9,7 +9,7 @@ export const useGeneralStore = defineStore('general', {
   }),
   actions: {
     async agregarTickets(tickets) {
-      const elementStore = useElementStore();
+      const elementStore = useElementStore("usuarios")();
       const url = "https://645ae28c95624ceb210d09ed.mockapi.io/Usuarios";
 
       var usuario = Cookies.get('usuario');

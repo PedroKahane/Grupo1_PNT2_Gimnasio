@@ -40,12 +40,12 @@
 </template>
 
 <script>
-import { useElementStore } from "../../../stores/Common";
+import { useElementStore } from "../../../stores/Store";
 import { onMounted } from "vue";
 
 export default {
   setup() {
-    const elementStore = useElementStore()
+    const elementStore = useElementStore("usuarios")()
     const url = "https://645ae28c95624ceb210d09ed.mockapi.io/Usuarios";
     const busqueda = "";
 

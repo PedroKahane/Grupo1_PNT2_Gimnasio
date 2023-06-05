@@ -1,13 +1,13 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
+import { } from "../utils/Auth";
 //import { promises } from 'dns'
 
-export const useElementStore = defineStore('element', {
+export function  useElementStore  (nombreStore) {
+  return defineStore(nombreStore, {
   state: () => ({
-    
-    elements: [],
-    currentElement: {},
-    nombre:""
+    elements: null,
+    currentElement: null
   }),
 
   getters: {
@@ -22,20 +22,20 @@ export const useElementStore = defineStore('element', {
 
   actions: {
     async fetchElements(url) {
+    if(!this.elements){
+      console.log("elementssss", this.elements); 
       try {
         const response = await axios.get(url)
         this.elements = response.data
-        //console.log(response)
       } catch (error) {
         console.error('Error fetching elements:', error)
       }
+    }
     },
     setCurrentElement(value) {
-      console.log(this)
       this.currentElement = value;
     },
     setElements(value) {
-      console.log(value)
       this.elements = value;
     },
     async fetchElementById(url, id) {
@@ -80,3 +80,4 @@ export const useElementStore = defineStore('element', {
     }
   },
 })
+}

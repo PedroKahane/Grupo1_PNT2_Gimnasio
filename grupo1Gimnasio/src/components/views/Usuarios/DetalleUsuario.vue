@@ -72,30 +72,32 @@
 </template>
 
 <script>
-import { useElementStore } from "../../../stores/Common";
-import { useRouter } from "vue-router";
-import { useRoute } from "vue-router";
+import { useElementStore } from "../../../stores/Store";
+import { useRouter,useRoute } from "vue-router";
+
 import { computed } from "vue";
 
 export default {
      setup() {
-          const elementStore = useElementStore();
+
+          const userStore = useElementStore("usuarios")()
+          const actividadesStore = useElementStore("actividades")();
+
           const router = useRouter();
           const route = useRoute();
           const userId = route.params.id.toString();
           const url = "https://645ae28c95624ceb210d09ed.mockapi.io/Usuarios";
 
           elementStore.fetchElementById(url, userId);
-
           const user = computed(() => elementStore.currentElement);
 
           const updateUsuario = async () => {
-               await elementStore.updateElement(url, elementStore.currentElement);
+               await userStore.updateElement(url, userStore.currentElement);
                router.push("/usuarios");
           };
 
           const deleteUsuario = async () => {
-               await elementStore.deleteElement(url, userId);
+               await userStore.deleteElement(url, userId);
                router.push("/usuarios");
           };
 

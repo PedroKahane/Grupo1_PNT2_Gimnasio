@@ -50,23 +50,23 @@
 </template>
    
 <script>
-import { useElementStore } from "../../../stores/Common";
+import { useElementStore } from "../../../stores/Store";
 import { useTurnoStore } from "../../../stores/turnos";
 import { useRouter } from "vue-router";
 import { useRoute } from "vue-router";
 import { onMounted, computed } from "vue";
-import Cookies from "js-cookie";
+import { getCookie,getCookieJSON } from "../../stores/Cookies";
 
 export default {
   setup() {
 
-    const elementStore = useElementStore()
+    const elementStore = useElementStore("usuarios")()
     const turnoStore = useTurnoStore()
     const busqueda = "";
     const router = useRouter();
     const route = useRoute();
-    var usuario = Cookies.get('usuario');
-    if (usuario) {
+    var usuario = getCookie();
+    if (!!usuario) {
       usuario = JSON.parse(usuario)
       usuario = usuario[0]
       elementStore.fetchElementById("https://645ae28c95624ceb210d09ed.mockapi.io/Usuarios", usuario.id);
