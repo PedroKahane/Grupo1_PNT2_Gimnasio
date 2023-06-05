@@ -78,7 +78,7 @@ const routes = [
     path: "/crearUsuario",
     component: CrearUsuario,
     beforeEnter: (to, from, next) => {
-      if (isAuthenticated() && isAdmin()) {
+      if (!isAuthenticated()) {
         next();
       } else {
         next({ name: "Unauthorized" });

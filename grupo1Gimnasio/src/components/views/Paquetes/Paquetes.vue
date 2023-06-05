@@ -18,7 +18,7 @@
           <th>Precio:</th>
           <th>Cantidad Tickets:</th>
           <th></th>
-          <th></th>
+          <th>Detalles:</th>
         </tr>
       </thead>
       <tbody>
