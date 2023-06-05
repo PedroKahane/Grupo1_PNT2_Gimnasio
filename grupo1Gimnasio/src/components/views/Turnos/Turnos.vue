@@ -10,9 +10,12 @@
     </div>
     <div class="d-flex flex-column align-items-center">
       <h4 class="text-center" v-if="usuario">Tickets restantes: {{ user.ticketsRestantes }}</h4>
-      <p class="alert alert-danger alert-dismissible alert-sm mb-0 text-center" v-if="error1"><strong>El cupo de esteturno se encuentra lleno</strong></p>
-      <p class="alert alert-danger alert-dismissible text-center" v-if="error2"><strong>No le quedan tickets por usar</strong></p>
-      <p class="alert alert-danger alert-dismissible alert-sm mb-0 text-center" v-if="error3"><strong>Ya estás anotado en este turno</strong></p>
+      <p class="alert alert-danger alert-dismissible alert-sm mb-0 text-center" v-if="error1"><strong>El cupo de esteturno
+          se encuentra lleno</strong></p>
+      <p class="alert alert-danger alert-dismissible text-center" v-if="error2"><strong>No le quedan tickets por
+          usar</strong></p>
+      <p class="alert alert-danger alert-dismissible alert-sm mb-0 text-center" v-if="error3"><strong>Ya estás anotado en
+          este turno</strong></p>
     </div>
     <table class="table table-striped table-bordered">
       <thead>
@@ -22,6 +25,7 @@
           <th>Actividad:</th>
           <th>Fecha:</th>
           <th v-if="usuario"></th>
+          <th>Detalles:</th>
         </tr>
       </thead>
       <tbody>
@@ -33,14 +37,13 @@
           <td v-if="turno.actividad != undefined">{{ turno.actividad.nombre }}</td>
           <td v-else></td>
           <td>{{ turno.fecha }}</td>
-
-          <td v-if="usuario && usuario.administrador"><router-link :to="`/turnos/${turno.id}`"><strong>Ver
-                detalles</strong></router-link></td>
           <td v-if="usuario">
             <button v-if="sacasteElTurno(turno.id)" class="btn btn-primary" @click="sacarTurno(turno.id)">Sacar
               Turno</button>
             <button v-else class="btn btn-danger" @click="cancelarTurno(turno.id)">Cancelar Turno</button>
           </td>
+          <td v-if="usuario && usuario.administrador"><router-link :to="`/turnos/${turno.id}`"><strong>Ver
+                detalles</strong></router-link></td>
         </tr>
       </tbody>
     </table>
@@ -55,7 +58,7 @@ import { useTurnoStore } from "../../../stores/turnos";
 import { useRouter } from "vue-router";
 import { useRoute } from "vue-router";
 import { onMounted, computed } from "vue";
-import { getCookie,getCookieJSON } from "../../../stores/Cookies";
+import { getCookie, getCookieJSON } from "../../../stores/Cookies";
 
 export default {
   setup() {
@@ -98,11 +101,13 @@ export default {
     function reiniciar() {
       location.reload();
     }
+
     const sacarTurno = async (idTurno) => {
-      await turnoStore.sacarTurno(idTurno, usuario.id);
-      if (!error1.value && !error2.value && !error3.value) {
-        window.alert("Pudiste sacar el turno correctamente")
-        location.reload();
+      if (elementStore.confirm("sacar", "obtenido", "Turno")) {
+        await turnoStore.sacarTurno(idTurno, usuario.id);
+        if (!error1.value && !error2.value && !error3.value) {
+          location.reload();
+        }
       }
     };
 
@@ -116,11 +121,12 @@ export default {
         return false
       }
     })
-    const cancelarTurno = async (idTurno) => {
-      await turnoStore.cancelarTurno(idTurno, usuario.id);
-      window.alert("Pudiste cancelar el turno correctamente")
-      location.reload();
 
+    const cancelarTurno = async (idTurno) => {
+      if(elementStore.confirm("cancelar", "cancelado", "Turno")){
+        await turnoStore.cancelarTurno(idTurno, usuario.id);
+        location.reload();
+      }
     }
     const turnos = computed(() => turnoStore.getTurnos);
     return {

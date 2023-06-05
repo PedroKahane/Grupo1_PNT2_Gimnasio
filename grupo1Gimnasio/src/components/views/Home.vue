@@ -89,7 +89,7 @@
                     <h4>¡Seguinos!</h4>
                </div>
                <div id="footer_social-media">
-                    <a href="http://whatsapp.com" target="_blank">
+                    <a href="https://www.whatsapp.com/?lang=es" target="_blank">
                          <ion-icon id="logo-whatsapp" name="logo-whatsapp"></ion-icon>
                     </a>
 

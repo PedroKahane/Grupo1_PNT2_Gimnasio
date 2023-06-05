@@ -13,6 +13,7 @@
         <tr>
           <th>Nombre:</th>
           <th>Apellido:</th>
+          <th>Detalles:</th>
         </tr>
       </thead>
       <tbody>

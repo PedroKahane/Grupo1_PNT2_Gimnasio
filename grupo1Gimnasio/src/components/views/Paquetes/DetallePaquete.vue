@@ -25,9 +25,8 @@
                 
 
                 <div class="d-flex justify-content-center">
-                  <button class="btn btn-danger" @click="deletePaquete">Borrar paquete</button>
-                  
                   <button class="btn btn-success" @click="updatePaquete">Actualizar paquete</button>
+                  <button class="btn btn-danger" @click="deletePaquete">Borrar paquete</button>
                 </div>
             </div>
           </div>
@@ -60,13 +59,17 @@ export default {
          const paquete = computed(() => elementStore.currentElement);
 
          const updatePaquete = async () => {
-              await elementStore.updateElement(url, elementStore.currentElement);
-              router.push("/paquetes");
+          if(elementStore.confirm("modificar", "modificado", "Paquete")){
+            await elementStore.updateElement(url, elementStore.currentElement);
+            router.push("/paquetes");
+          }
          };
 
          const deletePaquete = async () => {
-              await elementStore.deleteElement(url, paqueteId);
-              router.push("/paquetes");
+          if(elementStore.confirm("modificar", "modificado", "Paquete")){
+            await elementStore.deleteElement(url, paqueteId);
+            router.push("/paquetes");
+          }
          };
 
          return {

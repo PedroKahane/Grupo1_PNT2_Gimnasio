@@ -50,9 +50,8 @@
               </p>
 
               <div class="d-flex justify-content-center">
-                <button class="btn btn-danger" @click="deleteTurno">Borrar turno</button>
-
                 <button class="btn btn-success" @click="updateTurno">Actualizar turno</button>
+                <button class="btn btn-danger" @click="deleteTurno">Borrar turno</button>
               </div>
 
             </div>
@@ -99,16 +98,19 @@ export default {
     const actividades = computed(() => turnoStore.getActividades)
 
     const updateTurno = async () => {
-      await elementStore.updateElement(url, elementStore.currentElement);
-      router.push("/turnos");
+      if(elementStore.confirm("modificar", "modificado", "Turno")){
+        await elementStore.updateElement(url, elementStore.currentElement);
+        router.push("/turnos");
+      }
     };
 
     const deleteTurno = async () => {
-      await elementStore.deleteElement(url, turnoId);
-      router.push("/turnos");
+      if(elementStore.confirm("eliminar", "eliminado", "Turno")){
+        await elementStore.deleteElement(url, turnoId);
+        router.push("/turnos");
+      }
     };
-
-
+    
     return {
       turno,
       updateTurno,

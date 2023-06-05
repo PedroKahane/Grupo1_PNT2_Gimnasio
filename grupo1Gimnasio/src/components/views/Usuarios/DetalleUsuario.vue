@@ -24,10 +24,9 @@
                                         <strong>Contraseña: </strong><input type="password" class="form-control"
                                              v-model="user.password" />
                                    </p>
-
                                    <p>
                                         <strong>Altura: </strong><input type="number" class="form-control"
-                                             v-model="user.altura" min="0" /> cm
+                                             v-model="user.altura" min="0" />
                                    </p>
                                    <p>
                                         <strong>Peso: </strong><input type="number" class="form-control" v-model="user.peso"
@@ -42,8 +41,8 @@
                                              v-model="user.contacto" />
                                    </p>
                                    <p>
-                                        <strong>Administrador: </strong><input type="checkbox" v-model="user.administrador"
-                                             disabled />
+                                        <strong>Administrador: </strong>
+                                        <input type="checkbox" v-model="user.administrador" />
                                    </p>
                                    <p>
                                         <strong>Dni: </strong><input type="number" class="form-control" v-model="user.dni"
@@ -51,7 +50,7 @@
                                    </p>
                                    <p>
                                         <strong>Tickets restantes: </strong><input type="number" class="form-control"
-                                             v-model="user.ticketsRestantes" disabled />
+                                             v-model="user.ticketsRestantes" />
                                    </p>
                                    <div class="d-flex justify-content-center">
                                         <button class="btn btn-success" @click="updateUsuario">
@@ -60,51 +59,58 @@
                                         <button class="btn btn-danger" @click="deleteUsuario">
                                              Borrar usuario
                                         </button>
-
                                    </div>
-
                               </div>
                          </div>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                         <button class="btn btn-warning"><router-link to="/" class="nav-item nav-link"
+                                   href="#">Volver</router-link></button>
                     </div>
                </div>
           </div>
      </div>
+     <br>
+     <br>
 </template>
 
 <script>
 import { useElementStore } from "../../../stores/Store";
-import { useRouter,useRoute } from "vue-router";
-
+import { getCookieJSON } from "../../../stores/Cookies";
+import { useRouter, useRoute } from "vue-router";
 import { computed } from "vue";
 
 export default {
      setup() {
-
+          const usuarioLoguado = getCookieJSON();
           const userStore = useElementStore("usuarios")()
-          const actividadesStore = useElementStore("actividades")();
-
           const router = useRouter();
           const route = useRoute();
           const userId = route.params.id.toString();
           const url = "https://645ae28c95624ceb210d09ed.mockapi.io/Usuarios";
 
-          elementStore.fetchElementById(url, userId);
-          const user = computed(() => elementStore.currentElement);
+          userStore.fetchElementById(url, userId);
+          const user = computed(() => userStore.currentElement);
 
           const updateUsuario = async () => {
-               await userStore.updateElement(url, userStore.currentElement);
-               router.push("/usuarios");
+               if (userStore.confirm("modificar", "modificado", "Usuario")) {
+                    await userStore.updateElement(url, userStore.currentElement);
+                    router.push("/usuarios");
+               }
           };
 
           const deleteUsuario = async () => {
-               await userStore.deleteElement(url, userId);
-               router.push("/usuarios");
+               if (userStore.confirm("eliminar", "eliminado", "Usuario")) {
+                    await userStore.deleteElement(url, userId);
+                    router.push("/usuarios");
+               }
           };
 
           return {
                user,
                deleteUsuario,
                updateUsuario,
+               usuarioLoguado
           };
      },
 };

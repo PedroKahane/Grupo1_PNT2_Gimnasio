@@ -17,8 +17,8 @@
                     </p>
 
                     <div class="d-flex justify-content-center">
-                         <button class="btn btn-danger" @click="deleteProfesor">Borrar profesor</button>
                          <button class="btn btn-success" @click="updateProfesor">Actualizar profesor</button>
+                         <button class="btn btn-danger" @click="deleteProfesor">Borrar profesor</button>
                     </div>
                </div>
           </div>
@@ -52,13 +52,17 @@ export default {
           const profesor = computed(() => elementStore.currentElement);
 
           const updateProfesor = async () => {
-               await elementStore.updateElement(url, elementStore.currentElement);
-               router.push("/profesores");
+               if(elementStore.confirm("modificar", "modificado", "Profesor")){
+                   await elementStore.updateElement(url, elementStore.currentElement);
+                    router.push("/profesores"); 
+               }
           };
 
           const deleteProfesor = async () => {
-               await elementStore.deleteElement(url, profesorId);
-               router.push("/profesores");
+               if(elementStore.confirm("eliminar", "eliminado", "Profesor")){
+                    await elementStore.deleteElement(url, profesorId);
+                    router.push("/profesores");
+               }
           };
 
           return {
