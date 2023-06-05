@@ -9,7 +9,7 @@
       </form>
     </div>
     <div class="d-flex flex-column align-items-center">
-      <h4 class="text-center" v-if="usuario">Tickets restantes: {{ user.ticketsRestantes }}</h4>
+      <h4 class="text-center" v-if="usuario">Tickets restantes: {{ usuario.ticketsRestantes }}</h4>
     </div>
     <table class="table table-striped table-bordered">
       <thead>
@@ -36,26 +36,11 @@
       <button class="btn btn-danger"><router-link to="/crearPaquete" class="nav-item nav-link" href="#">Crear
           Paquete</router-link></button>
     </table>
-<<<<<<< HEAD
     </div>
      
    </template>
-   
-   <script>
-   import { useElementStore } from "../../../stores/Store";
-   import { onMounted } from "vue";
-   
-   export default {
-     setup() {
-       const elementStore = useElementStore("paquetes")();
-       const busqueda = "";
-=======
-  </div>
-</template>
->>>>>>> master
-   
 <script>
-import { useElementStore } from "../../../stores/Common";
+import { useElementStore } from "../../../stores/Store";
 import { useGeneralStore } from "../../../stores/General";
 import { onMounted } from "vue";
 import Cookies from "js-cookie";

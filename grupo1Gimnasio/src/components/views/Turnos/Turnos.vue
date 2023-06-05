@@ -55,7 +55,7 @@ import { useTurnoStore } from "../../../stores/turnos";
 import { useRouter } from "vue-router";
 import { useRoute } from "vue-router";
 import { onMounted, computed } from "vue";
-import { getCookie,getCookieJSON } from "../../stores/Cookies";
+import { getCookie,getCookieJSON } from "../../../stores/Cookies";
 
 export default {
   setup() {
