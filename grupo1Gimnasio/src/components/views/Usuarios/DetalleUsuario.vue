@@ -20,10 +20,20 @@
                                         <strong>Mail: </strong><input type="email" class="form-control"
                                              v-model="user.mail" />
                                    </p>
-                                   <p>
-                                        <strong>Contraseña: </strong><input type="password" class="form-control"
-                                             v-model="user.password" />
-                                   </p>
+                                   <div class="form-group row mb-3">
+                                        <p>
+                                             <strong>Contraseña: </strong>
+                                        </p>
+                                        <div class="col">
+                                             <input :type="mostrar" class="form-control" v-model="user.password"
+                                                  placeholder="tuContraseña" required />
+                                        </div>
+                                        <div class="col-auto">
+                                             <button class="btn btn-outline-dark" type="button" id="togglePassword"
+                                                  @mousedown="mostrarContraseña" @mouseup="mostrarContraseña">Ver
+                                                  contraseña</button>
+                                        </div>
+                                   </div>
                                    <p>
                                         <strong>Altura: </strong><input type="number" class="form-control"
                                              v-model="user.altura" min="0" />
@@ -110,8 +120,22 @@ export default {
                user,
                deleteUsuario,
                updateUsuario,
-               usuarioLoguado
+               usuarioLoguado,
           };
      },
+     data() {
+          return {
+               mostrar: "password",
+               mostrarBool: true,
+          };
+     },
+     methods: {
+          mostrarContraseña() {
+               if (this.mostrarBool) {
+                    this.mostrar = "text"
+               } else this.mostrar = "password"
+               this.mostrarBool = !this.mostrarBool
+          }
+     }
 };
 </script>

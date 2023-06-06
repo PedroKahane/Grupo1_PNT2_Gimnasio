@@ -17,10 +17,18 @@
             </p>
             <p><strong>Mail: </strong><input class="form-control" type="email" v-model="user.mail"
                 placeholder="tuMail@ejemplo.com" /></p>
-            <p>
-              <strong>Contraseña: </strong><input class="form-control" type="password" v-model="user.password"
-                placeholder="tuContraseña" />
-            </p>
+            <div class="form-group row mb-3">
+              <p>
+                <strong>Contraseña: </strong>
+              </p>
+              <div class="col">
+                <input :type="mostrar" class="form-control" v-model="user.password" placeholder="tuContraseña" required />
+              </div>
+              <div class="col-auto">
+                <button class="btn btn-outline-dark" type="button" id="togglePassword" @mousedown="mostrarContraseña"
+                  @mouseup="mostrarContraseña">Ver contraseña</button>
+              </div>
+            </div>
             <p>
               <strong>Altura: </strong><input class="form-control" type="number" v-model="user.altura"
                 placeholder="180 (en cm)" />
@@ -72,7 +80,7 @@ export default {
     const url = "https://645ae28c95624ceb210d09ed.mockapi.io/Usuarios";
 
     const createUsuario = async () => {
-      if(elementStore.confirm("crear", "registrado", "Usuario")){
+      if (elementStore.confirm("crear", "registrado", "Usuario")) {
         await elementStore.createElement(url, user.value);
         router.push("/login");
       }
@@ -83,5 +91,19 @@ export default {
       user,
     };
   },
+  data() {
+    return {
+      mostrar: "password",
+      mostrarBool: true,
+    };
+  },
+  methods: {
+    mostrarContraseña() {
+      if (this.mostrarBool) {
+        this.mostrar = "text"
+      } else this.mostrar = "password"
+      this.mostrarBool = !this.mostrarBool
+    }
+  }
 };
 </script>

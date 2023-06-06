@@ -1,7 +1,5 @@
 <template>
   <div class="container mt-4">
-    <div class="text-center">
-    </div>
     <div class="row">
       <div class="col-md-6 offset-md-3" v-if="turno">
         <div class="card bg-light text-dark mb-5">
