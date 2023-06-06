@@ -57,8 +57,8 @@ export const useTurnoStore = defineStore('turno', {
         turnosExtendido.forEach(element => {
          //console.log(element.idSede);
 
-          const sede = this.sedes.find((e) => e.idSede == element.idSede)
-          //console.log(sede);
+          const sede = this.sedes.find((e) => e.id == element.idSede)
+          console.log(sede);
           element.sede = sede
           element.fecha = new Date(element.fecha).toLocaleDateString('es-ES',   {day: '2-digit',
           month: '2-digit',

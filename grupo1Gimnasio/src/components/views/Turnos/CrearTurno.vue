@@ -9,7 +9,7 @@
           <h4>Crear Turno</h4>
               <div>
                 <p>
-                  <strong>Sede: </strong><input type="text" class="form-control" v-model="turno.idSede"/>
+                  <strong>Sede: </strong><input type="text" class="form-control" v-model="turno.id"/>
                 </p>
                 <p>
                   <strong>Actividad: </strong><input type="text" class="form-control" v-model="turno.idActividad" />

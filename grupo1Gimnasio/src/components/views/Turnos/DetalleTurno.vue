@@ -13,7 +13,7 @@
                 <strong>Sede: </strong>
                 <select v-model="turno.idSede">
                   <option value="0" disabled selected>Selecciona la sede</option>
-                  <option v-for="sede in sedes" :value="sede.idSede">
+                  <option v-for="sede in sedes" :value="sede.id">
                     {{ sede.nombre }}
                   </option>
                 </select>
