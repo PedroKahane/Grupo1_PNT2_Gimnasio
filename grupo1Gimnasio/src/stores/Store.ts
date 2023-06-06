@@ -58,6 +58,7 @@ export function  useElementStore  (nombreStore) {
 
     async updateElement(url,updatedElement) {
       try {
+        console.log
         const response = await axios.put(`${url}/${updatedElement.id}`, updatedElement)
         const index = this.elements.findIndex((e) => e.id === updatedElement.id)
         this.elements[index] = response.data
@@ -73,6 +74,18 @@ export function  useElementStore  (nombreStore) {
       } catch (error) {
         console.error(`Error deleting Element with id ${id}:`, error)
       }
+    },
+
+    confirm(accion:string, modificacion:string, tipo:string) {
+      var confirmado = true;
+      var confirmar = window.confirm(`¿Estás seguro de ${accion} este ${tipo}?`);
+      if (confirmar) {
+        alert(`${tipo} ${modificacion} correctamente`);
+      } else {
+        alert(`Acción cancelada`);
+        confirmado = false;
+      }
+      return confirmado;
     },
 
     filtrarXString(busqueda){

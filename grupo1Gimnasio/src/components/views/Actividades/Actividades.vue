@@ -13,6 +13,7 @@
           <tr>
             <th>Nombre:</th>
             <th>Duracion(minutos):</th>
+            <th>Detalles:</th>
           </tr>
         </thead>
         <tbody>

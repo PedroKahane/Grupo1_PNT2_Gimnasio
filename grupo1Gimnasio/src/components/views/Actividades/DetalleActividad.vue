@@ -17,9 +17,8 @@
                 </p>
 
                 <div class="d-flex justify-content-center">
+                  <button class="btn btn-success" @click="updatePaquete">Actualizar paquete</button>
                   <button class="btn btn-danger" @click="deleteActividad">Borrar actividad</button>
-                  <button class="btn btn-success" @click="updateActividad">Actualizar actividad</button>
-                  
                 </div>
                 
             </div>
@@ -32,8 +31,6 @@
     <button class="btn btn-warning" ><router-link to="/actividades" class="nav-item nav-link" href="#">Volver a Actividades</router-link></button>
     </div>
   </div>
-      
-
 </template>
 
 <script>
@@ -61,14 +58,19 @@ export default {
 
     const sedes = computed(() => actividadStore.getSedes);
     const profesores = computed(() => actividadStore.getProfesores);
+
     const updateActividad = async () => {
-      await elementStore.updateElement(url, elementStore.currentElement);
-      router.push('/actividades');
+      if(elementStore.confirm("modificar", "modificada", "Actividad")){
+        await elementStore.updateElement(url, elementStore.currentElement);
+        router.push('/actividades');
+      }
     };
 
     const deleteActividad = async () => {
-      await elementStore.deleteElement(url, actividadId);
-      router.push('/actividades');
+      if(elementStore.confirm("eliminar", "eliminada", "Actividad")){
+        await elementStore.deleteElement(url, actividadId);
+        router.push('/actividades');
+      }
     };
 
     return {

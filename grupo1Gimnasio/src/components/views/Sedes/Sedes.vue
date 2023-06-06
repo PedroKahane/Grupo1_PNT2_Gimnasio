@@ -13,14 +13,15 @@
         <tr>
           <th>Nombre:</th>
           <th>Ubicacion:</th>
+          <th>Detalles:</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="sede in elementStore.getElements" :key="sede.idSede">
+        <tr v-for="sede in elementStore.getElements" :key="sede.id">
           <td>{{ sede.nombre }}</td>
           <td>{{ sede.ubicacion }}</td>
           
-          <td><router-link :to="`/sedes/${sede.idSede}`"><strong>Ver detalles</strong></router-link></td>
+          <td><router-link :to="`/sedes/${sede.id}`"><strong>Ver detalles</strong></router-link></td>
         </tr>
       </tbody>
       <br>
