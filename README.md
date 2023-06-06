@@ -36,18 +36,23 @@ https://645ae28c95624ceb210d09ed.mockapi.io/Sede
 *****TOMI*****
 
 *****GINO*****
+- Profesores:
+https://64662c65228bd07b355ddc69.mockapi.io/profesores
 
+- TurnoPersona:
+https://64662c65228bd07b355ddc69.mockapi.io/turnoPersona
+
+----------------------------------------------------------------------------
 ----------------------------------------------------------------------------
 - Turnos:
 https://6460fabb491f9402f49bfa55.mockapi.io/Turno
-- Profesores:
-https://64662c65228bd07b355ddc69.mockapi.io/profesores
+
 - Paquetes: 
 https://646937ca03bb12ac208876f1.mockapi.io/paquetes
+
 - Actividades:
 https://6460fabb491f9402f49bfa55.mockapi.io/Actividades
-- TurnoPersona:
-https://64662c65228bd07b355ddc69.mockapi.io/turnoPersona
+
 ----------------------------------------------------------------------------
 
 ## Ideas: 
