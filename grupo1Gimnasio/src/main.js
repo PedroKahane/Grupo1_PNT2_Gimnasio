@@ -49,7 +49,6 @@ const routes = [
   { path: "/actividades", component: Actividades },
   { path: "/paquetes", component: Paquetes },
   { path: "/sedes", component: Sedes },
-  { path: "/turnos", component: Turnos },
   { path: "/sedes/:id", component: DetalleSede },
   { path: "/crearSede", component: CrearSede },
   {
@@ -57,6 +56,16 @@ const routes = [
     component: Usuarios,
     beforeEnter: (to, from, next) => {
       if (isAuthenticated() && isAdmin()) {
+        next();
+      } else {
+        next({ name: "Unauthorized" });
+      }
+    },
+  },
+  {
+    path: "/turnos", component: Turnos,
+    beforeEnter: (to, from, next) => {
+      if (isAuthenticated() ) {
         next();
       } else {
         next({ name: "Unauthorized" });

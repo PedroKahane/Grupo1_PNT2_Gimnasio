@@ -13,25 +13,25 @@
           <tr>
             <th>Nombre:</th>
             <th>Duracion(minutos):</th>
-            <th>Detalles:</th>
+            <th  v-if="isAuthenticated() && isAdmin()">Detalles:</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="actividades in elementStore.getElements" :key="actividades.id">
             <td>{{ actividades.nombre }}</td>
             <td>{{ actividades.duracion }}</td>
-            <td><router-link :to="`/actividades/${actividades.id}`"><strong>Ver detalles</strong></router-link></td>
+            <td  v-if="isAuthenticated() && isAdmin()"><router-link :to="`/actividades/${actividades.id}`"><strong>Ver detalles</strong></router-link></td>
           </tr>
         </tbody>
         <br>
-        <button class="btn btn-danger"><router-link to="/crearActividad" class="nav-item nav-link" href="#">Crear Actividad</router-link></button>
+        <button v-if="isAdmin()" class="btn btn-danger"><router-link to="/crearActividad" class="nav-item nav-link" href="#">Crear Actividad</router-link></button>
       </table>
     </div>
 </template>
-   
    <script>
    import { useElementStore } from "../../../stores/Store";
    import { onMounted } from "vue";
+   import { isAdmin, isAuthenticated } from "../../../utils/Auth";
    
    export default {
      setup() {
@@ -55,7 +55,9 @@
          elementStore,
          buscar,
          busqueda,
-         reiniciar
+         reiniciar,
+         isAdmin,
+         isAuthenticated
        }
      },
    }

@@ -18,7 +18,11 @@ export function getCookie(name="usuario") {
 
 export function getCookieJSON(name="usuario"){
   const cookie:string = getCookie(name)
-  return JSON.parse(cookie)
+  var resultado = null;
+  if(!!cookie){
+    resultado = JSON.parse(cookie)
+  }
+  return resultado
 }
 
 export function removeCookie( name ="usuario") {

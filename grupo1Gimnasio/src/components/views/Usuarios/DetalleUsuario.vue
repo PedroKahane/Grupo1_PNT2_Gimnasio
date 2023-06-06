@@ -28,7 +28,7 @@
                                              <input :type="mostrar" class="form-control" v-model="user.password"
                                                   placeholder="tuContraseña" required />
                                         </div>
-                                        <div class="col-auto">
+                                        <div v-if="sameUser(user.id)" class="col-auto">
                                              <button class="btn btn-outline-dark" type="button" id="togglePassword"
                                                   @mousedown="mostrarContraseña" @mouseup="mostrarContraseña">Ver
                                                   contraseña</button>
@@ -89,6 +89,7 @@ import { useElementStore } from "../../../stores/Store";
 import { getCookieJSON } from "../../../stores/Cookies";
 import { useRouter, useRoute } from "vue-router";
 import { computed } from "vue";
+import { sameUser } from "../../../utils/Auth";
 
 export default {
      setup() {
@@ -121,6 +122,7 @@ export default {
                deleteUsuario,
                updateUsuario,
                usuarioLoguado,
+               sameUser
           };
      },
      data() {

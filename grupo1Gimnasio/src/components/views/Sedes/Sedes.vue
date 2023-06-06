@@ -13,7 +13,7 @@
         <tr>
           <th>Nombre:</th>
           <th>Ubicacion:</th>
-          <th>Detalles:</th>
+          <th v-if="isAuthenticated() && isAdmin()">Detalles:</th>
         </tr>
       </thead>
       <tbody>
@@ -21,11 +21,11 @@
           <td>{{ sede.nombre }}</td>
           <td>{{ sede.ubicacion }}</td>
           
-          <td><router-link :to="`/sedes/${sede.id}`"><strong>Ver detalles</strong></router-link></td>
+          <td v-if="isAuthenticated() && isAdmin()"><router-link :to="`/sedes/${sede.id}`"><strong>Ver detalles</strong></router-link></td>
         </tr>
       </tbody>
       <br>
-      <button class="btn btn-danger"><router-link to="/crearSede" class="nav-item nav-link" href="#">Crear Sede</router-link></button>
+      <button v-if="isAdmin()" class="btn btn-danger"><router-link to="/crearSede" class="nav-item nav-link" href="#">Crear Sede</router-link></button>
     </table>
   </div>
 
@@ -35,6 +35,7 @@
   <script>
 import { useElementStore } from "../../../stores/Store";  
 import { onMounted, computed } from 'vue'
+import { isAdmin, isAuthenticated } from "../../../utils/Auth";
 
 export default {
   setup() {
@@ -63,7 +64,9 @@ export default {
         elementStore,
         buscar,
         busqueda,
-        reiniciar
+        reiniciar,
+        isAdmin,
+        isAuthenticated
       }
   },
 }

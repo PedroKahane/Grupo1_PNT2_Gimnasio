@@ -9,7 +9,7 @@
       </form>
     </div>
     <div class="d-flex flex-column align-items-center">
-      <h4 class="text-center" v-if="usuario">Tickets restantes: {{ user.ticketsRestantes }}</h4>
+      <h4 class="text-center" v-if="user">Tickets restantes: {{ user.ticketsRestantes }}</h4>
     </div>
     <table class="table table-striped table-bordered">
       <thead>
@@ -18,7 +18,7 @@
           <th>Precio:</th>
           <th>Cantidad Tickets:</th>
           <th></th>
-          <th>Detalles:</th>
+          <th v-if="isAuthenticated() && isAdmin()">Detalles:</th>
         </tr>
       </thead>
       <tbody>
@@ -29,11 +29,11 @@
           <td class="text-center"><button class="btn btn-primary"
               v-on:click="actualizarTickets(paquetes.cantTickets)">Comprar paquete</button>
           </td>
-          <td><router-link :to="`/paquetes/${paquetes.id}`"><strong>Ver detalles</strong></router-link></td>
+          <td v-if="isAuthenticated() && isAdmin()"><router-link :to="`/paquetes/${paquetes.id}`"><strong>Ver detalles</strong></router-link></td>
         </tr>
       </tbody>
       <br>
-      <button class="btn btn-danger"><router-link to="/crearPaquete" class="nav-item nav-link" href="#">Crear
+      <button v-if="isAdmin()" class="btn btn-danger"><router-link to="/crearPaquete" class="nav-item nav-link" href="#">Crear
           Paquete</router-link></button>
     </table>
     </div>
@@ -46,6 +46,7 @@ import { onMounted } from "vue";
 import Cookies from "js-cookie";
 import { computed } from "vue";
 import { useRouter } from "vue-router";
+import { isAdmin, isAuthenticated } from "../../../utils/Auth";
 
 export default {
   setup() {
@@ -54,12 +55,14 @@ export default {
     const busqueda = "";
     const router = useRouter();
 
+    var user = null;
+
     var usuario = Cookies.get('usuario');
     if (usuario) {
       usuario = JSON.parse(usuario)
       usuario = usuario[0]
       elementStore.fetchElementById("https://645ae28c95624ceb210d09ed.mockapi.io/Usuarios", usuario.id);
-      var user = computed(() => elementStore.currentElement);
+      user = computed(() => elementStore.currentElement);
       //user = usuario.value;
       //console.log(user);
     }
@@ -101,7 +104,9 @@ export default {
       reiniciar,
       actualizarTickets,
       user,
-      usuario
+      usuario,
+      isAdmin,
+      isAuthenticated
     }
   },
 }

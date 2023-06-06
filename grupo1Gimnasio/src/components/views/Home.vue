@@ -3,7 +3,7 @@
           <img src="../../icons/fondo gym.png" class="w-100">
           <div style="position: absolute; top: 10%; right: 5%; margin: 5%;">
                <div class="card card bg-secondary text-light m-1">
-                    <div class="card-body" style="min-width: 200px;">
+                    <div class="card-body" style="min-width: 200px; font-family:Verdana, Geneva, Tahoma, sans-serif;">
                          <h5><strong>Horarios</strong></h5>
                          <p>Lunes a Viernes 6h a 23h</p>
                          <p>Sábados 9h a 16h</p>

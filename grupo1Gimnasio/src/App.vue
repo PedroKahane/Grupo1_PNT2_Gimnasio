@@ -6,7 +6,7 @@
           <router-link to="/" class="nav-item nav-link">Home</router-link>
           <router-link to="/actividades" class="nav-item nav-link">Actividades</router-link>
           <router-link to="/paquetes" class="nav-item nav-link">Paquetes</router-link>
-          <router-link to="/turnos" class="nav-item nav-link">Turnos</router-link>
+          <router-link v-if="isAuthenticated()" to="/turnos" class="nav-item nav-link">Turnos</router-link>
           <router-link to="/sedes" class="nav-item nav-link">Sedes</router-link>
           <router-link  v-if="isAuthenticated() && isAdmin()" to="/profesores" class="nav-item nav-link" href="#">Profesores</router-link>
           <router-link  v-if="isAuthenticated() && isAdmin()" to="/usuarios" class="nav-item nav-link" href="#">Usuarios</router-link>
