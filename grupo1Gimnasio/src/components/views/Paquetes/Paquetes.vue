@@ -9,7 +9,7 @@
       </form>
     </div>
     <div class="d-flex flex-column align-items-center">
-      <h4 class="text-center" v-if="usuario">Tickets restantes: {{ usuario.ticketsRestantes }}</h4>
+      <h4 class="text-center" v-if="usuario">Tickets restantes: {{ user.ticketsRestantes }}</h4>
     </div>
     <table class="table table-striped table-bordered">
       <thead>
