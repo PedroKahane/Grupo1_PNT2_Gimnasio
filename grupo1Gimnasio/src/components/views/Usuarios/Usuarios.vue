@@ -4,7 +4,7 @@
     <div class="d-flex justify-content-end input-group mb-3">
       <form class="d-flex" v-on:submit.prevent="buscar">
         <div class="d-flex justify-content-center mt-2">
-          <label class="input-group"><strong>Filtrar: </strong></label>
+          <label class="input-group"><strong>Filtrar:</strong></label>
         </div>
         <select id="filtro" class="form-select">
           <option value="nombre">Nombre</option>

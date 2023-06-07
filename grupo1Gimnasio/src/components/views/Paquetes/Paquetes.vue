@@ -10,7 +10,7 @@
           <th>Nombre:</th>
           <th>Precio:</th>
           <th>Cantidad Tickets:</th>
-          <th></th>
+          <th>Elegí tu paquete:</th>
           <th v-if="isAuthenticated() && isAdmin()">Detalles:</th>
         </tr>
       </thead>

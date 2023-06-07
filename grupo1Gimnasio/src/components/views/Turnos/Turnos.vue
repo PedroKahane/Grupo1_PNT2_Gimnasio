@@ -18,7 +18,7 @@
           <th>Sede:</th>
           <th>Actividad:</th>
           <th>Fecha:</th>
-          <th v-if="usuario">Reservar</th>
+          <th v-if="usuario">Reservar:</th>
           <th v-if="usuario && usuario.administrador">Detalles:</th>
         </tr>
       </thead>
