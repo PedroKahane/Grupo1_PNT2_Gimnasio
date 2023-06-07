@@ -12,6 +12,8 @@ TOMI:
 - validar forms
 
 PENDIENTES:
+- validar forms
+- update turno error con id
 
 ## Links Mockapis:
 // lo hice con la intención de ordenar los links 
