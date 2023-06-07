@@ -6,17 +6,36 @@
           <div v-if="turno" class="card-body">
           <h4>Crear Turno</h4>
               <div>
+              <p>
+                <strong>Sede: </strong>
+                <select v-model="turno.idSede">
+                  <option value="0" disabled selected>Selecciona la sede</option>
+                  <option v-for="sede in sedes" :value="sede.id">
+                    {{ sede.nombre }}
+                  </option>
+                </select>
+              </p>
                 <p>
-                  <strong>Sede: </strong><input type="text" class="form-control" v-model="turno.id"/>
-                </p>
+                <strong>Actividad: </strong>
+                <select v-model="turno.idActividad">
+                  <option value="0" disabled selected>Selecciona la actividad</option>
+                  <option v-for="actividad in actividades" :value="actividad.id">
+                    {{ actividad.nombre }}
+                  </option>
+                </select>
+              </p>
+                
                 <p>
-                  <strong>Actividad: </strong><input type="text" class="form-control" v-model="turno.idActividad" />
-                </p>
+                <strong>Profesor: </strong>
+                <select v-model="turno.idProfesor">
+                  <option value="0" disabled selected>Selecciona el profesor</option>
+                  <option v-for="profesor in profesores" :value="profesor.id">
+                    {{ profesor.nombre }}
+                  </option>
+                </select>
+              </p>
                 <p>
-                  <strong>Profesor: </strong><input type="text" class="form-control" v-model="turno.profesor" />
-                </p>
-                <p>
-                  <strong>Fecha: </strong><input type="text" class="form-control" v-model="turno.fecha" />
+                  <strong>Fecha: </strong><input type="datetime-local" class="form-control" v-model="turno.fecha" />
                 </p>
                 <p>
                   <strong>Cantidad de personas: </strong><input type="text" class="form-control" v-model="turno.cantPersonasLim" />
@@ -37,12 +56,14 @@
 
 <script>
 import { useElementStore } from '../../../stores/Store';
+import { useTurnoStore } from '../../../stores/turnos';
 import { useRouter } from 'vue-router'
-import { computed } from "vue";
+import { onMounted, computed } from "vue";
 
 
 export default {
   setup() {
+    const turnoStore = useTurnoStore();
     const elementStore = useElementStore("turnos")()
     elementStore.setCurrentElement({idSede:"",
     idActividad:"",
@@ -51,8 +72,22 @@ export default {
     precio:"",
     cantPersonasLim:""})
     const turno = computed(() => elementStore.currentElement);
+    
+    
     const router = useRouter()
     const url = "https://6460fabb491f9402f49bfa55.mockapi.io/Turno";
+
+    
+       onMounted(() => {
+      turnoStore.fetchProfesores();
+      turnoStore.fetchSedes();
+      turnoStore.fetchActividades();
+      });
+
+      const sedes = computed(() => turnoStore.getSedes);
+      const actividades = computed(() => turnoStore.getActividades)
+      const profesores = computed(() => turnoStore.getProfesores)
+    
 
     const createTurno = async () => {
       if(elementStore.confirm("crear", "registrado", "Turno")){
@@ -63,7 +98,10 @@ export default {
 
     return {
       createTurno,
-      turno
+      turno,
+      sedes,
+      profesores,
+      actividades
     }
   },
 }
