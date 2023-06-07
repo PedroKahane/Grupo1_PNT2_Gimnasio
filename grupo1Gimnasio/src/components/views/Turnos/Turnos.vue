@@ -1,15 +1,8 @@
 <template>
   <div class="container mt-3">
     <h4 class="text-center">Turnos</h4>
-    <div class="d-flex justify-content-end input-group mb-3">
-      <form class="d-flex" v-on:submit.prevent="buscar">
-        <input type="text" class="form-control bg-light border-1 mr-2" placeholder="Buscar..." v-model="busqueda">
-        <button class="btn btn-success">Buscar</button>
-        <button class="btn btn-danger" v-on:click="reiniciar">Reiniciar</button>
-      </form>
-    </div>
     <div class="d-flex flex-column align-items-center">
-      <h4 class="text-center" v-if="usuario">Tickets restantes: {{ user.ticketsRestantes }}</h4>
+      <h5 class="text-center" v-if="user">Tickets restantes: <strong>{{ user.ticketsRestantes }}</strong></h5>
       <p class="alert alert-danger alert-dismissible alert-sm mb-0 text-center" v-if="error1"><strong>El cupo de esteturno
           se encuentra lleno</strong></p>
       <p class="alert alert-danger alert-dismissible text-center" v-if="error2"><strong>No le quedan tickets por

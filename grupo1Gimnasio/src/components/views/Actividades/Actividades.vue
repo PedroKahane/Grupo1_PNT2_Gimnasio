@@ -1,13 +1,6 @@
 <template>
      <div class="container mt-3">
        <h4 class="text-center">Actividades</h4>
-       <div class="d-flex justify-content-end input-group mb-3">
-          <form class="d-flex" v-on:submit.prevent="buscar">
-          <input type="text" class="form-control bg-light border-1 mr-2" placeholder="Buscar..." v-model="busqueda">
-          <button class="btn btn-success">Buscar</button>
-          <button class="btn btn-danger" v-on:click="reiniciar">Reiniciar</button>
-          </form>
-       </div>
        <table class="table table-striped table-bordered">
         <thead>
           <tr>

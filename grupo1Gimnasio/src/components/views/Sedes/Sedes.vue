@@ -3,11 +3,18 @@
     <h4 class="text-center">Sedes</h4>
     <div class="d-flex justify-content-end input-group mb-3">
       <form class="d-flex" v-on:submit.prevent="buscar">
-      <input type="text" class="form-control bg-light border-1 mr-2" placeholder="Buscar..." v-model="busqueda">
-      <button class="btn btn-success">Buscar</button>
-      <button class="btn btn-danger" v-on:click="reiniciar">Reiniciar</button>
+        <div class="d-flex justify-content-center mt-2">
+          <label class="input-group"><strong>Filtrar: </strong></label>
+        </div>
+        <select id="filtro" class="form-select">
+          <option value="nombre">Nombre</option>
+          <option value="ubicacion">Ubicación</option>
+        </select>
+        <input type="text" class="form-control bg-light border-1 mr-2" placeholder="Buscar..." v-model="busqueda">
+        <button class="btn btn-success">Buscar</button>
+        <button class="btn btn-danger" v-on:click="reiniciar">Reiniciar</button>
       </form>
-  </div>
+    </div>
   <table class="table table-striped table-bordered">
       <thead>
         <tr>
@@ -60,13 +67,18 @@ export default {
     //const users = userStore.getUsers
     const sedes = computed(() => sedeStore.getSedes)
 
+    function buscar() {
+      elementStore.filtrarXString(this.busqueda, document.getElementById("filtro").value);
+    }
+
       return {
         elementStore,
         buscar,
         busqueda,
         reiniciar,
         isAdmin,
-        isAuthenticated
+        isAuthenticated,
+        buscar
       }
   },
 }

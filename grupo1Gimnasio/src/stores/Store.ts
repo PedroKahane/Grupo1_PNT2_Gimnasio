@@ -88,9 +88,17 @@ export function  useElementStore  (nombreStore) {
       return confirmado;
     },
 
-    filtrarXString(busqueda){
-      this.elements = this.elements.filter(item => item.nombre.includes(busqueda) || item.apellido.includes(busqueda) || item.mail.includes(busqueda)); 
+    filtrarXString(busqueda: string | number, tipoFiltro: string) {
+      this.elements = this.elements.filter(item => {
+        const propiedad = item[tipoFiltro];
+        if (typeof propiedad === "string" || typeof propiedad === "number") {
+          const propiedadLowerCase = String(propiedad).toLowerCase();
+          const busquedaLowerCase = String(busqueda).toLowerCase();
+          return propiedadLowerCase.includes(busquedaLowerCase);
+        }
+        return false;
+      });
     }
   },
 })
-}
+}//this.elements = this.elements.filter(item => item.nombre.includes(busqueda) || item.apellido.includes(busqueda) || item.mail.includes(busqueda)); 
