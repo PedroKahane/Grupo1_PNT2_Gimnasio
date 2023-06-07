@@ -86,7 +86,7 @@ export function  useElementStore  (nombreStore) {
         confirmado = false;
       }
       return confirmado;
-    },
+    },   
 
     filtrarXString(busqueda: string | number, tipoFiltro: string) {
       this.elements = this.elements.filter(item => {

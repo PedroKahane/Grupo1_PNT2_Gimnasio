@@ -17,7 +17,7 @@
                 </p>
 
                 <div class="d-flex justify-content-center">
-                  <button class="btn btn-success" @click="updatePaquete">Actualizar paquete</button>
+                  <button class="btn btn-success" @click="updateActividad">Actualizar paquete</button>
                   <button class="btn btn-danger" @click="deleteActividad">Borrar actividad</button>
                 </div>
                 

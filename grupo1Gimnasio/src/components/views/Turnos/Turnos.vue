@@ -1,14 +1,15 @@
 <template>
   <div class="container mt-3">
     <h4 class="text-center">Turnos</h4>
-    <div class="d-flex flex-column align-items-center">
-      <h5 class="text-center" v-if="user">Tickets restantes: <strong>{{ user.ticketsRestantes }}</strong></h5>
-      <p class="alert alert-danger alert-dismissible alert-sm mb-0 text-center" v-if="error1"><strong>El cupo de esteturno
-          se encuentra lleno</strong></p>
-      <p class="alert alert-danger alert-dismissible text-center" v-if="error2"><strong>No le quedan tickets por
-          usar</strong></p>
-      <p class="alert alert-danger alert-dismissible alert-sm mb-0 text-center" v-if="error3"><strong>Ya estás anotado en
-          este turno</strong></p>
+    <div class="d-flex justify-content-end input-group mb-3">
+      <form class="d-flex" v-on:submit.prevent="buscar">
+        <div class="d-flex justify-content-center mt-2">
+          <label class="input-group"><strong>Filtrar: </strong></label>
+        </div>
+        <input type="date" class="form-control bg-light border-1 mr-2" v-model="busqueda">
+        <button class="btn btn-success">Buscar</button>
+        <button class="btn btn-danger" v-on:click="reiniciar">Reiniciar</button>
+      </form>
     </div>
     <table class="table table-striped table-bordered">
       <thead>
@@ -51,7 +52,7 @@ import { useTurnoStore } from "../../../stores/turnos";
 import { useRouter } from "vue-router";
 import { useRoute } from "vue-router";
 import { onMounted, computed } from "vue";
-import { getCookie, getCookieJSON } from "../../../stores/Cookies";
+import { getCookie } from "../../../stores/Cookies";
 
 export default {
   setup() {
@@ -68,7 +69,7 @@ export default {
       elementStore.fetchElementById("https://645ae28c95624ceb210d09ed.mockapi.io/Usuarios", usuario.id);
       var user = computed(() => elementStore.currentElement);
       //user = usuario.value;
-      console.log(user);
+      //console.log(user);
     }
 
     onMounted(async () => {
@@ -88,7 +89,7 @@ export default {
     //console.log(turnosPersonas.value);
 
     function buscar() {
-      elementStore.filtrarXString(this.busqueda);
+      turnoStore.filtrarXFecha(this.busqueda);
     }
 
     function reiniciar() {
@@ -116,7 +117,7 @@ export default {
     })
 
     const cancelarTurno = async (idTurno) => {
-      if(elementStore.confirm("cancelar", "cancelado", "Turno")){
+      if (elementStore.confirm("cancelar", "cancelado", "Turno")) {
         await turnoStore.cancelarTurno(idTurno, usuario.id);
         location.reload();
       }
