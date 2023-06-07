@@ -1,17 +1,17 @@
 # Grupo 1 PNT2 Gimnasio
 ## Tareas:
 GINO:
+- create turno con SELECT
 
 JUAMPI:
-- hacer andar filtros
+- hacer andar filtro x fecha en turno
 
 PEDRO:
 
 TOMI:
+- validar forms
 
 PENDIENTES:
-- validar forms
-- create turno con SELECT
 
 ## Links Mockapis:
 // lo hice con la intención de ordenar los links 
