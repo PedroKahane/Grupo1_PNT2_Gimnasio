@@ -1,23 +1,17 @@
 # Grupo 1 PNT2 Gimnasio
 ## Tareas:
-GINO
-- Diseño (se puede ver al final tmb)
-- SELECT ID Sede, ID Profesor, ID Actividad
+GINO:
 
-JUAMPI
-- SELECT en usuarios en NOMBREPAQUETE
-- Consultar por filtro(x vencimiento, x fecha, x tipo de membresía, etc) // x turno
-- Consultar duración de su membresía 
+JUAMPI:
+- hacer andar filtros
 
 PEDRO:
-- Anotar usuario en turno persona
 
 TOMI:
-- Permisos admin / Usuario
 
 PENDIENTES:
-- Limite de personas x grupo
-- poder ver actividades x sede | Pantalla sedes
+- validar forms
+- create turno con SELECT
 
 ## Links Mockapis:
 // lo hice con la intención de ordenar los links 
