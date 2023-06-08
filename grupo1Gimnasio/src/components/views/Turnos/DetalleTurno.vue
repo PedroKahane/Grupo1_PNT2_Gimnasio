@@ -1,8 +1,5 @@
 <template>
   <div class="container mt-4">
-    <div class="text-center">
-
-    </div>
     <div class="row">
       <div class="col-md-6 offset-md-3" v-if="turno">
         <div class="card bg-light text-dark mb-5">
@@ -18,7 +15,9 @@
                   </option>
                 </select>
               </p>
-
+              <h6 class="alert alert-danger alert-sm mb-0 text-center m-2 mb-3" v-if="errorSede">
+                <strong>Ingrese una sede</strong>
+              </h6>
               <p>
                 <strong>Actividad: </strong>
                 <select v-model="turno.idActividad">
@@ -28,7 +27,9 @@
                   </option>
                 </select>
               </p>
-
+              <h6 class="alert alert-danger alert-sm mb-0 text-center m-2 mb-3" v-if="errorActividad">
+                <strong>Ingrese una actividad</strong>
+              </h6>
               <p>
                 <strong>Profesor: </strong>
                 <select v-model="turno.idProfesor">
@@ -38,17 +39,23 @@
                   </option>
                 </select>
               </p>
-
+              <h6 class="alert alert-danger alert-sm mb-0 text-center m-2 mb-3" v-if="errorProfesor">
+                <strong>Ingrese un profesor</strong>
+              </h6>
               <p>
                 <strong>Fecha: </strong>
                 <input type="datetime-local" v-model="turno.fecha">
               </p>
-
+              <h6 class="alert alert-danger alert-sm mb-0 text-center m-2 mb-3" v-if="errorFecha">
+                <strong>Ingrese una fecha válida</strong>
+              </h6>
               <p>
                 <strong>Límite de Personas: </strong>
                 <input type="text" v-model="turno.cantPersonasLim">
               </p>
-
+              <h6 class="alert alert-danger alert-sm mb-0 text-center m-2 mb-3" v-if="errorPersonas">
+                <strong>El número de personas debe ser mayor a 0</strong>
+              </h6>
               <div class="d-flex justify-content-center">
                 <button class="btn btn-success" @click="updateTurno">Actualizar turno</button>
                 <button class="btn btn-danger" @click="deleteTurno">Borrar turno</button>
@@ -66,13 +73,12 @@
   </div>
   <br>
 </template>
-
 <script>
 import { useElementStore } from "../../../stores/Store";
 import { useTurnoStore } from '../../../stores/turnos';
 import { useRouter } from "vue-router";
 import { useRoute } from "vue-router";
-import { onMounted, computed } from "vue";
+import { onMounted, computed, ref } from "vue";
 import Cookies from "js-cookie";
 
 export default {
@@ -99,19 +105,47 @@ export default {
     const actividades = computed(() => turnoStore.getActividades)
 
     const updateTurno = async () => {
-      if(elementStore.confirm("modificar", "modificado", "Turno")){
+      if (validar() && elementStore.confirm("modificar", "modificado", "Turno")) {
         await elementStore.updateElement(url, elementStore.currentElement);
         router.push("/turnos");
       }
     };
 
+    const errorSede = ref(false);
+    const errorActividad = ref(false);
+    const errorProfesor = ref(false);
+    const errorFecha = ref(false);
+    const errorPersonas = ref(false);
+
+    function validar() {
+      setearEnFalse();
+      let resultado = true;
+      const turno = elementStore.currentElement;
+      if (turno.idSede.trim() === '') { errorSede.value = true; resultado = false; }
+      if (turno.idActividad.trim() === '') { errorActividad.value = true; resultado = false; }
+      if (turno.idProfesor.trim() === '') { errorProfesor.value = true; resultado = false; }
+      if (turno.fecha.trim() === '') { errorFecha.value = true; resultado = false; }
+      if (!(Number(turno.cantPersonasLim) >= 1)) { errorPersonas.value = true; resultado = false; }
+
+      if (!resultado) { alert("Error detectado en el ingreso de campos") }
+      return resultado;
+    };
+
+    function setearEnFalse() {
+      errorSede.value = false;
+      errorActividad.value = false;
+      errorProfesor.value = false;
+      errorFecha.value = false;
+      errorPersonas.value = false;
+    }
+
     const deleteTurno = async () => {
-      if(elementStore.confirm("eliminar", "eliminado", "Turno")){
+      if (elementStore.confirm("eliminar", "eliminado", "Turno")) {
         await elementStore.deleteElement(url, turnoId);
         router.push("/turnos");
       }
     };
-    
+
     return {
       turno,
       updateTurno,
@@ -119,6 +153,11 @@ export default {
       sedes,
       profesores,
       actividades,
+      errorActividad,
+      errorFecha,
+      errorPersonas,
+      errorProfesor,
+      errorSede
     };
   },
 };

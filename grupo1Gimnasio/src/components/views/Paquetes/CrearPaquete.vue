@@ -6,27 +6,40 @@
       <div class="col-md-6 offset-md-3" v-if="paquete">
         <div class="card bg-light text-dark mb-5">
           <div v-if="paquete" class="card-body">
-          <h4>Crear Paquete</h4>
-              <div>
-                <p>
-                  <strong>Nombre: </strong><input type="text" class="form-control" v-model="paquete.nombre" placeholder="Nuevo paquete"/>
-                </p>
-                <p>
-                  <strong>Cantidad de tickets: </strong><input type="text" class="form-control" v-model="paquete.nombre" placeholder="30"/>
-                </p>
-                <p>
-                  <strong>Precio: </strong><input type="text" class="form-control" v-model="paquete.nombre" placeholder="2500"/>
-                </p>
-                <div class="d-flex justify-content-center">
-                  <button class="btn btn-success" @click="createPaquete">Crear Paquete</button>
-                </div>
+            <h4>Crear Paquete</h4>
+            <div>
+              <p>
+                <strong>Nombre: </strong><input type="text" class="form-control" v-model="paquete.nombre"
+                  placeholder="Nuevo paquete" />
+              </p>
+              <h6 class="alert alert-danger alert-sm mb-0 text-center m-2 mb-3" v-if="errorNombre">
+                <strong>El nombre no puede estar vacío</strong>
+              </h6>
+              <p>
+                <strong>Cantidad de tickets: </strong><input type="number" class="form-control"
+                  v-model="paquete.cantTickets" placeholder="30" />
+              </p>
+              <h6 class="alert alert-danger alert-sm mb-0 text-center m-2 mb-3" v-if="errorTickets">
+                <strong>La cantidad de tickets deben ser mayor a 0</strong>
+              </h6>
+              <p>
+                <strong>Precio: </strong><input type="number" class="form-control" v-model="paquete.precio"
+                  placeholder="2500" />
+              </p>
+              <h6 class="alert alert-danger alert-sm mb-0 text-center m-2 mb-3" v-if="errorPrecio">
+                <strong>El precio debe ser mayor a 0</strong>
+              </h6>
+              <div class="d-flex justify-content-center">
+                <button class="btn btn-success" @click="createPaquete">Crear Paquete</button>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
     <div class="d-flex justify-content-center">
-    <button class="btn btn-warning" ><router-link to="/paquetes" class="nav-item nav-link" href="#">Volver a Paquetes</router-link></button>
+      <button class="btn btn-warning"><router-link to="/paquetes" class="nav-item nav-link" href="#">Volver a
+          Paquetes</router-link></button>
     </div>
   </div>
   <br>
@@ -35,7 +48,7 @@
 <script>
 import { useElementStore } from '../../../stores/Store';
 import { useRouter } from 'vue-router'
-import { computed } from "vue";
+import { computed, ref } from "vue";
 
 
 export default {
@@ -47,15 +60,40 @@ export default {
     const url = "https://646937ca03bb12ac208876f1.mockapi.io/paquetes";
 
     const createPaquete = async () => {
-      if(elementStore.confirm("crear", "registrado", "Paquete")){
+      if (validar() && elementStore.confirm("crear", "registrado", "Paquete")) {
         await elementStore.createElement(url, paquete.value);
         router.push('/paquetes');
       }
     }
 
+    const errorNombre = ref(false);
+    const errorTickets = ref(false);
+    const errorPrecio = ref(false);
+
+    function validar() {
+      setearEnFalse();
+      let resultado = true;
+      const paquete = elementStore.currentElement;
+      if (paquete.nombre.trim() === '') { errorNombre.value = true; resultado = false; }
+      if (!(Number(paquete.cantTickets) >= 1)) { errorTickets.value = true; resultado = false; }
+      if (!(Number(paquete.precio) >= 1)) { errorPrecio.value = true; resultado = false; }
+
+      if (!resultado) { alert("Error detectado en el ingreso de campos") }
+      return resultado;
+    };
+
+    function setearEnFalse() {
+      errorNombre.value = false;
+      errorTickets.value = false;
+      errorPrecio.value = false;
+    }
+
     return {
       createPaquete,
-      paquete
+      paquete,
+      errorNombre,
+      errorPrecio,
+      errorTickets
     }
   },
 }

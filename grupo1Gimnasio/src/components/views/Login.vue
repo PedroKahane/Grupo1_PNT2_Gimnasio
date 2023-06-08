@@ -22,7 +22,7 @@
                     @mouseup="mostrarContraseña">Ver contraseña</button>
                 </div>
               </div>
-              <h6 class="alert alert-danger alert-dismissible alert-sm mb-0 text-center mt-2" v-if="mensaje != ''">
+              <h6 class="alert alert-danger alert-sm mb-0 text-center mt-2" v-if="mensaje != ''">
                 <strong>{{ mensaje }}</strong>
               </h6>
               <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mt-2 mx-auto d-block" type="button"
@@ -40,7 +40,6 @@
   </div>
   <br>
 </template>
-
 <script>
 // import { sessionStore } from "../../stores/session";
 import { setCookie } from "../../stores/Cookies";
@@ -76,7 +75,7 @@ export default {
         })
         this.mensaje = "";
       } else {
-        this.mensaje = "Complete los campos para acceder a su cuenta.";
+        this.mensaje = "Complete los campos para acceder a su cuenta";
       }
     },
     routerRegister() {
