@@ -34,7 +34,7 @@
       <button class="btn btn-danger"><router-link to="/crearProfesor" class="nav-item nav-link" href="#">Crear Profesor</router-link></button>
       </table>
       </div>
- 
+      <br>
 </template>
 
 <script>

@@ -50,6 +50,7 @@
       </tbody>
     </table>
   </div>
+  <br>
 </template>
 
 <script>

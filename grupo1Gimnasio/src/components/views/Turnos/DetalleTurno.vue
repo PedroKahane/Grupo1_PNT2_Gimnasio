@@ -64,6 +64,7 @@
           Turnos</router-link></button>
     </div>
   </div>
+  <br>
 </template>
 
 <script>

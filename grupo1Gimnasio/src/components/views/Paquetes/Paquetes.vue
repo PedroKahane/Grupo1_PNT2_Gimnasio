@@ -30,7 +30,7 @@
           Paquete</router-link></button>
     </table>
     </div>
-     
+    <br>
    </template>
 <script>
 import { useElementStore } from "../../../stores/Store";

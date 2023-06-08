@@ -38,11 +38,12 @@
                   <strong>Fecha: </strong><input type="datetime-local" class="form-control" v-model="turno.fecha" />
                 </p>
                 <p>
-                  <strong>Cantidad de personas: </strong><input type="text" class="form-control" v-model="turno.cantPersonasLim" />
+                  <strong>Cantidad de personas: </strong><input type="number" class="form-control" v-model="turno.cantPersonasLim" />
                 </p>
                 <div class="d-flex justify-content-center">
                   <button class="btn btn-success" @click="createTurno">Crear Turno</button>
                 </div>
+                <br>
             </div>
           </div>
         </div>
@@ -52,6 +53,7 @@
     <button class="btn btn-warning" ><router-link to="/turnos" class="nav-item nav-link" href="#">Volver a Turnos</router-link></button>
     </div>
   </div>
+  <br>
 </template>
 
 <script>

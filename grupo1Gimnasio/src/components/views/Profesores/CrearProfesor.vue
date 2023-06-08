@@ -26,6 +26,7 @@
     <button class="btn btn-warning" ><router-link to="/profesores" class="nav-item nav-link" href="#">Volver a Profesores</router-link></button>
     </div>
   </div>
+  <br>
 </template>
 <script>
 import { useElementStore } from '../../../stores/Store';

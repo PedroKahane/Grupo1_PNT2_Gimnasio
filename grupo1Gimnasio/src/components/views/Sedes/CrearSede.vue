@@ -28,6 +28,7 @@
     <button class="btn btn-warning" ><router-link to="/sedes" class="nav-item nav-link" href="#">Volver a Sedes</router-link></button>
     </div>
   </div>
+  <br>
 </template>
   
 <script>

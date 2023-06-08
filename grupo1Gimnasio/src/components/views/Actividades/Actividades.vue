@@ -20,6 +20,7 @@
         <button v-if="isAdmin()" class="btn btn-danger"><router-link to="/crearActividad" class="nav-item nav-link" href="#">Crear Actividad</router-link></button>
       </table>
     </div>
+    <br>
 </template>
    <script>
    import { useElementStore } from "../../../stores/Store";

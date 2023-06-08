@@ -31,6 +31,7 @@
     <button class="btn btn-warning" ><router-link to="/actividades" class="nav-item nav-link" href="#">Volver a Actividades</router-link></button>
     </div>
   </div>
+  <br>
 </template>
 
 <script>

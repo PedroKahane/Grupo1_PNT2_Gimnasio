@@ -11,6 +11,9 @@
         <button class="btn btn-danger" v-on:click="reiniciar">Reiniciar</button>
       </form>
     </div>
+    <div class="d-flex flex-column align-items-center">
+      <h5 class="text-center" v-if="user">Tickets restantes: <strong>{{ user.ticketsRestantes }}</strong></h5>
+    </div>
     <table class="table table-striped table-bordered">
       <thead>
         <tr>
@@ -44,6 +47,7 @@
     <button v-if="usuario && usuario.administrador" class="btn btn-danger"><router-link to="/crearTurno"
         class="nav-item nav-link" href="#">Crear Turno</router-link></button>
   </div>
+  <br>
 </template>
    
 <script>
