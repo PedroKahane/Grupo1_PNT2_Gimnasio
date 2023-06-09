@@ -6,11 +6,12 @@ import { useElementStore } from "../stores/Store";
 export const useGeneralStore = defineStore('general', {
   state: () => ({
     element: {},
+    url : "https://645ae28c95624ceb210d09ed.mockapi.io/Usuarios"
+
   }),
   actions: {
     async agregarTickets(tickets) {
       const elementStore = useElementStore("usuarios")();
-      const url = "https://645ae28c95624ceb210d09ed.mockapi.io/Usuarios";
 
       var usuario = Cookies.get('usuario');
       var num = 0;
@@ -18,7 +19,7 @@ export const useGeneralStore = defineStore('general', {
       if (usuario) {
         usuario = JSON.parse(usuario);
       }
-      const response = await axios.get(`${url}/${usuario[0].id}`)
+      const response = await axios.get(`${this.url}/${usuario[0].id}`)
       this.element = response.data
       
       console.log(this.element);
@@ -40,8 +41,14 @@ export const useGeneralStore = defineStore('general', {
       console.log(usuario[0].ticketsRestantes);
       console.log(usuario[0])
 
-      elementStore.updateElement(url, usuario[0])
+      elementStore.updateElement(this.url, usuario[0])
     },
+
+    // verifica si existen mas dnis y mails iguales para que no se repita
+    async verificarExistencia(user){
+      const elementStore = useElementStore("usuarios")();
+      const usuarios = await elementStore.fetchElements(this.url);
+    }
     
   },
 });

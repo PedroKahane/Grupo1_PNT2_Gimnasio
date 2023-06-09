@@ -87,6 +87,7 @@
 import { useElementStore } from "../../../stores/Store";
 import { useRouter } from "vue-router";
 import { computed, ref } from "vue";
+import { useGeneralStore } from "../../../stores/General"
 
 export default {
   setup() {
@@ -107,6 +108,7 @@ export default {
     const user = computed(() => elementStore.currentElement);
     const router = useRouter();
     const url = "https://645ae28c95624ceb210d09ed.mockapi.io/Usuarios";
+    const generalStore = useGeneralStore();
 
     const createUsuario = async () => {
       if (validar() && elementStore.confirm("crear", "registrado", "Usuario")) {
@@ -128,6 +130,8 @@ export default {
     function validar() {
       setearEnFalse();
       let resultado = true;
+      //DESCOMENTAR LUEGO
+      //generalStore.verificarExistencia(elementStore.currentElement);
       const persona = elementStore.currentElement;
       if (/\d/.test(persona.nombre) || persona.nombre.trim() === '') { errorNombre.value = true; resultado = false; }
       if (/\d/.test(persona.apellido) || persona.apellido.trim() === '') { errorApellido.value = true; resultado = false; }

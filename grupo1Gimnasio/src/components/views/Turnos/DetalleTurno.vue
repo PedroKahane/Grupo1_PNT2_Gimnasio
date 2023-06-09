@@ -51,7 +51,7 @@
               </h6>
               <p>
                 <strong>Límite de Personas: </strong>
-                <input type="text" v-model="turno.cantPersonasLim">
+                <input type="number" v-model="turno.cantPersonasLim">
               </p>
               <h6 class="alert alert-danger alert-sm mb-0 text-center m-2 mb-3" v-if="errorPersonas">
                 <strong>El número de personas debe ser mayor a 0</strong>
@@ -120,10 +120,12 @@ export default {
     function validar() {
       setearEnFalse();
       let resultado = true;
+
       const turno = elementStore.currentElement;
-      if (turno.idSede.trim() === '') { errorSede.value = true; resultado = false; }
-      if (turno.idActividad.trim() === '') { errorActividad.value = true; resultado = false; }
-      if (turno.idProfesor.trim() === '') { errorProfesor.value = true; resultado = false; }
+
+      if (Number(turno.idSede === 0)) { errorSede.value = true; resultado = false; }
+      if (Number(turno.idActividad === 0)) { errorActividad.value = true; resultado = false; }
+      if (Number(turno.idProfesor === 0)) { errorProfesor.value = true; resultado = false; }
       if (turno.fecha.trim() === '') { errorFecha.value = true; resultado = false; }
       if (!(Number(turno.cantPersonasLim) >= 1)) { errorPersonas.value = true; resultado = false; }
 
