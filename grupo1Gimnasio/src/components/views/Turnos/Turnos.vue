@@ -14,6 +14,15 @@
     <div class="d-flex flex-column align-items-center">
       <h5 class="text-center" v-if="user">Tickets restantes: <strong>{{ user.ticketsRestantes }}</strong></h5>
     </div>
+    <h6 class="alert alert-danger alert-sm mb-0 text-center m-2 mb-3" v-if="error1">
+      <strong>Error, cupos de turnos agotados</strong>
+    </h6>
+    <h6 class="alert alert-danger alert-sm mb-0 text-center m-2 mb-3" v-if="error2">
+      <strong>Error, no le quedan tickets por gastar, vaya a <RouterLink to="/paquetes"><strong>PAQUETES</strong></RouterLink> para comprar mas</strong>
+    </h6>
+    <h6 class="alert alert-danger alert-sm mb-0 text-center m-2 mb-3" v-if="error3">
+      <strong>Turno existecte</strong>
+    </h6>
     <table class="table table-striped table-bordered">
       <thead>
         <tr>
@@ -101,8 +110,9 @@ export default {
     }
 
     const sacarTurno = async (idTurno) => {
-      if (elementStore.confirm("sacar", "obtenido", "Turno")) {
+      if ( (error1 || error2 || error3) && elementStore.confirm("sacar", "obtenido", "Turno")) {
         await turnoStore.sacarTurno(idTurno, usuario.id);
+        console.log(error1.value, error2.value, error3.value);
         if (!error1.value && !error2.value && !error3.value) {
           location.reload();
         }

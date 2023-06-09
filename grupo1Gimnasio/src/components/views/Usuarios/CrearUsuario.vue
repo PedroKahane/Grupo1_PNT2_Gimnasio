@@ -23,7 +23,10 @@
             </h6>
             <p><strong>Mail: </strong><input class="form-control" type="email" v-model="user.mail"
                 placeholder="tuMail@ejemplo.com" /></p>
-            <h6 class="alert alert-danger alert-sm mb-0 text-center m-2 mb-3" v-if="errorMail">
+            <h6 class="alert alert-danger alert-sm mb-0 text-center m-2 mb-3" v-if="errorMailYaRegistrado">
+              <strong>Error, este MAIL ya se encuentra registrado</strong>
+            </h6>
+            <h6 class="alert alert-danger alert-sm mb-0 text-center m-2 mb-3" v-else-if="errorMail">
               <strong>Formato de mail inválido</strong>
             </h6>
             <div class="form-group row mb-3">
@@ -39,6 +42,10 @@
               </div>
             </div>
             <h6 class="alert alert-danger alert-sm mb-0 text-center m-2 mb-3" v-if="errorContraseña">
+              <strong>Error, la contraseña debe contener al menos 8 caracteres, un número y una
+                mayúscula</strong>
+            </h6>
+            <h6 class="alert alert-success alert-sm mb-0 text-center m-2 mb-3" v-else>
               <strong>La contraseña debe contener al menos 8 caracteres, un número y una
                 mayúscula</strong>
             </h6>
@@ -71,7 +78,10 @@
             </p>
             <p><strong>Dni: </strong><input class="form-control" type="number" v-model="user.dni"
                 placeholder="12345678" /></p>
-            <h6 class="alert alert-danger alert-sm mb-0 text-center m-2 mb-3" v-if="errorDNI">
+            <h6 class="alert alert-danger alert-sm mb-0 text-center m-2 mb-3" v-if="errorDNIYaRegistrado">
+              <strong>Error, este DNI ya se encuentra registrado</strong>
+            </h6>
+            <h6 class="alert alert-danger alert-sm mb-0 text-center m-2 mb-3" v-else-if="errorDNI">
               <strong>Formato del dni inválido</strong>
             </h6>
             <button class="btn btn-primary mx-auto d-block" @click="createUsuario">Crear cuenta</button>
@@ -86,8 +96,7 @@
 <script>
 import { useElementStore } from "../../../stores/Store";
 import { useRouter } from "vue-router";
-import { computed, ref } from "vue";
-import { useGeneralStore } from "../../../stores/General"
+import { computed, ref, onMounted } from "vue";
 
 export default {
   setup() {
@@ -105,13 +114,23 @@ export default {
       dni: "",
       ticketsRestantes: 0,
     });
+
     const user = computed(() => elementStore.currentElement);
     const router = useRouter();
     const url = "https://645ae28c95624ceb210d09ed.mockapi.io/Usuarios";
-    const generalStore = useGeneralStore();
+
+    onMounted(() => {
+      elementStore.fetchElements(url)
+    })
 
     const createUsuario = async () => {
-      if (validar() && elementStore.confirm("crear", "registrado", "Usuario")) {
+      const { dniRepetido, emailRepetido } = elementStore.verificarExistencia(elementStore.currentElement);
+      setearEnFalse();
+      //console.log(dniRepetido, emailRepetido)
+      if (dniRepetido) { errorDNIYaRegistrado.value = true }
+      if (emailRepetido) { errorMailYaRegistrado.value = true }
+
+      if (validar() && !emailRepetido && !dniRepetido && elementStore.confirm("crear", "registrado", "Usuario")) {
         await elementStore.createElement(url, user.value);
         router.push("/login");
       }
@@ -126,12 +145,12 @@ export default {
     const errorEdad = ref(false);
     const errorContacto = ref(false);
     const errorDNI = ref(false);
+    const errorDNIYaRegistrado = ref(false);
+    const errorMailYaRegistrado = ref(false);
 
     function validar() {
-      setearEnFalse();
       let resultado = true;
-      //DESCOMENTAR LUEGO
-      //generalStore.verificarExistencia(elementStore.currentElement);
+
       const persona = elementStore.currentElement;
       if (/\d/.test(persona.nombre) || persona.nombre.trim() === '') { errorNombre.value = true; resultado = false; }
       if (/\d/.test(persona.apellido) || persona.apellido.trim() === '') { errorApellido.value = true; resultado = false; }
@@ -143,7 +162,7 @@ export default {
       if (!/^\d{10}$/.test(Number(persona.contacto))) { errorContacto.value = true; resultado = false; }
       if (!/^\d{7,8}$/.test(Number(persona.dni))) { errorDNI.value = true; resultado = false; }
 
-      if (!resultado) { alert("Error detectado en el ingreso de campos") }
+      if (!resultado || errorDNIYaRegistrado.value || errorMailYaRegistrado.value) { alert("Error detectado en el ingreso de campos") }
       return resultado;
     };
 
@@ -157,6 +176,8 @@ export default {
       errorEdad.value = false;
       errorContacto.value = false;
       errorDNI.value = false;
+      errorDNIYaRegistrado.value = false;
+      errorMailYaRegistrado.value = false;
     }
 
     return {
@@ -171,6 +192,8 @@ export default {
       errorEdad,
       errorContacto,
       errorDNI,
+      errorDNIYaRegistrado,
+      errorMailYaRegistrado
     };
   },
   data() {

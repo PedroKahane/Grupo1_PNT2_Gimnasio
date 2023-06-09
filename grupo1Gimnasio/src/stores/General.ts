@@ -43,12 +43,5 @@ export const useGeneralStore = defineStore('general', {
 
       elementStore.updateElement(this.url, usuario[0])
     },
-
-    // verifica si existen mas dnis y mails iguales para que no se repita
-    async verificarExistencia(user){
-      const elementStore = useElementStore("usuarios")();
-      const usuarios = await elementStore.fetchElements(this.url);
-    }
-    
   },
 });
