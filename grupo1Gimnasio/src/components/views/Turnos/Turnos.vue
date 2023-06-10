@@ -71,6 +71,13 @@ export default {
   setup() {
 
     const elementStore = useElementStore("usuarios")()
+    const profesoresStore = useElementStore("profesores")()
+    const sedesStore = useElementStore("sedes")()
+    const actividadesStore = useElementStore("actividades")
+    const turnosStore = useElementStore("turnos")()
+    const turnosPersonasStore = useElementStore("turnosPersonas")()
+    const paquetesStore = useElementStore("paquetes")()
+  
     const turnoStore = useTurnoStore()
     const busqueda = "";
     const router = useRouter();
@@ -86,19 +93,19 @@ export default {
     }
 
     onMounted(async () => {
-      await turnoStore.fetchProfesores();
-      await turnoStore.fetchSedes();
-      await turnoStore.fetchActividades();
-      await turnoStore.fetchTurnos()
-      await turnoStore.fetchTurnosPersonas();
-      await turnoStore.fetchUsuarios();
-      await turnoStore.fetchPaquetes();
+      await profesoresStore.fetchElements("https://64662c65228bd07b355ddc69.mockapi.io/profesores");
+      await sedesStore.fetchElements("https://645ae28c95624ceb210d09ed.mockapi.io/Sede");
+      await actividadesStore.fetchElements("https://6460fabb491f9402f49bfa55.mockapi.io/Actividades");
+      await turnosStore.fetchElements("https://6460fabb491f9402f49bfa55.mockapi.io/Turno")
+      await turnosPersonasStore.fetchElements("https://64662c65228bd07b355ddc69.mockapi.io/turnoPersona");
+      await elementStore.fetchElements('https://645ae28c95624ceb210d09ed.mockapi.io/Usuarios');
+      await paquetesStore.fetchElements('https://646937ca03bb12ac208876f1.mockapi.io/paquetes');
       //await turnoStore.contarTurno(turnoId)
 
     })
-    const error1 = computed(() => turnoStore.getError1)
-    const error2 = computed(() => turnoStore.getError2)
-    const error3 = computed(() => turnoStore.getError3)
+    //const error1 = computed(() => turnoStore.getError1)
+    //const error2 = computed(() => turnoStore.getError2)
+    //const error3 = computed(() => turnoStore.getError3)
     //console.log(turnosPersonas.value);
 
     function buscar() {
@@ -110,17 +117,71 @@ export default {
     }
 
     const sacarTurno = async (idTurno) => {
-      if ( (error1 || error2 || error3) && elementStore.confirm("sacar", "obtenido", "Turno")) {
-        await turnoStore.sacarTurno(idTurno, usuario.id);
-        console.log(error1.value, error2.value, error3.value);
-        if (!error1.value && !error2.value && !error3.value) {
-          location.reload();
+      try {
+        this.error1 = false;
+        this.error2 = false;
+        this.error3 = false;
+        const turnoNuevo = {
+          idTurno,
+          idPersona
         }
+        const turno = turnosStore.getElements.find((e) => e.id === idTurno)
+        const turnosMaximos = turno.cantPersonasLim
+        const contador = contarTurno(idTurno);
+        console.log(contador);
+        const usuario = elementStore.getElements.find((e) => e.id === idPersona)
+
+        try {
+          if (usuario.ticketsRestantes == 0) {
+            //console.log("no quedan tickets");
+
+            this.error2 = true
+          } else {
+            try {
+              if (contador < turnosMaximos) {
+                const turnoExistente = turnosPersonasStore.getElements.find((e) => { return e.idTurno == idTurno && e.idPersona == idPersona })
+                if (turnoExistente == null) {
+                  const response = await turnosPersonasStore.createElement(`https://64662c65228bd07b355ddc69.mockapi.io/turnoPersona`, turnoNuevo)
+
+                  usuario.ticketsRestantes--
+                  //console.log(usuario.ticketsRestantes);
+                  const response2 = await elementStore.updateElement(`https://645ae28c95624ceb210d09ed.mockapi.io/Usuarios`, usuario)
+                  //console.log(response2);
+                  //console.log(response)
+
+                } else {
+                  this.error3 = true
+                  //console.log(turnoExistente);
+                }
+
+              } else {
+                this.error1 = true
+              }
+            } catch (error) {
+              console.error(`Error updating turno`, error)
+            }
+
+          }
+        } catch (error) {
+          //console.log(error);
+
+        }
+      } catch (error) {
+        console.error(`Error updating Element with id ${idPersona}:`, error)
       }
-    };
+    }; 
+    const  contarTurno = async (id) => {
+      var contador = 0
+      this.turnosPersonas.forEach(element => {
+        if (element.idTurno == id) {
+          contador++
+        }
+        return contador
+      });
+    }
 
     const sacasteElTurno = computed(() => (idTurno) => {
-      const turnoExistente = turnoStore.getTurnosPersonas.find((e) => {
+      const turnoExistente = turnosPersonasStore.getElements.find((e) => {
         return e.idTurno == idTurno && e.idPersona == usuario.id
       })
       if (turnoExistente == null) {
@@ -131,12 +192,19 @@ export default {
     })
 
     const cancelarTurno = async (idTurno) => {
-      if (elementStore.confirm("cancelar", "cancelado", "Turno")) {
-        await turnoStore.cancelarTurno(idTurno, usuario.id);
-        location.reload();
+      const turnoExistente = turnosPersonasStore.getElements.find((e) => {
+        return e.idTurno == idTurno && e.idPersona == idPersona
+      })
+      if (turnoExistente) {
+        const usuario = elementStore.getElements.find((e) => e.id === idPersona)
+        usuario.ticketsRestantes++
+        const response2 = await elementStore.updateElement(`https://645ae28c95624ceb210d09ed.mockapi.io/Usuarios`, usuario)
+        //console.log(response2);
+        const response = await turnosPersonasStore.deleteElement('https://64662c65228bd07b355ddc69.mockapi.io/turnoPersona' , turnoExistente.id)
+        //console.log(response);
       }
     }
-    const turnos = computed(() => turnoStore.getTurnos);
+    const turnos = computed(() => turnosStore.elements);
     return {
       turnos,
       buscar,
