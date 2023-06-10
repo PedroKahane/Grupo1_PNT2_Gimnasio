@@ -75,6 +75,8 @@ export default {
     const busqueda = "";
     const router = useRouter();
     const route = useRoute();
+    const turnosStore2 = useElementStore("turnos")()
+    const date = new Date();
     var usuario = getCookie();
     if (!!usuario) {
       usuario = JSON.parse(usuario)
@@ -93,6 +95,7 @@ export default {
       await turnoStore.fetchTurnosPersonas();
       await turnoStore.fetchUsuarios();
       await turnoStore.fetchPaquetes();
+      await turnosStore2.fetchElements("https://6460fabb491f9402f49bfa55.mockapi.io/Turno");
       //await turnoStore.contarTurno(turnoId)
 
     })
@@ -110,7 +113,7 @@ export default {
     }
 
     const sacarTurno = async (idTurno) => {
-      if ( (error1 || error2 || error3) && elementStore.confirm("sacar", "obtenido", "Turno")) {
+      if ( (error1 || error2 || error3) ) {
         await turnoStore.sacarTurno(idTurno, usuario.id);
         console.log(error1.value, error2.value, error3.value);
         if (!error1.value && !error2.value && !error3.value) {

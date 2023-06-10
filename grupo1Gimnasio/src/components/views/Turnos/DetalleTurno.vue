@@ -106,6 +106,7 @@ export default {
 
     const updateTurno = async () => {
       if (validar() && elementStore.confirm("modificar", "modificado", "Turno")) {
+        //console.log(elementStore.currentElement)
         await elementStore.updateElement(url, elementStore.currentElement);
         router.push("/turnos");
       }

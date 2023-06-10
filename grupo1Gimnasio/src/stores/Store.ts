@@ -58,7 +58,7 @@ export function useElementStore(nombreStore) {
 
       async updateElement(url, updatedElement) {
         try {
-          const response = await axios.put(`${url}/${updatedElement.id}`, updatedElement)
+          const response = await axios.put(`${url}/${updatedElement.id}`, updatedElement) 
           const index = this.elements.findIndex((e) => e.id === updatedElement.id)
           this.elements[index] = response.data
         } catch (error) {

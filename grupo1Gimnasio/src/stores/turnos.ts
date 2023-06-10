@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
+import { parse, parseISO } from 'date-fns';
 
 export const useTurnoStore = defineStore('turno', {
   state: () => ({
@@ -239,20 +240,28 @@ export const useTurnoStore = defineStore('turno', {
       }
 
     },
-    filtrarXFecha(fechaBusqueda: Date) {
-      const fechaFiltro = new Date(fechaBusqueda);
-      const diaFiltro = fechaFiltro.getDate()+1;
-      const mesFiltro = fechaFiltro.getMonth()+1;
+    filtrarXFecha(fechaBusqueda) {
+
+      fechaBusqueda = new Date(fechaBusqueda);
+          
+      //const fechaFiltro = new Date(fechaBusqueda);
+      console.log(fechaBusqueda)
+      const diaFiltro = fechaBusqueda.getDate();
+      const mesFiltro = fechaBusqueda.getMonth()+1;
       console.log(diaFiltro, mesFiltro);
-      console.log("******************************")
+      //console.log("..");
     
       this.turnos = this.turnos.filter(item => {
         const propiedad = item.fecha;
+        //const fechaTurno = parse(propiedad, "dd/MM/yyyy", new Date());
         const fechaTurno = new Date(propiedad);
-        const diaTurno = fechaTurno.getDate();
-        const mesTurno = fechaTurno.getMonth()+1;
-        console.log(diaTurno, mesTurno)
-    
+        const fechaFinal = parse(propiedad, "dd/MM/yyyy", new Date());
+        console.log(fechaTurno)
+
+        const mesTurno = fechaFinal.getDate();
+        const diaTurno = fechaFinal.getMonth()+1;
+        //console.log(diaTurno, mesTurno)
+
         return diaTurno === diaFiltro && mesTurno === mesFiltro;
       }); 
     }
