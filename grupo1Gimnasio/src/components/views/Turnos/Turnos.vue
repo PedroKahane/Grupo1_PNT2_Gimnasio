@@ -34,7 +34,7 @@
           <th v-if="usuario && usuario.administrador">Detalles:</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody  v-if="turnos">
         <tr v-for="turno in turnos" :key="turno.id">
           <td v-if="turno.profesor != undefined">{{ turno.profesor.nombre }} {{ turno.profesor.apellido }}</td>
           <td v-else></td>
@@ -42,7 +42,8 @@
           <td v-else></td>
           <td v-if="turno.actividad != undefined">{{ turno.actividad.nombre }}</td>
           <td v-else></td>
-          <td>{{ turno.fecha }}</td>
+          <td v-if="turno.sede != undefined">{{ turno.fecha }}</td>
+          <td v-else></td>
           <td v-if="usuario">
             <button v-if="sacasteElTurno(turno.id)" class="btn btn-primary" @click="sacarTurno(turno.id)">Sacar
               Turno</button>
@@ -61,10 +62,10 @@
    
 <script>
 import { useElementStore } from "../../../stores/Store";
-import { useTurnoStore } from "../../../stores/turnos";
+//import { useTurnoStore } from "../../../stores/turnos";
 import { useRouter } from "vue-router";
 import { useRoute } from "vue-router";
-import { onMounted, computed } from "vue";
+import { onMounted, computed, ref } from "vue";
 import { getCookie } from "../../../stores/Cookies";
 
 export default {
@@ -73,12 +74,12 @@ export default {
     const elementStore = useElementStore("usuarios")()
     const profesoresStore = useElementStore("profesores")()
     const sedesStore = useElementStore("sedes")()
-    const actividadesStore = useElementStore("actividades")
+    const actividadesStore = useElementStore("actividades")()
     const turnosStore = useElementStore("turnos")()
     const turnosPersonasStore = useElementStore("turnosPersonas")()
     const paquetesStore = useElementStore("paquetes")()
   
-    const turnoStore = useTurnoStore()
+    //const turnoStore = useTurnoStore()
     const busqueda = "";
     const router = useRouter();
     const route = useRoute();
@@ -87,7 +88,6 @@ export default {
       usuario = JSON.parse(usuario)
       usuario = usuario[0]
       elementStore.fetchElementById("https://645ae28c95624ceb210d09ed.mockapi.io/Usuarios", usuario.id);
-      var user = computed(() => elementStore.currentElement);
       //user = usuario.value;
       //console.log(user);
     }
@@ -101,61 +101,90 @@ export default {
       await elementStore.fetchElements('https://645ae28c95624ceb210d09ed.mockapi.io/Usuarios');
       await paquetesStore.fetchElements('https://646937ca03bb12ac208876f1.mockapi.io/paquetes');
       //await turnoStore.contarTurno(turnoId)
+      tablaTurnos()
 
     })
-    //const error1 = computed(() => turnoStore.getError1)
-    //const error2 = computed(() => turnoStore.getError2)
-    //const error3 = computed(() => turnoStore.getError3)
-    //console.log(turnosPersonas.value);
+ 
+    const turnos = computed(() => turnosStore.getElements)
+    const usuarios = computed(() => elementStore.getElements)
+    const turnosPersonas = computed(() => turnosPersonasStore.getElements)
+    const sedes = computed(() => sedesStore.getElements)
+    const actividades = computed(() => actividadesStore.getElements)
+    const profesores = computed(() => profesoresStore.getElements)
+    var user = computed(() => elementStore.currentElement)
 
     function buscar() {
-      turnoStore.filtrarXFecha(this.busqueda);
+      turnosStore.filtrarXFecha(this.busqueda);
     }
 
     function reiniciar() {
       location.reload();
     }
-
+    var error1 = ref(false)
+    var error2 = ref(false)
+    var error3 = ref(false)
+    const contarTurno = (id) => {
+      try {
+        var contador = 0 
+        const turnosyPersonas = turnosPersonas.value
+        turnosyPersonas.forEach(element => {
+          if(element.idTurno == id){
+            contador++
+            //console.log(contador);
+          }
+        });
+        return contador
+      } catch (error) {
+        console.log(error);
+      }
+    
+    }
+   
     const sacarTurno = async (idTurno) => {
       try {
-        this.error1 = false;
-        this.error2 = false;
-        this.error3 = false;
+        //error1.value = false;
+        //error2.value = false;
+        //error3.value = false;
+        var usuario = getCookie();
+        usuario = JSON.parse(usuario)
+        console.log(usuario[0]);
+        const idPersona = usuario[0].id
         const turnoNuevo = {
           idTurno,
           idPersona
         }
-        const turno = turnosStore.getElements.find((e) => e.id === idTurno)
+        const turno = turnos.value.find((e) => e.id === idTurno)
         const turnosMaximos = turno.cantPersonasLim
         const contador = contarTurno(idTurno);
         console.log(contador);
-        const usuario = elementStore.getElements.find((e) => e.id === idPersona)
-
+        usuario = usuarios.value.find((e) => e.id === usuario[0].id)
+        //console.log(usuario.ticketsRestantes);
         try {
           if (usuario.ticketsRestantes == 0) {
-            //console.log("no quedan tickets");
-
-            this.error2 = true
+            error2.value = true
+            console.log(error2.value);
           } else {
             try {
               if (contador < turnosMaximos) {
-                const turnoExistente = turnosPersonasStore.getElements.find((e) => { return e.idTurno == idTurno && e.idPersona == idPersona })
+                const turnoExistente = turnosPersonas.value.find((e) => { return e.idTurno == idTurno && e.idPersona == usuario.id })
                 if (turnoExistente == null) {
-                  const response = await turnosPersonasStore.createElement(`https://64662c65228bd07b355ddc69.mockapi.io/turnoPersona`, turnoNuevo)
-
-                  usuario.ticketsRestantes--
-                  //console.log(usuario.ticketsRestantes);
-                  const response2 = await elementStore.updateElement(`https://645ae28c95624ceb210d09ed.mockapi.io/Usuarios`, usuario)
-                  //console.log(response2);
-                  //console.log(response)
+                  if(turnosStore.confirm("modificar", "modificado", "Turno")){
+                    const response = await turnosPersonasStore.createElement(`https://64662c65228bd07b355ddc69.mockapi.io/turnoPersona`, turnoNuevo)
+                    usuario.ticketsRestantes--
+                    const response2 = await elementStore.updateElement(`https://645ae28c95624ceb210d09ed.mockapi.io/Usuarios`, usuario)
+                    console.log(response2);
+                    console.log(response)
+                    elementStore.fetchElementById("https://645ae28c95624ceb210d09ed.mockapi.io/Usuarios", usuario.id);
+                    //location.reload();
+                  }
+               
 
                 } else {
-                  this.error3 = true
-                  //console.log(turnoExistente);
+                  error3.value = true
                 }
 
               } else {
-                this.error1 = true
+                error1.value = true
               }
             } catch (error) {
               console.error(`Error updating turno`, error)
@@ -163,48 +192,78 @@ export default {
 
           }
         } catch (error) {
-          //console.log(error);
+          console.log(error);
 
         }
       } catch (error) {
-        console.error(`Error updating Element with id ${idPersona}:`, error)
+        console.error(`Error updating Element with id ${usuario.id}:`, error)
       }
     }; 
-    const  contarTurno = async (id) => {
-      var contador = 0
-      this.turnosPersonas.forEach(element => {
-        if (element.idTurno == id) {
-          contador++
-        }
-        return contador
-      });
-    }
 
     const sacasteElTurno = computed(() => (idTurno) => {
-      const turnoExistente = turnosPersonasStore.getElements.find((e) => {
-        return e.idTurno == idTurno && e.idPersona == usuario.id
-      })
-      if (turnoExistente == null) {
-        return true
-      } else {
-        return false
+      if(turnosPersonas.value){
+        const turnoExistente = turnosPersonas.value.find((e) => {
+          return e.idTurno == idTurno && e.idPersona == usuario.id
+        })
+        if (!turnoExistente) {
+          return true
+        } else {
+          return false
+        }
       }
     })
 
     const cancelarTurno = async (idTurno) => {
-      const turnoExistente = turnosPersonasStore.getElements.find((e) => {
-        return e.idTurno == idTurno && e.idPersona == idPersona
+      var usuario = getCookie();
+      usuario = JSON.parse(usuario)
+      usuario = usuarios.value.find((e) => e.id === usuario[0].id)
+      console.log(usuario);
+      const turnoExistente = turnosPersonas.value.find((e) => {
+        return e.idTurno == idTurno && e.idPersona == usuario.id
       })
       if (turnoExistente) {
-        const usuario = elementStore.getElements.find((e) => e.id === idPersona)
-        usuario.ticketsRestantes++
-        const response2 = await elementStore.updateElement(`https://645ae28c95624ceb210d09ed.mockapi.io/Usuarios`, usuario)
-        //console.log(response2);
-        const response = await turnosPersonasStore.deleteElement('https://64662c65228bd07b355ddc69.mockapi.io/turnoPersona' , turnoExistente.id)
-        //console.log(response);
+        if(turnosStore.confirm("cancelar", "cancelado", "Turno")){
+          usuario.ticketsRestantes++
+          const response2 = await elementStore.updateElement(`https://645ae28c95624ceb210d09ed.mockapi.io/Usuarios`, usuario)
+          //console.log(response2);
+          const response = await turnosPersonasStore.deleteElement('https://64662c65228bd07b355ddc69.mockapi.io/turnoPersona' , turnoExistente.id)
+          //console.log(response);
+          elementStore.fetchElementById("https://645ae28c95624ceb210d09ed.mockapi.io/Usuarios", usuario.id);
+        }
       }
     }
-    const turnos = computed(() => turnosStore.elements);
+    const tablaTurnos = async () => {
+      try {
+        var turnosExtendido =  turnos.value
+        await turnosExtendido.forEach(element => {
+          const sede = sedes.value.find((e) => e.id == element.idSede)
+          //console.log(sede);
+          element.sede = sede
+          element.fecha = new Date(element.fecha).toLocaleDateString('es-ES', {
+            day: '2-digit',
+            month: '2-digit',
+            hour: '2-digit',
+            year: 'numeric',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false
+          });
+
+          const actividad = actividades.value.find((e) => e.id == element.idActividad)
+          //console.log(element.idActividad);
+          element.actividad = actividad
+
+          const profesor = profesores.value.find((e) => e.id == element.idProfesor)
+          element.profesor = profesor
+          //console.log(element.idProfesor);
+        });
+        //console.log(turnosExtendido);
+        turnos.value = turnosExtendido
+        //console.log(this.turnos);
+        } catch(error){
+          console.log(error);
+        }
+      }
     return {
       turnos,
       buscar,

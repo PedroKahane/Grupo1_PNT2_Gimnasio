@@ -75,7 +75,7 @@
 </template>
 <script>
 import { useElementStore } from "../../../stores/Store";
-import { useTurnoStore } from '../../../stores/turnos';
+//import { useTurnoStore } from '../../../stores/turnos';
 import { useRouter } from "vue-router";
 import { useRoute } from "vue-router";
 import { onMounted, computed, ref } from "vue";
@@ -84,29 +84,32 @@ import Cookies from "js-cookie";
 export default {
   setup() {
     const usuario = JSON.parse(Cookies.get('usuario'));
-    const elementStore = useElementStore("turnos")();
-    const turnoStore = useTurnoStore();
+    const turnoStore = useElementStore("turnos")()
+    const profesoresStore = useElementStore("profesores")()
+    const sedesStore = useElementStore("sedes")()
+    const actividadesStore = useElementStore("actividades")()
     const router = useRouter();
     const route = useRoute();
     const turnoId = route.params.id.toString();
     const url = "https://6460fabb491f9402f49bfa55.mockapi.io/Turno";
 
-    elementStore.fetchElementById(url, turnoId);
-    onMounted(() => {
-      turnoStore.fetchProfesores();
-      turnoStore.fetchSedes();
-      turnoStore.fetchActividades();
+    turnoStore.fetchElementById(url, turnoId);
+    onMounted(async () => {
+      await profesoresStore.fetchElements("https://64662c65228bd07b355ddc69.mockapi.io/profesores");
+      await sedesStore.fetchElements("https://645ae28c95624ceb210d09ed.mockapi.io/Sede");
+      await actividadesStore.fetchElements("https://6460fabb491f9402f49bfa55.mockapi.io/Actividades");
     });
 
-    const turno = computed(() => elementStore.currentElement);
+    const turno = computed(() => turnoStore.currentElement);
 
-    const sedes = computed(() => turnoStore.getSedes);
-    const profesores = computed(() => turnoStore.getProfesores)
-    const actividades = computed(() => turnoStore.getActividades)
+    const sedes = computed(() => sedesStore.getElements);
+    const actividades = computed(() => actividadesStore.getElements)
+    const profesores = computed(() => profesoresStore.getElements)
 
     const updateTurno = async () => {
-      if (validar() && elementStore.confirm("modificar", "modificado", "Turno")) {
-        await elementStore.updateElement(url, elementStore.currentElement);
+      if (validar() && turnoStore.confirm("modificar", "modificado", "Turno")) {
+        //console.log(elementStore.currentElement)
+        await turnoStore.updateElement(url, turnoStore.currentElement);
         router.push("/turnos");
       }
     };
@@ -121,7 +124,7 @@ export default {
       setearEnFalse();
       let resultado = true;
 
-      const turno = elementStore.currentElement;
+      const turno = turnoStore.currentElement;
 
       if (Number(turno.idSede === 0)) { errorSede.value = true; resultado = false; }
       if (Number(turno.idActividad === 0)) { errorActividad.value = true; resultado = false; }
@@ -142,8 +145,8 @@ export default {
     }
 
     const deleteTurno = async () => {
-      if (elementStore.confirm("eliminar", "eliminado", "Turno")) {
-        await elementStore.deleteElement(url, turnoId);
+      if (turnoStore.confirm("eliminar", "eliminado", "Turno")) {
+        await turnoStore.deleteElement(url, turnoId);
         router.push("/turnos");
       }
     };
