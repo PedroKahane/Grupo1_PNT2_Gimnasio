@@ -3,17 +3,17 @@
 GINO:
 
 JUAMPI:
-- confirm en sacar turno(esperar tarea pedro)
+- confirm en sacar turno(esperar tarea pedro) [DONE]
 
 PEDRO:
-- migrar turnos.ts al store.ts
+- migrar turnos.ts al store.ts [DONE]
 
 TOMI:
 
 PENDIENTES:
 - filtrar por fecha en turno
-- cancelar turno devuelve el ticket a los inscriptos
-- revisar paquete tira error al comprar (pero funciona)
+- cancelar turno devuelve el ticket a los inscriptos 
+- revisar paquete tira error al comprar (pero funciona) [DONE]
 
 ## Links Mockapis:
 // lo hice con la intención de ordenar los links 
