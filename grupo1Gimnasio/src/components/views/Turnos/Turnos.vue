@@ -139,8 +139,14 @@ export default {
       }
     
     }
+    function setearEnFalse(){
+      error1.value = false;
+      error2.value = false;
+      error3.value = false;
+    }
    
     const sacarTurno = async (idTurno) => {
+      setearEnFalse();
       try {
         //error1.value = false;
         //error2.value = false;
@@ -168,7 +174,7 @@ export default {
               if (contador < turnosMaximos) {
                 const turnoExistente = turnosPersonas.value.find((e) => { return e.idTurno == idTurno && e.idPersona == usuario.id })
                 if (turnoExistente == null) {
-                  if(turnosStore.confirm("modificar", "modificado", "Turno")){
+                  if(turnosStore.confirm("sacar", "obtenido", "Turno")){
                     const response = await turnosPersonasStore.createElement(`https://64662c65228bd07b355ddc69.mockapi.io/turnoPersona`, turnoNuevo)
                     usuario.ticketsRestantes--
                     const response2 = await elementStore.updateElement(`https://645ae28c95624ceb210d09ed.mockapi.io/Usuarios`, usuario)
@@ -214,6 +220,7 @@ export default {
     })
 
     const cancelarTurno = async (idTurno) => {
+      setearEnFalse();
       var usuario = getCookie();
       usuario = JSON.parse(usuario)
       usuario = usuarios.value.find((e) => e.id === usuario[0].id)
