@@ -23,6 +23,10 @@
     <h6 class="alert alert-danger alert-sm mb-0 text-center m-2 mb-3" v-if="error3">
       <strong>Turno existecte</strong>
     </h6>
+  <div class="btn-group my-3" role="group" aria-label="Basic example">
+    <button type="button" class="btn btn-outline-primary" @click="mostrarTurnos(true)">Proximos turnos</button>
+    <button type="button" class="btn btn-outline-primary" @click="mostrarTurnos(false)">Turnos pasados</button>
+  </div>
     <table class="table table-striped table-bordered">
       <thead>
         <tr>
@@ -30,12 +34,12 @@
           <th>Sede:</th>
           <th>Actividad:</th>
           <th>Fecha:</th>
-          <th v-if="usuario">Reservar:</th>
+          <th v-if="usuario && permiteSacarTurno">Reservar:</th>
           <th v-if="usuario && usuario.administrador">Detalles:</th>
         </tr>
       </thead>
-      <tbody  v-if="turnos">
-        <tr v-for="turno in turnos" :key="turno.id">
+      <tbody  v-if="turnosMostrados">
+        <tr v-for="turno in turnosMostrados" :key="turno.id">
           <td v-if="turno.profesor != undefined">{{ turno.profesor.nombre }} {{ turno.profesor.apellido }}</td>
           <td v-else></td>
           <td v-if="turno.sede != undefined"> {{ turno.sede.nombre }}</td>
@@ -44,7 +48,7 @@
           <td v-else></td>
           <td v-if="turno.sede != undefined">{{ turno.fecha }}</td>
           <td v-else></td>
-          <td v-if="usuario">
+          <td v-if="usuario && permiteSacarTurno">
             <button v-if="sacasteElTurno(turno.id)" class="btn btn-primary" @click="sacarTurno(turno.id)">Sacar
               Turno</button>
             <button v-else class="btn btn-danger" @click="cancelarTurno(turno.id)">Cancelar Turno</button>
@@ -123,6 +127,10 @@ export default {
     var error1 = ref(false)
     var error2 = ref(false)
     var error3 = ref(false)
+    var turnosPasados = ref([])
+    var turnosPosteriores = ref([])
+    var turnosMostrados = ref(null)
+    var permiteSacarTurno = ref(true)
     const contarTurno = (id) => {
       try {
         var contador = 0 
@@ -263,16 +271,34 @@ export default {
           const profesor = profesores.value.find((e) => e.id == element.idProfesor)
           element.profesor = profesor
           //console.log(element.idProfesor);
+          const fechaActual = new Date()
+          const fechaComponente = new Date(element.fecha.replace(/(\d{2})\/(\d{2})\/(\d{4})/, '$2/$1/$3'));
+          if(fechaComponente < fechaActual ) {
+            turnosPasados.value.push(element)
+          } else{
+            turnosPosteriores.value.push(element)
+          }
         });
         //console.log(turnosExtendido);
-        turnos.value = turnosExtendido
+        turnosMostrados.value = turnosPosteriores.value
         //console.log(this.turnos);
         } catch(error){
           console.log(error);
         }
       }
+      const mostrarTurnos = async (value) => {
+        if(value) {
+          turnosMostrados.value = turnosPosteriores.value
+          permiteSacarTurno.value = true
+        } else {
+          turnosMostrados.value = turnosPasados.value
+          permiteSacarTurno.value = false
+        }
+      }
     return {
-      turnos,
+      turnosMostrados,
+      mostrarTurnos,
+      permiteSacarTurno,
       buscar,
       busqueda,
       reiniciar,

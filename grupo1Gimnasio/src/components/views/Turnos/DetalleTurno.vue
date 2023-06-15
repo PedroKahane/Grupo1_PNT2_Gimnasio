@@ -84,10 +84,12 @@ import Cookies from "js-cookie";
 export default {
   setup() {
     const usuario = JSON.parse(Cookies.get('usuario'));
+    const elementStore = useElementStore("usuarios")()
     const turnoStore = useElementStore("turnos")()
     const profesoresStore = useElementStore("profesores")()
     const sedesStore = useElementStore("sedes")()
     const actividadesStore = useElementStore("actividades")()
+    const turnosPersonasStore = useElementStore("turnosPersonas")()
     const router = useRouter();
     const route = useRoute();
     const turnoId = route.params.id.toString();
@@ -97,11 +99,14 @@ export default {
     onMounted(async () => {
       await profesoresStore.fetchElements("https://64662c65228bd07b355ddc69.mockapi.io/profesores");
       await sedesStore.fetchElements("https://645ae28c95624ceb210d09ed.mockapi.io/Sede");
+      await elementStore.fetchElements('https://645ae28c95624ceb210d09ed.mockapi.io/Usuarios');
+      await turnosPersonasStore.fetchElements("https://64662c65228bd07b355ddc69.mockapi.io/turnoPersona");
       await actividadesStore.fetchElements("https://6460fabb491f9402f49bfa55.mockapi.io/Actividades");
     });
 
+    const usuarios = computed(() => elementStore.getElements)
     const turno = computed(() => turnoStore.currentElement);
-
+    const turnosPersonas = computed(() => turnosPersonasStore.getElements)
     const sedes = computed(() => sedesStore.getElements);
     const actividades = computed(() => actividadesStore.getElements)
     const profesores = computed(() => profesoresStore.getElements)
@@ -145,12 +150,26 @@ export default {
     }
 
     const deleteTurno = async () => {
-      if (turnoStore.confirm("eliminar", "eliminado", "Turno")) {
+      try {
+        var usuarioTicket
+        if (turnoStore.confirm("eliminar", "eliminado", "Turno")) {
+          turnosPersonas.value.forEach(element => {
+            if(element.idTurno == turnoId){
+              usuarioTicket = usuarios.value.find((e) => e.id === element.idPersona)
+              usuarioTicket.ticketsRestantes++
+              const response = elementStore.updateElement(`https://645ae28c95624ceb210d09ed.mockapi.io/Usuarios`, usuarioTicket)
+              console.log(response);
+            }
+          })
         await turnoStore.deleteElement(url, turnoId);
         router.push("/turnos");
       }
+      } catch (error) {
+        console.log(error);
+      }
+    
     };
-
+    
     return {
       turno,
       updateTurno,
