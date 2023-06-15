@@ -15,14 +15,14 @@
           <router-link v-if="!!usuario" :to="`/usuarios/${id}`" class="nav-item nav-link d-flex align-items-center"
             href="#">
             <span class="ml-2">{{ nombreUsuario }}</span>
-            <img src="../src/icons/User Icon.svg" style="width: 20px; height: 20px; margin-left: 8px; opacity: 0.8;"
+            <img src="../src/icons/User_Icon.svg" style="width: 20px; height: 20px; margin-left: 8px; opacity: 0.8;"
               alt="Icono de Usuario">
           </router-link>
           <div v-else class="d-flex">
             <router-link to="/login" class="nav-item nav-link mr-2">Iniciar Sesión</router-link>
             <router-link to="/crearUsuario" class="nav-item nav-link">Registrate</router-link>
           </div>
-          <router-link v-if="!!usuario" to="/" class="nav-item nav-link" v-on:click="cerrarSesion">Log out</router-link>
+          <router-link v-on:click="cerrarSesion" to="/login" v-if="!!usuario" class="nav-item nav-link" >Log out</router-link>
         </div>
 
       </div>
@@ -34,6 +34,7 @@
 <script>
 import {removeCookie,getCookie} from './stores/Cookies'
 import {isAuthenticated, isAdmin} from './utils/Auth'
+import { useRouter, useRoute } from "vue-router";
 
 
 export default {
@@ -42,6 +43,7 @@ export default {
     var admin = null;
     var nombreUsuario = null;
     var id = null;
+    const router = useRouter();
 
     if (!!usuario) {
       var objeto = JSON.parse(usuario)[0];
@@ -51,8 +53,10 @@ export default {
       //console.log(admin)
     }
 
-    function cerrarSesion() {
-      removeCookie();
+    async function cerrarSesion() {
+      await removeCookie();
+      await router.push("/");
+      await location.reload();
     }
 
     return {

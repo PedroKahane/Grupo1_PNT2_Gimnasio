@@ -1,19 +1,19 @@
 # Grupo 1 PNT2 Gimnasio
 ## Tareas:
 GINO:
-- create turno con SELECT
 
 JUAMPI:
-- hacer andar filtro x fecha en turno
+- confirm en sacar turno(esperar tarea pedro) [DONE]
 
 PEDRO:
+- migrar turnos.ts al store.ts [DONE]
 
 TOMI:
-- validar forms
 
 PENDIENTES:
-- validar forms
-- update turno error con id
+- filtrar por fecha en turno
+- cancelar turno devuelve el ticket a los inscriptos 
+- revisar paquete tira error al comprar (pero funciona) [DONE]
 
 ## Links Mockapis:
 // lo hice con la intención de ordenar los links 

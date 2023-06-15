@@ -1,6 +1,6 @@
 <template>
      <div class="d-flex align-items-center justify-content-end" style="position: relative;">
-          <img src="../../icons/fondo gym.png" class="w-100">
+          <img src="../../icons/fondo_gym.png" class="w-100">
           <div style="position: absolute; top: 10%; right: 5%; margin: 5%;">
                <div class="card card bg-secondary text-light m-1">
                     <div class="card-body" style="min-width: 200px; font-family:Verdana, Geneva, Tahoma, sans-serif;">

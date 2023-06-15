@@ -27,5 +27,5 @@ export function getCookieJSON(name="usuario"){
 
 export function removeCookie( name ="usuario") {
     setCookie(null,name,-1000);
-    location.reload();
+    //location.reload();
   }

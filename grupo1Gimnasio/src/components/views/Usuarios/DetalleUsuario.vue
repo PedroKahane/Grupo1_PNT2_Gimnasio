@@ -1,6 +1,6 @@
 <template>
      <div class="container mt-4">
-          <div class="text-center">
+          <div class="text-center" v-if="user">
                <h4>Detalles del usuario: <strong>{{ user.nombre }}</strong></h4>
           </div>
           <div class="row">
@@ -26,7 +26,11 @@
                                         <strong>Mail: </strong><input type="email" class="form-control"
                                              v-model="user.mail" />
                                    </p>
-                                   <h6 class="alert alert-danger alert-sm mb-0 text-center m-2 mb-3" v-if="errorMail">
+                                   <h6 class="alert alert-danger alert-sm mb-0 text-center m-2 mb-3"
+                                        v-if="errorMailYaRegistrado">
+                                        <strong>Error, este MAIL ya se encuentra registrado</strong>
+                                   </h6>
+                                   <h6 class="alert alert-danger alert-sm mb-0 text-center m-2 mb-3" v-else-if="errorMail">
                                         <strong>Formato de mail inválido</strong>
                                    </h6>
                                    <div class="form-group row mb-3">
@@ -83,7 +87,11 @@
                                         <strong>Dni: </strong><input type="number" class="form-control" v-model="user.dni"
                                              min="0" />
                                    </p>
-                                   <h6 class="alert alert-danger alert-sm mb-0 text-center m-2 mb-3" v-if="errorDNI">
+                                   <h6 class="alert alert-danger alert-sm mb-0 text-center m-2 mb-3"
+                                        v-if="errorDNIYaRegistrado">
+                                        <strong>Error, este DNI ya se encuentra registrado</strong>
+                                   </h6>
+                                   <h6 class="alert alert-danger alert-sm mb-0 text-center m-2 mb-3" v-else-if="errorDNI">
                                         <strong>Formato del dni inválido</strong>
                                    </h6>
                                    <p>
@@ -143,16 +151,24 @@ export default {
           const errorContacto = ref(false);
           const errorDNI = ref(false);
           const errorTickets = ref(false);
+          const errorDNIYaRegistrado = ref(false);
+          const errorMailYaRegistrado = ref(false);
 
           const updateUsuario = async () => {
-               if (validar() && userStore.confirm("modificar", "modificado", "Usuario")) {
+               const { dniRepetido, emailRepetido } = userStore.verificarExistencia(userStore.currentElement);
+               //console.log(dniRepetido, emailRepetido)
+               setearEnFalse();
+
+               if (dniRepetido) { errorDNIYaRegistrado.value = true }
+               if (emailRepetido) { errorMailYaRegistrado.value = true }
+
+               if (validar() && !emailRepetido && !dniRepetido && userStore.confirm("modificar", "modificado", "Usuario")) {
                     await userStore.updateElement(url, userStore.currentElement);
                     router.push("/usuarios");
                }
           };
 
           function validar() {
-               setearEnFalse();
                let resultado = true;
                const persona = userStore.currentElement;
                if (/\d/.test(persona.nombre) || persona.nombre.trim() === '') { errorNombre.value = true; resultado = false; }
@@ -164,9 +180,10 @@ export default {
                if (!(Number(persona.edad) >= 1 && Number(persona.edad) <= 100)) { errorEdad.value = true; resultado = false; }
                if (!/^\d{10}$/.test(Number(persona.contacto))) { errorContacto.value = true; resultado = false; }
                if (!/^\d{7,8}$/.test(Number(persona.dni))) { errorDNI.value = true; resultado = false; }
-               if (!(Number(persona.ticketsRestantes) >= 1)) { errorTickets.value = true; resultado = false; }
+               if (!(Number(persona.ticketsRestantes) >= 0)) { errorTickets.value = true; resultado = false; }
 
-               if(!resultado){alert("Error detectado en el ingreso de campos")}
+               //console.log(!resultado, errorDNIYaRegistrado.value, errorMailYaRegistrado.value)
+               if (!resultado || errorDNIYaRegistrado.value || errorMailYaRegistrado.value) { alert("Error detectado en el ingreso de campos") }
                return resultado;
           };
 
@@ -180,7 +197,9 @@ export default {
                errorEdad.value = false;
                errorContacto.value = false;
                errorDNI.value = false;
-               errorTickets.value =  false;
+               errorTickets.value = false;
+               errorDNIYaRegistrado.value = false;
+               errorMailYaRegistrado.value = false;
           }
 
           const deleteUsuario = async () => {
@@ -206,6 +225,8 @@ export default {
                errorContacto,
                errorDNI,
                errorTickets,
+               errorDNIYaRegistrado,
+               errorMailYaRegistrado
           };
      },
      data() {
