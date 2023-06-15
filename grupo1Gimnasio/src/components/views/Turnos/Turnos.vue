@@ -71,7 +71,6 @@ import { useRouter } from "vue-router";
 import { useRoute } from "vue-router";
 import { onMounted, computed, ref } from "vue";
 import { getCookie } from "../../../stores/Cookies";
-import moment from 'moment';
 
 export default {
   setup() {
