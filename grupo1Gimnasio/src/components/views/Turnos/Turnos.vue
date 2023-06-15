@@ -71,6 +71,7 @@ import { useRouter } from "vue-router";
 import { useRoute } from "vue-router";
 import { onMounted, computed, ref } from "vue";
 import { getCookie } from "../../../stores/Cookies";
+import moment from 'moment';
 
 export default {
   setup() {
@@ -131,6 +132,7 @@ export default {
     var turnosPosteriores = ref([])
     var turnosMostrados = ref(null)
     var permiteSacarTurno = ref(true)
+    var formateoFecha = ref(false)
     const contarTurno = (id) => {
       try {
         var contador = 0 
@@ -250,20 +252,23 @@ export default {
     const tablaTurnos = async () => {
       try {
         var turnosExtendido =  turnos.value
+        console.log(turnos.value);
         await turnosExtendido.forEach(element => {
           const sede = sedes.value.find((e) => e.id == element.idSede)
           //console.log(sede);
           element.sede = sede
-          element.fecha = new Date(element.fecha).toLocaleDateString('es-ES', {
-            day: '2-digit',
-            month: '2-digit',
-            hour: '2-digit',
-            year: 'numeric',
-            minute: '2-digit',
-            second: '2-digit',
-            hour12: false
-          });
-
+          if (!element.fecha.includes('/')) {
+            element.fecha = new Date(element.fecha).toLocaleDateString('es-ES', {
+              day: '2-digit',
+              month: '2-digit',
+              hour: '2-digit',
+              year: 'numeric',
+              minute: '2-digit',
+              second: '2-digit',
+              hour12: false
+            });
+          }
+          console.log("pase");
           const actividad = actividades.value.find((e) => e.id == element.idActividad)
           //console.log(element.idActividad);
           element.actividad = actividad
@@ -281,7 +286,16 @@ export default {
         });
         //console.log(turnosExtendido);
         turnosMostrados.value = turnosPosteriores.value
+        turnosMostrados.value.sort((a, b) => {
+      
+          const fechaA = new Date(a.fecha.replace(/(\d{2})\/(\d{2})\/(\d{4})/, '$2/$1/$3'));
+          const fechaB = new Date(b.fecha.replace(/(\d{2})\/(\d{2})\/(\d{4})/, '$2/$1/$3'));
+          
+          return fechaA - fechaB;
+        });
         //console.log(this.turnos);
+        console.log(turnos.value);
+        console.log(turnosExtendido);
         } catch(error){
           console.log(error);
         }
@@ -289,9 +303,21 @@ export default {
       const mostrarTurnos = async (value) => {
         if(value) {
           turnosMostrados.value = turnosPosteriores.value
+          turnosMostrados.value.sort((a, b) => {
+            const fechaA = new Date(a.fecha.replace(/(\d{2})\/(\d{2})\/(\d{4})/, '$2/$1/$3'));
+            const fechaB = new Date(b.fecha.replace(/(\d{2})\/(\d{2})\/(\d{4})/, '$2/$1/$3'));
+            
+            return fechaA - fechaB;
+          })
           permiteSacarTurno.value = true
         } else {
           turnosMostrados.value = turnosPasados.value
+          turnosMostrados.value.sort((a, b) => {
+            const fechaA = new Date(a.fecha.replace(/(\d{2})\/(\d{2})\/(\d{4})/, '$2/$1/$3'));
+            const fechaB = new Date(b.fecha.replace(/(\d{2})\/(\d{2})\/(\d{4})/, '$2/$1/$3'));
+            
+            return fechaB - fechaA;
+          })
           permiteSacarTurno.value = false
         }
       }
