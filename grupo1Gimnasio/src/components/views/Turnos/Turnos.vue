@@ -1,16 +1,6 @@
 <template>
   <div class="container mt-3">
     <h4 class="text-center">Turnos</h4>
-    <div class="d-flex justify-content-end input-group mb-3">
-      <form class="d-flex" v-on:submit.prevent="buscar">
-        <div class="d-flex justify-content-center mt-2">
-          <label class="input-group"><strong>Filtrar: </strong></label>
-        </div>
-        <input type="date" class="form-control bg-light border-1 mr-2" v-model="busqueda">
-        <button class="btn btn-success">Buscar</button>
-        <button class="btn btn-danger" v-on:click="reiniciar">Reiniciar</button>
-      </form>
-    </div>
     <div class="d-flex flex-column align-items-center">
       <h5 class="text-center" v-if="user">Tickets restantes: <strong>{{ user.ticketsRestantes }}</strong></h5>
     </div>

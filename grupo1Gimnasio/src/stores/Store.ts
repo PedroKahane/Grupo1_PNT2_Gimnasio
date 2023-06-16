@@ -110,33 +110,33 @@ export function useElementStore(nombreStore) {
         //console.log(dato1, dato2)
         return dato1 === dato2 && id1 !== id2;
       },
-      filtrarXFecha(fechaBusqueda) {
+      // filtrarXFecha(fechaBusqueda) {
 
-        fechaBusqueda = new Date(fechaBusqueda);
+      //   fechaBusqueda = new Date(fechaBusqueda);
             
-        //const fechaFiltro = new Date(fechaBusqueda);
-        console.log(fechaBusqueda)
-        const diaFiltro = fechaBusqueda.getDate();
-        const mesFiltro = fechaBusqueda.getMonth();
-        console.log(diaFiltro, mesFiltro);
-        //console.log("..");
+      //   //const fechaFiltro = new Date(fechaBusqueda);
+      //   console.log(fechaBusqueda)
+      //   const diaFiltro = fechaBusqueda.getDate();
+      //   const mesFiltro = fechaBusqueda.getMonth();
+      //   console.log(diaFiltro, mesFiltro);
+      //   //console.log("..");
       
-        this.elements = this.elements.filter(item => {
-          const propiedad = item.fecha;
-          //const fechaTurno = parse(propiedad, "dd/MM/yyyy", new Date());
-          const fechaTurno = new Date(propiedad).toLocaleDateString('es-ES', {
-            day: '2-digit',
-            month: '2-digit'});
-          //const fechaFinal = (propiedad, "dd/MM/yyyy", new Date());
-          console.log(fechaTurno)
+      //   this.elements = this.elements.filter(item => {
+      //     const propiedad = item.fecha;
+      //     //const fechaTurno = parse(propiedad, "dd/MM/yyyy", new Date());
+      //     const fechaTurno = new Date(propiedad).toLocaleDateString('es-ES', {
+      //       day: '2-digit',
+      //       month: '2-digit'});
+      //     //const fechaFinal = (propiedad, "dd/MM/yyyy", new Date());
+      //     console.log(fechaTurno)
   
-          //const diaTurno = fechaTurno.getDate();
-          //const mesTurno = fechaTurno.getMonth();
-          //console.log(diaTurno, mesTurno)
+      //     //const diaTurno = fechaTurno.getDate();
+      //     //const mesTurno = fechaTurno.getMonth();
+      //     //console.log(diaTurno, mesTurno)
   
-          //return diaTurno === diaFiltro && mesTurno === mesFiltro;
-        }); 
-      }
+      //     //return diaTurno === diaFiltro && mesTurno === mesFiltro;
+      //   }); 
+      // }
     }
   })
 }
