@@ -107,9 +107,9 @@ export default {
     const profesores = computed(() => profesoresStore.getElements)
     var user = computed(() => elementStore.currentElement)
 
-    function buscar() {
-      turnosStore.filtrarXFecha(this.busqueda);
-    }
+    // function buscar() {
+    //   turnosStore.filtrarXFecha(this.busqueda);
+    // }
 
     function reiniciar() {
       location.reload();
