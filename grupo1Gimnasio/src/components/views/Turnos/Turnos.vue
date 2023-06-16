@@ -250,6 +250,7 @@ export default {
     }
     const tablaTurnos = async () => {
       try {
+        var turnoYaPasado = []
         var turnosExtendido =  turnos.value
         console.log(turnos.value);
         await turnosExtendido.forEach(element => {
@@ -278,11 +279,21 @@ export default {
           const fechaActual = new Date()
           const fechaComponente = new Date(element.fecha.replace(/(\d{2})\/(\d{2})\/(\d{4})/, '$2/$1/$3'));
           if(fechaComponente < fechaActual ) {
-            turnosPasados.value.push(element)
+            turnoYaPasado.push(element)
           } else{
             turnosPosteriores.value.push(element)
           }
         });
+        var usuario = getCookie();
+        usuario = JSON.parse(usuario)
+        console.log(usuario[0]);
+        const idPersona = usuario[0].id
+        turnoYaPasado.forEach(element => {
+          var turnoyPersona = turnosPersonas.value.find((e) => { return e.idTurno == element.id && e.idPersona == idPersona})
+          if(turnoyPersona){
+            turnosPasados.value.push(element)
+          }
+        })
         //console.log(turnosExtendido);
         turnosMostrados.value = turnosPosteriores.value
         turnosMostrados.value.sort((a, b) => {
@@ -298,7 +309,7 @@ export default {
         } catch(error){
           console.log(error);
         }
-      }
+    }
       const mostrarTurnos = async (value) => {
         if(value) {
           turnosMostrados.value = turnosPosteriores.value

@@ -100,7 +100,7 @@ export function useElementStore(nombreStore) {
       },
 
       verificarExistencia(user) {
-        //console.log(user.id)
+        console.log(this.elements)
         return {
           dniRepetido: this.elements.some(item => this.compararDatos(item.dni, user.dni, item.id, user.id)),
           emailRepetido: this.elements.some(item => this.compararDatos(item.mail, user.mail, item.id, user.id))
