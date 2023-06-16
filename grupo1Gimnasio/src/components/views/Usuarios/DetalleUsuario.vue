@@ -80,10 +80,6 @@
                                         <strong>Formato del telefono inválido</strong>
                                    </h6>
                                    <p>
-                                        <strong>Administrador: </strong>
-                                        <input type="checkbox" v-model="user.administrador" />
-                                   </p>
-                                   <p>
                                         <strong>Dni: </strong><input type="number" class="form-control" v-model="user.dni"
                                              min="0" />
                                    </p>
@@ -93,13 +89,6 @@
                                    </h6>
                                    <h6 class="alert alert-danger alert-sm mb-0 text-center m-2 mb-3" v-else-if="errorDNI">
                                         <strong>Formato del dni inválido</strong>
-                                   </h6>
-                                   <p>
-                                        <strong>Tickets restantes: </strong><input type="number" class="form-control"
-                                             v-model="user.ticketsRestantes" />
-                                   </p>
-                                   <h6 class="alert alert-danger alert-sm mb-0 text-center m-2 mb-3" v-if="errorTickets">
-                                        <strong>Los tickets deben ser mayor a 0</strong>
                                    </h6>
                                    <div class="d-flex justify-content-center">
                                         <button class="btn btn-success" @click="updateUsuario">
@@ -113,7 +102,7 @@
                          </div>
                     </div>
                     <div class="d-flex justify-content-center">
-                         <button class="btn btn-warning"><router-link to="/" class="nav-item nav-link"
+                         <button class="btn btn-warning"><router-link to="/usuarios" class="nav-item nav-link"
                                    href="#">Volver</router-link></button>
                     </div>
                </div>
@@ -126,7 +115,7 @@
 import { useElementStore } from "../../../stores/Store";
 import { getCookieJSON } from "../../../stores/Cookies";
 import { useRouter, useRoute } from "vue-router";
-import { computed, ref } from "vue";
+import { computed, ref, onMounted } from "vue";
 import { sameUser } from "../../../utils/Auth";
 
 export default {
@@ -141,6 +130,10 @@ export default {
           userStore.fetchElementById(url, userId);
           const user = computed(() => userStore.currentElement);
 
+          onMounted(() => {
+               userStore.fetchElements(url)
+          })
+
           const errorNombre = ref(false);
           const errorApellido = ref(false);
           const errorMail = ref(false);
@@ -150,7 +143,6 @@ export default {
           const errorEdad = ref(false);
           const errorContacto = ref(false);
           const errorDNI = ref(false);
-          const errorTickets = ref(false);
           const errorDNIYaRegistrado = ref(false);
           const errorMailYaRegistrado = ref(false);
 
@@ -180,7 +172,6 @@ export default {
                if (!(Number(persona.edad) >= 1 && Number(persona.edad) <= 100)) { errorEdad.value = true; resultado = false; }
                if (!/^\d{10}$/.test(Number(persona.contacto))) { errorContacto.value = true; resultado = false; }
                if (!/^\d{7,8}$/.test(Number(persona.dni))) { errorDNI.value = true; resultado = false; }
-               if (!(Number(persona.ticketsRestantes) >= 0)) { errorTickets.value = true; resultado = false; }
 
                //console.log(!resultado, errorDNIYaRegistrado.value, errorMailYaRegistrado.value)
                if (!resultado || errorDNIYaRegistrado.value || errorMailYaRegistrado.value) { alert("Error detectado en el ingreso de campos") }
@@ -197,7 +188,6 @@ export default {
                errorEdad.value = false;
                errorContacto.value = false;
                errorDNI.value = false;
-               errorTickets.value = false;
                errorDNIYaRegistrado.value = false;
                errorMailYaRegistrado.value = false;
           }
@@ -224,7 +214,6 @@ export default {
                errorEdad,
                errorContacto,
                errorDNI,
-               errorTickets,
                errorDNIYaRegistrado,
                errorMailYaRegistrado
           };
