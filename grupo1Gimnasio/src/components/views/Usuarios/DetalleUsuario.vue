@@ -156,7 +156,7 @@ export default {
 
                if (validar() && !emailRepetido && !dniRepetido && userStore.confirm("modificar", "modificado", "Usuario")) {
                     await userStore.updateElement(url, userStore.currentElement);
-                    router.push("/usuarios");
+                    router.push("/");
                }
           };
 
@@ -195,7 +195,7 @@ export default {
           const deleteUsuario = async () => {
                if (userStore.confirm("eliminar", "eliminado", "Usuario")) {
                     await userStore.deleteElement(url, userId);
-                    router.push("/usuarios");
+                    router.push("/");
                }
           };
 
