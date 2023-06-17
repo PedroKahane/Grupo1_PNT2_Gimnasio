@@ -35,12 +35,6 @@ import DetalleTurno from "./components/views/Turnos/DetalleTurno.vue";
 import CrearTurno from "./components/views/Turnos/CrearTurno.vue";
 import Unauthorized from "./components/views/Unauthorized.vue";
 
-/*
-- en el edit usuario me faltaria un boton para mostrar la contraseña para que quede "mejor"
-- testeando el update y delete vi que apenas tocas el boton se ejecuta la accion y estaria bueno poner algun alert de confirmacion o algo 
-para que sea un proceso mas "seguro" OBVIO que esto lo dejamos mas para el final pero se me ocurrio que le daria un toque mas al proyecto
- */
-
 const routes = [
   {
     path: "/",
