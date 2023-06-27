@@ -63,6 +63,71 @@ export default {
       elementStore.filtrarXString(this.busqueda, document.getElementById("filtro").value);
     }
 
+    /*
+const tablaTurnos = async () => {
+      try {
+        var turnoYaPasado = []
+        var turnosExtendido =  turnos.value
+        console.log(turnos.value);
+        await turnosExtendido.forEach(element => {
+          const sede = sedes.value.find((e) => e.id == element.idSede)
+          //console.log(sede);
+          element.sede = sede
+          if (!element.fecha.includes('/')) {
+            element.fecha = new Date(element.fecha).toLocaleDateString('es-ES', {
+              day: '2-digit',
+              month: '2-digit',
+              hour: '2-digit',
+              year: 'numeric',
+              minute: '2-digit',
+              second: '2-digit',
+              hour12: false
+            });
+          }
+          console.log("pase");
+          const actividad = actividades.value.find((e) => e.id == element.idActividad)
+          //console.log(element.idActividad);
+          element.actividad = actividad
+
+          const profesor = profesores.value.find((e) => e.id == element.idProfesor)
+          element.profesor = profesor
+          //console.log(element.idProfesor);
+          const fechaActual = new Date()
+          const fechaComponente = new Date(element.fecha.replace(/(\d{2})\/(\d{2})\/(\d{4})/, '$2/$1/$3'));
+          if(fechaComponente < fechaActual ) {
+            turnoYaPasado.push(element)
+          } else{
+            turnosPosteriores.value.push(element)
+          }
+        });
+        var usuario = getCookie();
+        usuario = JSON.parse(usuario)
+        console.log(usuario[0]);
+        const idPersona = usuario[0].id
+        turnoYaPasado.forEach(element => {
+          var turnoyPersona = turnosPersonas.value.find((e) => { return e.idTurno == element.id && e.idPersona == idPersona})
+          if(turnoyPersona){
+            turnosPasados.value.push(element)
+          }
+        })
+        //console.log(turnosExtendido);
+        turnosMostrados.value = turnosPosteriores.value
+        turnosMostrados.value.sort((a, b) => {
+      
+          const fechaA = new Date(a.fecha.replace(/(\d{2})\/(\d{2})\/(\d{4})/, '$2/$1/$3'));
+          const fechaB = new Date(b.fecha.replace(/(\d{2})\/(\d{2})\/(\d{4})/, '$2/$1/$3'));
+          
+          return fechaA - fechaB;
+        });
+        //console.log(this.turnos);
+        console.log(turnos.value);
+        console.log(turnosExtendido);
+        } catch(error){
+          console.log(error);
+        }
+    }
+    */
+
     return {
       elementStore,
       buscar,
