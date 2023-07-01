@@ -29,10 +29,33 @@
                     </div>
                </div>
           </div>
-          <div class="d-flex justify-content-center">
-               <button class="btn btn-warning"><router-link to="/profesores" class="nav-item nav-link" href="#">Volver a
-                         profesores</router-link></button>
+          <h3>Turnos del Profesor:</h3>
+          <br>
+          <div>
+               <table class="table table-striped table-bordered">
+                    <thead>
+                         <tr>
+                              <th>Sede:</th>
+                              <th>Actividad:</th>
+                              <th>Cantidad de Cupos en Total:</th>
+                              <th>Fecha:</th>
+                         </tr>
+                    </thead>
+                    <tbody>
+                         <tr v-for="turno in turnosDelProfesor" :key="turno.id">
+                              <td>{{ getSedeNombre(turno.idSede) }}</td>
+                              <td>{{ getActividadNombre(turno.idActividad) }}</td>
+                              <td>{{ turno.cantPersonasLim }}</td>
+                              <td>{{ turno.fecha }}</td>
+                         </tr>
+                    </tbody>
+               </table>
           </div>
+     </div>
+     <br>
+     <div class="d-flex justify-content-center">
+          <button class="btn btn-warning"><router-link to="/profesores" class="nav-item nav-link" href="#">Volver a
+                    Profesores</router-link></button>
      </div>
      <br>
 </template>
@@ -40,15 +63,19 @@
 import { useElementStore } from "../../../stores/Store";
 import { useRouter } from "vue-router";
 import { useRoute } from "vue-router";
-import { computed, ref } from "vue";
+import { computed, ref, onMounted } from "vue";
 
 export default {
      setup() {
           const elementStore = useElementStore("profesores")();
+          const turnosStore = useElementStore("turnos")()
+          const sedesStore = useElementStore("sedes")()
+          const actividadesStore = useElementStore("actividades")()
           const router = useRouter();
           const route = useRoute();
           const profesorId = route.params.id.toString();
           const url = "https://64662c65228bd07b355ddc69.mockapi.io/profesores";
+          const urlTurnos = "https://6460fabb491f9402f49bfa55.mockapi.io/Turno";
 
           elementStore.fetchElementById(url, profesorId);
 
@@ -60,6 +87,16 @@ export default {
                     router.push("/profesores");
                }
           };
+
+          onMounted(async () => {
+               await turnosStore.fetchElements(urlTurnos);
+               await sedesStore.fetchElements("https://645ae28c95624ceb210d09ed.mockapi.io/Sede");
+               await actividadesStore.fetchElements("https://6460fabb491f9402f49bfa55.mockapi.io/Actividades");
+          })
+
+          const turnos = computed(() => turnosStore.getElements)
+          const sedes = computed(() => sedesStore.getElements)
+          const actividades = computed(() => actividadesStore.getElements)
 
           const errorNombre = ref(false);
           const errorApellido = ref(false);
@@ -87,12 +124,39 @@ export default {
                }
           };
 
+          const turnosDelProfesor = computed(() => {
+               if (turnos.value) {
+                    return turnos.value.filter(turno => turno.idProfesor === profesorId);
+               } else {
+                    return [];
+               }
+          });
+
+          //console.log(turnosDelProfesor);
+
+          function getSedeNombre(idSede) {
+               if (sedes.value) {
+                    const sede = sedes.value.find(sede => Number(sede.id) === Number(idSede));
+                    return sede.nombre;
+               }
+          }
+
+          function getActividadNombre(idActividad) {
+               if (actividades.value) {
+                    const actividad = actividades.value.find(actividad => Number(actividad.id) === Number(idActividad));
+                    return actividad.nombre;
+               }
+          }
+
           return {
                profesor,
                deleteProfesor,
                updateProfesor,
                errorApellido,
-               errorNombre
+               errorNombre,
+               turnosDelProfesor,
+               getActividadNombre,
+               getSedeNombre
           };
      },
 };

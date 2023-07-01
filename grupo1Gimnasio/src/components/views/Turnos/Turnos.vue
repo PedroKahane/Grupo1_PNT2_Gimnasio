@@ -64,7 +64,6 @@ import { getCookie } from "../../../stores/Cookies";
 
 export default {
   setup() {
-
     const elementStore = useElementStore("usuarios")()
     const profesoresStore = useElementStore("profesores")()
     const sedesStore = useElementStore("sedes")()
@@ -114,6 +113,7 @@ export default {
     function reiniciar() {
       location.reload();
     }
+    
     var error1 = ref(false)
     var error2 = ref(false)
     var error3 = ref(false)
@@ -300,6 +300,7 @@ export default {
           console.log(error);
         }
     }
+
       const mostrarTurnos = async (value) => {
         if(value) {
           turnosMostrados.value = turnosPosteriores.value
@@ -321,6 +322,7 @@ export default {
           permiteSacarTurno.value = false
         }
       }
+      
     return {
       turnosMostrados,
       mostrarTurnos,
