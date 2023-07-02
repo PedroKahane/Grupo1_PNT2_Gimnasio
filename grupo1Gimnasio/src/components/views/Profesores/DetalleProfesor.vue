@@ -37,16 +37,18 @@
                          <tr>
                               <th>Sede:</th>
                               <th>Actividad:</th>
+                              <th>Fecha</th>
                               <th>Cantidad de Cupos en Total:</th>
-                              <th>Fecha:</th>
+                              <th>Cupos Ocupados:</th>
                          </tr>
                     </thead>
                     <tbody>
                          <tr v-for="turno in turnosDelProfesor" :key="turno.id">
                               <td>{{ getSedeNombre(turno.idSede) }}</td>
                               <td>{{ getActividadNombre(turno.idActividad) }}</td>
+                              <td>{{ getFechaFormateada(turno.fecha) }}</td>
                               <td>{{ turno.cantPersonasLim }}</td>
-                              <td>{{ turno.fecha }}</td>
+                              <td>{{ getCuposOcupados(turno.id) }}</td>
                          </tr>
                     </tbody>
                </table>
@@ -71,6 +73,7 @@ export default {
           const turnosStore = useElementStore("turnos")()
           const sedesStore = useElementStore("sedes")()
           const actividadesStore = useElementStore("actividades")()
+          const turnosPersonasStore = useElementStore("turnosPersonas")()
           const router = useRouter();
           const route = useRoute();
           const profesorId = route.params.id.toString();
@@ -92,11 +95,13 @@ export default {
                await turnosStore.fetchElements(urlTurnos);
                await sedesStore.fetchElements("https://645ae28c95624ceb210d09ed.mockapi.io/Sede");
                await actividadesStore.fetchElements("https://6460fabb491f9402f49bfa55.mockapi.io/Actividades");
+               await turnosPersonasStore.fetchElements("https://64662c65228bd07b355ddc69.mockapi.io/turnoPersona");
           })
 
           const turnos = computed(() => turnosStore.getElements)
           const sedes = computed(() => sedesStore.getElements)
           const actividades = computed(() => actividadesStore.getElements)
+          const turnosPersonas = computed(() => turnosPersonasStore.getElements)
 
           const errorNombre = ref(false);
           const errorApellido = ref(false);
@@ -132,6 +137,14 @@ export default {
                }
           });
 
+          function getCuposOcupados(idTurnoActual){
+               if (turnosPersonas.value) {
+                    return turnosPersonas.value.filter(turno => turno.idTurno === idTurnoActual).length;
+               } else {
+                    return 0;
+               }
+          }
+
           //console.log(turnosDelProfesor);
 
           function getSedeNombre(idSede) {
@@ -148,6 +161,22 @@ export default {
                }
           }
 
+          function getFechaFormateada(fecha) {
+               let fechaFormateada = fecha;
+               if (!fecha.includes('/')) {
+                         fechaFormateada = new Date(fecha).toLocaleDateString('es-ES', {
+                         day: '2-digit',
+                         month: '2-digit',
+                         hour: '2-digit',
+                         year: 'numeric',
+                         minute: '2-digit',
+                         second: '2-digit',
+                         hour12: false
+                    });
+               }
+               return fechaFormateada;
+          }
+
           return {
                profesor,
                deleteProfesor,
@@ -156,7 +185,9 @@ export default {
                errorNombre,
                turnosDelProfesor,
                getActividadNombre,
-               getSedeNombre
+               getSedeNombre,
+               getFechaFormateada,
+               getCuposOcupados
           };
      },
 };
