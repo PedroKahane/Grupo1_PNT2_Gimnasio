@@ -37,18 +37,18 @@
                          <tr>
                               <th>Sede:</th>
                               <th>Actividad:</th>
-                              <th>Fecha</th>
                               <th>Cantidad de Cupos en Total:</th>
-                              <th>Cupos Ocupados:</th>
+                              <th>Cantidad de personas:</th>
+                              <th>Fecha:</th>
                          </tr>
                     </thead>
                     <tbody>
                          <tr v-for="turno in turnosDelProfesor" :key="turno.id">
                               <td>{{ getSedeNombre(turno.idSede) }}</td>
                               <td>{{ getActividadNombre(turno.idActividad) }}</td>
-                              <td>{{ getFechaFormateada(turno.fecha) }}</td>
                               <td>{{ turno.cantPersonasLim }}</td>
                               <td>{{ getCuposOcupados(turno.id) }}</td>
+                              <td>{{ getFechaFormateada(turno.fecha) }}</td>
                          </tr>
                     </tbody>
                </table>
