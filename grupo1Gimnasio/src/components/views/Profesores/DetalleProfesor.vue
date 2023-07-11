@@ -30,9 +30,12 @@
                </div>
           </div>
           <h3>Turnos del Profesor:</h3>
-          <br>
-          <div>
-               <table class="table table-striped table-bordered">
+          <div class="btn-group my-3" role="group" aria-label="Basic example">
+               <button type="button" class="btn btn-outline-primary" @click="mostrarTurnos(true)">Proximos turnos</button>
+               <button type="button" class="btn btn-outline-primary" @click="mostrarTurnos(false)">Turnos pasados</button>
+          </div>
+          <div v-if="turnosMostrados">
+               <table class="table table-striped table-bordered" v-if="turnosMostrados.length > 0">
                     <thead>
                          <tr>
                               <th>Sede:</th>
@@ -43,7 +46,7 @@
                          </tr>
                     </thead>
                     <tbody>
-                         <tr v-for="turno in turnosDelProfesor" :key="turno.id">
+                         <tr v-for="turno in turnosMostrados" :key="turno.id">
                               <td>{{ getSedeNombre(turno.idSede) }}</td>
                               <td>{{ getActividadNombre(turno.idActividad) }}</td>
                               <td>{{ turno.cantPersonasLim }}</td>
@@ -52,6 +55,7 @@
                          </tr>
                     </tbody>
                </table>
+               <h5 class="text text-center" v-else>No hay turnos para este profesor...</h5>
           </div>
      </div>
      <br>
@@ -96,6 +100,7 @@ export default {
                await sedesStore.fetchElements("https://645ae28c95624ceb210d09ed.mockapi.io/Sede");
                await actividadesStore.fetchElements("https://6460fabb491f9402f49bfa55.mockapi.io/Actividades");
                await turnosPersonasStore.fetchElements("https://64662c65228bd07b355ddc69.mockapi.io/turnoPersona");
+               turnosDelProfesor();
           })
 
           const turnos = computed(() => turnosStore.getElements)
@@ -105,6 +110,9 @@ export default {
 
           const errorNombre = ref(false);
           const errorApellido = ref(false);
+          var turnosPasados = ref([])
+          var turnosPosteriores = ref([])
+          var turnosMostrados = ref(null)
 
           function validar() {
                setearEnFalse();
@@ -129,15 +137,35 @@ export default {
                }
           };
 
-          const turnosDelProfesor = computed(() => {
+          const turnosDelProfesor = async () => {
                if (turnos.value) {
-                    return turnos.value.filter(turno => turno.idProfesor === profesorId);
+                    var turnoProfesor = turnos.value.filter(turno => turno.idProfesor === profesorId);
+
+                    turnoProfesor.forEach(element => {
+                         const fechaActual = new Date()
+                         const fechaComponente = new Date(element.fecha.replace(/(\d{2})\/(\d{2})\/(\d{4})/, '$2/$1/$3'));
+
+                         if (fechaComponente < fechaActual) {
+                              turnosPasados.value.push(element)
+                         } else {
+                              turnosPosteriores.value.push(element)
+                         }
+
+                         turnosMostrados.value = turnosPosteriores.value
+                         turnosMostrados.value.sort((a, b) => {
+
+                              const fechaA = new Date(a.fecha.replace(/(\d{2})\/(\d{2})\/(\d{4})/, '$2/$1/$3'));
+                              const fechaB = new Date(b.fecha.replace(/(\d{2})\/(\d{2})\/(\d{4})/, '$2/$1/$3'));
+
+                              return fechaA - fechaB;
+                         });
+                    })
                } else {
                     return [];
                }
-          });
+          };
 
-          function getCuposOcupados(idTurnoActual){
+          function getCuposOcupados(idTurnoActual) {
                if (turnosPersonas.value) {
                     return turnosPersonas.value.filter(turno => turno.idTurno === idTurnoActual).length;
                } else {
@@ -164,7 +192,7 @@ export default {
           function getFechaFormateada(fecha) {
                let fechaFormateada = fecha;
                if (!fecha.includes('/')) {
-                         fechaFormateada = new Date(fecha).toLocaleDateString('es-ES', {
+                    fechaFormateada = new Date(fecha).toLocaleDateString('es-ES', {
                          day: '2-digit',
                          month: '2-digit',
                          hour: '2-digit',
@@ -177,17 +205,38 @@ export default {
                return fechaFormateada;
           }
 
+          const mostrarTurnos = async (value) => {
+               if (value) {
+                    turnosMostrados.value = turnosPosteriores.value
+                    turnosMostrados.value.sort((a, b) => {
+                         const fechaA = new Date(a.fecha.replace(/(\d{2})\/(\d{2})\/(\d{4})/, '$2/$1/$3'));
+                         const fechaB = new Date(b.fecha.replace(/(\d{2})\/(\d{2})\/(\d{4})/, '$2/$1/$3'));
+
+                         return fechaA - fechaB;
+                    })
+               } else {
+                    turnosMostrados.value = turnosPasados.value
+                    turnosMostrados.value.sort((a, b) => {
+                         const fechaA = new Date(a.fecha.replace(/(\d{2})\/(\d{2})\/(\d{4})/, '$2/$1/$3'));
+                         const fechaB = new Date(b.fecha.replace(/(\d{2})\/(\d{2})\/(\d{4})/, '$2/$1/$3'));
+
+                         return fechaB - fechaA;
+                    })
+               }
+          }
+
           return {
                profesor,
                deleteProfesor,
                updateProfesor,
                errorApellido,
                errorNombre,
-               turnosDelProfesor,
                getActividadNombre,
                getSedeNombre,
                getFechaFormateada,
-               getCuposOcupados
+               getCuposOcupados,
+               mostrarTurnos,
+               turnosMostrados
           };
      },
 };

@@ -25,7 +25,7 @@
           <th>Actividad:</th>
           <th>Fecha:</th>
           <th v-if="usuario && permiteSacarTurno">Reservar:</th>
-          <th v-if="usuario && usuario.administrador">Detalles:</th>
+          <th v-if="usuario && usuario.administrador && permiteSacarTurno">Detalles:</th>
         </tr>
       </thead>
       <tbody  v-if="turnosMostrados">
@@ -43,7 +43,7 @@
               Turno</button>
             <button v-else class="btn btn-danger" @click="cancelarTurno(turno.id)">Cancelar Turno</button>
           </td>
-          <td v-if="usuario && usuario.administrador"><router-link :to="`/turnos/${turno.id}`"><strong>Ver
+          <td v-if="usuario && usuario.administrador && permiteSacarTurno"><router-link :to="`/turnos/${turno.id}`"><strong>Ver
                 detalles</strong></router-link></td>
         </tr>
       </tbody>
